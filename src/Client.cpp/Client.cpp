@@ -27,6 +27,14 @@ namespace AFG
         this->message = src.get_message();
         this->active = src.isactive();
         this->garbage = src.isgarbage();
+        this->username = src.get_username();
+        this->servername = src.get_servername();
+        this->hostname = src.get_hostname();
+        this->realname = src.get_realname();
+        this->nick = src.get_nick();
+        this->ip = src.get_ip();
+
+
     }
 
 
@@ -36,6 +44,13 @@ namespace AFG
         this->message = src.get_message();
         this->active= src.isactive();
         this->garbage = src.isgarbage();
+        this->username = src.get_username();
+        this->servername = src.get_servername();
+        this->hostname = src.get_hostname();
+        this->realname = src.get_realname();
+        this->nick = src.get_nick();
+        this->ip = src.get_ip();
+
         return (*this);
 
     }
@@ -72,6 +87,11 @@ namespace AFG
         return this->servername;
     }
 
+    std::string Client::get_nick(void) const
+    {
+        return this->nick;
+    }
+
     struct in_addr Client::get_ip(void) const
     {
         return this->ip;
@@ -92,40 +112,33 @@ namespace AFG
         return (this->garbage);
     }
 
-    void Client::activate(void)
-    {
-        this->active = true;
-    }
-
 
 
     ///////////// SETTERS /////////////////////
 
-
-    void Client::authenticate(void)
+    void Client::set_username(std::string const &str)
     {
-        bool success = this->read_username();
-        if (success)
-        {
-
-            this->authentic = true;
-        }
-        else
-        {
-            this->respond("Invalid username");
-            this->set_garbage();
-        }
+        this->username = str;
     }
 
-    bool Client::read_username(void)
+    void Client::set_hostname(std::string const &str)
     {
-        this->username = this->message.substr(0,this->message.length() - 1);
-        return true;
+        this->hostname = str;
     }
 
-    void Client::deactivate(void)
+    void Client::set_realname(std::string const &str)
     {
-        this->active = false;
+        this->realname = str;
+    }
+
+    void Client::set_servername(std::string const &str)
+    {
+        this->servername = str;
+    }
+
+    void Client::set_nick(std::string const &str)
+    {
+        this->nick = str;
     }
 
     void Client::set_garbage(void)
@@ -136,6 +149,32 @@ namespace AFG
         this->garbage = true;
     }
 
+    void Client::activate(void)
+    {
+        this->active = true;
+    }
+
+    void Client::authenticate(void)
+    {
+        bool success = this->read_username();
+        if (success)
+        {
+            std::cout << "User " << this->username << " authenticated!" << std::endl;
+            this->authentic = true;
+        }
+        else
+        {
+            this->respond("Invalid username");
+            this->set_garbage();
+        }
+    }
+
+    void Client::deactivate(void)
+    {
+        this->active = false;
+    }
+
+    
 
 
 
@@ -148,7 +187,7 @@ namespace AFG
         int flag = 1;
         char readchar = '\0';
 
-        while(flag > 0)
+        while(flag > 0 && readchar != '\n')
         {
             // usleep(1000);
             flag = read(this->fd, &readchar, 1);
@@ -187,5 +226,11 @@ namespace AFG
         if (this->message.back() == '\n')
             return true;
         return false;
+    }
+
+    bool Client::read_username(void)
+    {
+        this->username = this->message.substr(0,this->message.length() - 1);
+        return true;
     }
 }

@@ -1,6 +1,4 @@
 #include "../include/GateKeeper.hpp"
-#include "../include/Responder.hpp"
-#include "../include/StringFromClient.hpp"
 
 
 namespace AFG
@@ -32,10 +30,14 @@ namespace AFG
 
     }
 
+    ///////////// Getters /////////////////////
+
     std::list<Client> &GateKeeper::get_clients(void)
     {
         return (this->clients);
     }
+
+    ///////////// FUNCTIONS /////////////////////
     
     fd_set GateKeeper::build_selist()
     {
@@ -100,8 +102,8 @@ namespace AFG
         {
             if (FD_ISSET(it->get_fd(), &selist))
                 it->activate();
-            else
-                it->deactivate();
+            // else
+            //     it->deactivate();
         }
     }
 
@@ -126,7 +128,6 @@ namespace AFG
         this->clients.push_back(newcon);
         if (newfd > this->fdmax)
             this->fdmax = newfd;
-        newcon.respond("Input a username:");
     }
 
     void GateKeeper::refuse_client(int fd)
@@ -195,38 +196,20 @@ namespace AFG
     {
         for(std::list<AFG::Client>::iterator it = this->clients.begin(); it != this->clients.end(); ++it)
         {
-            if (it->isactive())
-            {
-                it->hear();
-                // printf("Printing message of length %ld\n", it->get_message().size());
-            }
-            // std::cout << std::endl << "MSG:" << it->get_message();
-            // it->clearmessage();
+            
             if (it->ismessagecomplete())
             {
-                // this->fredi.process(this->clients, *it);
-                
-                AFG::Responder      responder(it->get_message());
-                AFG::RequestParser  parser(responder.getMessage());
-
-                /* --------------PARSING TEST------------ */
-                std::cout << "TEST: " << parser.getStringFromClient().getCommand() << std::endl;
-                if (parser.getStringFromClient().getTargets().size() > 0)
-                {
-                    std::cout << "TEST: " << parser.getStringFromClient().getTargets().at(0) << std::endl;
-                    std::cout << "TEST: " << parser.getStringFromClient().getTargets().at(1) << std::endl;
-                    std::cout << "TEST: " << parser.getStringFromClient().getTargets().at(2) << std::endl;
-                }
-                std::cout << "TEST: " << parser.getStringFromClient().getMessage() << std::endl;
-
-                this->spreadmsgfrom(&(*it));
+                this->fredi.process(this->clients, *it);
+                // this->spreadmsgfrom(&(*it));
                 it->clearmessage();
-                it->deactivate();
-
-                // it->respond(response);
-                // close(it->get_fd());
-                // it->set_garbage();
             }
+            else if (it->isactive())
+            {
+                it->hear();
+                it->deactivate();
+                // printf("Printing message of length %ld\n", it->get_message().size());
+            }
+
         }   
     }
 

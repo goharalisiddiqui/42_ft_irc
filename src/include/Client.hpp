@@ -25,16 +25,18 @@ namespace AFG
             std::string get_hostname(void) const;
             std::string get_realname(void) const;
             std::string get_servername(void) const;
+            std::string get_nick(void) const;
             struct in_addr get_ip(void) const;
             bool isactive(void) const;
             bool isauthentic(void) const;
             bool isgarbage(void) const;
 
             // Setter
-            std::string set_username(void) const;
-            std::string set_hostname(void) const;
-            std::string set_realname(void) const;
-            std::string set_servername(void) const;
+            void set_username(std::string const &str);
+            void set_hostname(std::string const &str);
+            void set_realname(std::string const &str);
+            void set_servername(std::string const &str);
+            void set_nick(std::string const &str);
             void set_garbage(void);
             void activate(void);
             void deactivate(void);

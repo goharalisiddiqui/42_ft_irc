@@ -4,7 +4,7 @@
 #pragma once
 
 #include "libs.hpp"
-#include "StringFromClient.hpp"
+#include "HttpRequest.hpp"
 
 namespace AFG
 {
@@ -21,17 +21,17 @@ namespace AFG
 
             RequestParser &operator=(const RequestParser &src);
 
-            std::string                 getClientRequest(void) const;
-            StringFromClient            getStringFromClient(void) const;
+            std::string                 getMessage(void) const;
+            HttpRequest                 getHttpRequest(void) const;
 
         private:
-            std::string                 client_request;
-            std::vector<std::string>    client_request_split_in_lines;
-            StringFromClient            string_from_client;
+            std::string                 message;
+            std::vector<std::string>    message_split_in_lines;
+            HttpRequest                 http_request;
 
             std::vector<std::string>    afgSplit(std::string _message, std::string _delimiter);
-            std::string                 parseToken(std::string _delimiter, int _token_pos);
-            std::vector<std::string>    parseListToken(std::vector<std::string> _delimiter, int _token_pos);
+            std::string                 parseToken(std::string _delimiter, int _line_nbr, int _token_pos);
+            void                        fillFields();
 
         public:
             class FlawedMessage: public ::std::exception

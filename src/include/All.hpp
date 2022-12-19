@@ -11,8 +11,8 @@
 #include "Responder.hpp"
 #include "Commander.hpp"
 #include "RequestParser.hpp"
+#include "HttpRequest.hpp"
 #include "ErrorHandler.hpp"
-#include "StringFromClient.hpp"
 
 
 
