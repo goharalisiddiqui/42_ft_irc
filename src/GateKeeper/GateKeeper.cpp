@@ -18,14 +18,21 @@ namespace AFG
         setnonblock(this->sock.get_socket());
     }
 
+    GateKeeper::GateKeeper(in_port_t port) : sock(), conmax(10)
+    {
+        this->sock.socklisten((struct in_addr){(in_addr_t)INADDR_ANY}, port, 10);
+        this->fdmax = sock.get_socket();
+        setnonblock(this->sock.get_socket());
+    }
+
     GateKeeper::~GateKeeper()
     {
 
     }
 
-    std::list<Connection> &GateKeeper::get_connections(void)
+    std::list<Client> &GateKeeper::get_clients(void)
     {
-        return (this->connections);
+        return (this->clients);
     }
     
     fd_set GateKeeper::build_selist()
@@ -34,10 +41,10 @@ namespace AFG
 
         FD_ZERO(&res);
 
-        // printf("connections size=%lu\n", this->connections.size());
+        // printf("Clients size=%lu\n", this->Clients.size());
         // printf("Adding %d to sellist.\n", this->sock.get_socket());
         FD_SET(this->sock.get_socket(), &res);
-        for(std::list<Connection>::iterator it=this->connections.begin(); it != this->connections.end(); ++it)
+        for(std::list<Client>::iterator it=this->clients.begin(); it != this->clients.end(); ++it)
         {
             // printf("Adding %d to sellist.\n", it->get_fd());
             if (!it->ismessagecomplete())
@@ -84,10 +91,10 @@ namespace AFG
         if (FD_ISSET(this->sock.get_socket(),&selist))
         {
             // printf("HERE2\n");
-		    addconnection();
+		    add_client();
             return_val--;
         }
-        for(std::list<Connection>::iterator it=this->connections.begin(); it != this->connections.end(); ++it)
+        for(std::list<Client>::iterator it=this->clients.begin(); it != this->clients.end(); ++it)
         {
             if (FD_ISSET(it->get_fd(), &selist))
                 it->activate();
@@ -96,7 +103,7 @@ namespace AFG
         }
     }
 
-    void GateKeeper::addconnection()
+    void GateKeeper::add_client()
     {
         struct sockaddr_in addr = sock.getaddr();
         socklen_t addr_len = (socklen_t)sizeof(addr);
@@ -106,34 +113,35 @@ namespace AFG
         if (newfd < 0)
             throw ServerSocket::SocketCannotAccept();
         setnonblock(newfd);
-        // printf("New connection fd=%d\n", newfd);
-        if (this->connections.size() == this->conmax)
+        // printf("New Client fd=%d\n", newfd);
+        if (this->clients.size() == this->conmax)
         {
-            // printf("Refusing connection of %d\n", newfd);
-            refuse_connection(newfd);
+            // printf("Refusing Client of %d\n", newfd);
+            refuse_client(newfd);
             return;
         }
-        Connection newcon(newfd);
-        this->connections.push_back(newcon);
+        Client newcon(newfd, addr.sin_addr);
+        this->clients.push_back(newcon);
         if (newfd > this->fdmax)
             this->fdmax = newfd;
+        newcon.respond("Input a username:");
     }
 
-    void GateKeeper::refuse_connection(int fd)
+    void GateKeeper::refuse_client(int fd)
     {
         std::string refuse_msg("Server is busy\n");
         write(fd, refuse_msg.c_str(), refuse_msg.size());
         close(fd);
     }
 
-    void GateKeeper::removeconnection(int fd)
+    void GateKeeper::remove_client(int fd)
     {
-        for(std::list<Connection>::iterator it=this->connections.begin(); it != this->connections.end(); ++it)
+        for(std::list<Client>::iterator it=this->clients.begin(); it != this->clients.end(); ++it)
         {
             if (it->get_fd() == fd)
             {
                 close(fd);
-                this->connections.erase(it);
+                this->clients.erase(it);
                 break;
             }
         }
@@ -148,16 +156,73 @@ namespace AFG
 
     void GateKeeper::garbage_collector(void)
     {
-        for(std::list<Connection>::iterator it=this->connections.begin(); it != this->connections.end(); ++it)
+        for(std::list<Client>::iterator it=this->clients.begin(); it != this->clients.end(); ++it)
         {
             if (it->isgarbage())
 			{
-                this->connections.erase(it);
-				it=this->connections.begin();
+                this->clients.erase(it);
+				it=this->clients.begin();
 			}
         }
     }
 
+
+    void GateKeeper::announce(std::string const &msg) const
+    {
+        for(std::list<AFG::Client>::const_iterator it = this->clients.begin(); it != this->clients.end(); ++it)
+        {
+            if (it->isauthentic())
+                it->respond(msg);
+        }
+    }
+
+    void GateKeeper::spreadmsgfrom(Client *speaker) const
+    {
+        for(std::list<AFG::Client>::const_iterator it = this->clients.begin(); it != this->clients.end(); ++it)
+        {
+            if (it->isauthentic() && &(*it) != speaker)
+            {
+                it->respond(speaker->get_username());
+                it->respond(": ");
+                it->respond(speaker->get_message());
+            }
+        }
+
+    }
+    void GateKeeper::serve(void)
+    {
+        for(std::list<AFG::Client>::iterator it = this->clients.begin(); it != this->clients.end(); ++it)
+        {
+            if (it->isactive())
+            {
+                it->hear();
+                // printf("Printing message of length %ld\n", it->get_message().size());
+            }
+            // std::cout << std::endl << "MSG:" << it->get_message();
+            // it->clearmessage();
+            if (it->ismessagecomplete())
+            {
+                // this->fredi.process(this->clients, *it);
+                this->spreadmsgfrom(&(*it));
+                it->clearmessage();
+                it->deactivate();
+
+                // it->respond(response);
+                // close(it->get_fd());
+                // it->set_garbage();
+            }
+        }   
+    }
+
+    bool GateKeeper::nottaken(std::string username) const
+    {
+        for(std::list<AFG::Client>::const_iterator it = this->clients.begin(); it != this->clients.end(); ++it)
+        {
+            if (it->get_username() == username.substr(0,username.length() - 1))
+                return false;
+        }  
+        return true;
+    }
 
 
 }

@@ -7,15 +7,15 @@ CXXFLAGS		=  #-Wall -Werror -Wextra -g
 
 SDIR		= src/*
 SRCS		= main.cpp \
-				Connection.cpp \
+				Client.cpp \
 				SimpleSocket.cpp \
 				ServerSocket.cpp \
 				GateKeeper.cpp \
 				Responder.cpp \
 				RequestParser.cpp \
-				StringFromClient.cpp \
-				ErrorHandler.cpp
-
+				HttpRequest.cpp \
+				ErrorHandler.cpp \
+				Commander.cpp \
 
 INCLUDES	= -I./include/
 #LIBS		= -lc++
