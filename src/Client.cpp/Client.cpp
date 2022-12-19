@@ -156,17 +156,9 @@ namespace AFG
 
     void Client::authenticate(void)
     {
-        bool success = this->read_username();
-        if (success)
-        {
-            std::cout << "User " << this->username << " authenticated!" << std::endl;
-            this->authentic = true;
-        }
-        else
-        {
-            this->respond("Invalid username");
-            this->set_garbage();
-        }
+        std::cout << "User " << this->username << " authenticated!" << std::endl;
+        this->authentic = true;
+
     }
 
     void Client::deactivate(void)
@@ -187,7 +179,7 @@ namespace AFG
         int flag = 1;
         char readchar = '\0';
 
-        while(flag > 0 && readchar != '\n')
+        while(flag > 0)
         {
             // usleep(1000);
             flag = read(this->fd, &readchar, 1);
@@ -226,11 +218,5 @@ namespace AFG
         if (this->message.back() == '\n')
             return true;
         return false;
-    }
-
-    bool Client::read_username(void)
-    {
-        this->username = this->message.substr(0,this->message.length() - 1);
-        return true;
     }
 }
