@@ -13,7 +13,7 @@ SRCS		= main.cpp \
 				GateKeeper.cpp \
 				Responder.cpp \
 				RequestParser.cpp \
-				HttpRequest.cpp \
+				StringFromClient.cpp \
 				ErrorHandler.cpp \
 				Commander.cpp \
 
