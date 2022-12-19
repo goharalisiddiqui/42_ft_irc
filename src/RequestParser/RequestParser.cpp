@@ -10,24 +10,26 @@ namespace AFG
     {
     }
 
-    RequestParser::RequestParser(std::string _message)
+    RequestParser::RequestParser(std::string _client_request)
     {
-        std::string _method;
-        std::string _path;
-        std::string _http_version;
-        int first_line = 0;
+        std::string _command;
+        std::vector<std::string> _targets;
+        std::vector<std::string> _delimiter;
+        std::string _message;
 
-        this->message = _message;
-        this->message_split_in_lines = this->afgSplit(_message, "\n");
 
-        _method = this->parseToken(" ", first_line, 0);
-        _path = this->parseToken(" ", first_line, 1);
-        _http_version = this->parseToken(" ", first_line, 2);
+        this->client_request = _client_request;
 
-        this->http_request.setMethod(_method);
-        this->http_request.setPath(_path);
-        this->http_request.setHttp_version(_http_version);
-        this->fillFields();
+        _command = this->parseToken(" ", 0);
+
+        _delimiter.push_back(" ");
+        _delimiter.push_back(",");
+        _targets = this->parseListToken(_delimiter, 1);
+        _message = this->parseToken(":", 1);
+
+        this->string_from_client.setCommand(_command);
+        this->string_from_client.setTargets(_targets);
+        this->string_from_client.setMessage(_message);
 
     }
 
@@ -40,71 +42,65 @@ namespace AFG
     {
         if (this != &src)
         {
-            this->message = src.getMessage();
-            this->http_request = src.getHttpRequest();
+            this->client_request = src.getClientRequest();
+            this->string_from_client = src.getStringFromClient();
         }
         return (*this);
     }
 
 /*---------------- getter ----------------*/
 
-    std::string RequestParser::getMessage(void) const
+    std::string RequestParser::getClientRequest(void) const
     {
-        return (this->message);
+        return (this->client_request);
     }
 
-    HttpRequest   RequestParser::getHttpRequest(void) const
+    StringFromClient   RequestParser::getStringFromClient(void) const
     {
-        return (this->http_request);
+        return (this->string_from_client);
     }
 
 /* ------------------ functions --------------- */
 
-    /* gets message as parameter and splits it in single lines stored in a vector */
-    std::vector<std::string>    RequestParser::afgSplit(std::string _message, std::string _delimiter)
+     /* gets client_request as parameter and splits it in single tokens stored in a vector */
+    std::vector<std::string>    RequestParser::afgSplit(std::string _client_request, std::string _delimiter)
     {
         size_t                      pos = 0;
-        std::vector<std::string>    lines;
+        std::vector<std::string>    tokens;
 
-        while ((pos = _message.find(_delimiter)) != std::string::npos)
+        while ((pos = _client_request.find(_delimiter)) != std::string::npos)
         {
-            lines.push_back(_message.substr(0, pos));
-            _message.erase(0, pos + _delimiter.length());
+            tokens.push_back(_client_request.substr(0, pos));
+            _client_request.erase(0, pos + _delimiter.length());
         }
-        if (!lines.empty())
-            lines.push_back(_message);
-        return (lines);
+        if (!_client_request.empty())
+            tokens.push_back(_client_request);
+        return (tokens);
     }
 
-    /* splits message in lines. then, splits _line_nbr line with " " as delimiter. returns the token at position _token_pos. */
-    std::string RequestParser::parseToken(std::string _delimiter, int _line_nbr, int _token_pos)
+    /* splits client request in tokens with _delimiter. returns the token at position _token_pos. */
+    std::string RequestParser::parseToken(std::string _delimiter, int _token_pos)
     {
-        size_t                      pos = 0;
-        std::vector<std::string>    line_split_in_token;
+        std::vector<std::string>    request_split_in_tokens;
 
-        line_split_in_token = this->afgSplit(this->message_split_in_lines.at(_line_nbr), _delimiter);
+        request_split_in_tokens = this->afgSplit(this->client_request, _delimiter);
         /* <= because _token_pos starts with index 0. */
-        if (line_split_in_token.size() <= _token_pos || this->message_split_in_lines.size() <= _line_nbr)
+        if (request_split_in_tokens.size() <= _token_pos)
             return (""); // throw error instead?
-        return (line_split_in_token.at(_token_pos));
+        return (request_split_in_tokens.at(_token_pos));
     }
 
-    /* loops through the lines of the message and parses the fields in the fields map */
-    void    RequestParser::fillFields()
+    /* splits client request in tokens with _delimiter.at(0). returns the list of token splitted with _delimiter.at(1). */
+    std::vector<std::string> RequestParser::parseListToken(std::vector<std::string> _delimiter, int _token_pos)
     {
-        size_t                      nbr_of_lines;
-        size_t                      i;
+        std::vector<std::string>    request_split_in_tokens;
+        std::vector<std::string>    token_list;
 
-        //  todo: if there is a body size will differ
-        nbr_of_lines = this->message_split_in_lines.size();
-        for (i = 1; i < nbr_of_lines; i++)
-        {
-            this->http_request.getFieldsRef()[parseToken(": ", i, 0)] = parseToken(": ", i, 1);
-            // ^^^^^^^^^^^^^test print
-            // std::cout << std::endl << this->http_request.getFieldsRef()[parseToken(": ", i, 0)] << std::endl;
-        }
-
-        
+        request_split_in_tokens = this->afgSplit(this->client_request, _delimiter.at(0));
+        /* <= because _token_pos starts with index 0. */
+        if (request_split_in_tokens.size() <= _token_pos)
+            return (std::vector<std::string>()); // throw error instead?
+        token_list = this->afgSplit(request_split_in_tokens.at(_token_pos), _delimiter.at(1));
+        return (token_list);
     }
-
 }
