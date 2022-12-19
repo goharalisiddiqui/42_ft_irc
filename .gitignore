@@ -31,6 +31,6 @@
 *.out
 *.app
 
-webserver
+ircserv
 .vscode/
 .DS_Store

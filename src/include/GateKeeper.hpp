@@ -4,8 +4,9 @@
 #pragma once
 
 #include "libs.hpp"
-#include "Connection.hpp"
+#include "Client.hpp"
 #include "ServerSocket.hpp"
+#include "Commander.hpp"
 
 namespace AFG
 {
@@ -19,26 +20,35 @@ namespace AFG
             // GateKeeper &operator=(const GateKeeper &src);
 
             GateKeeper(int domain, int type, int protocol, int ip, int port, int backlog, int nmax);
+            GateKeeper(in_port_t port);
 
-            std::list<Connection> &get_connections(void);
+
+            std::list<Client> &get_clients(void);
 
             void watchover();
+            void announce(std::string const &msg) const;
+            void spreadmsgfrom(Client *speaker) const;
+
+            void serve(void);
 
         private:
             int fdmax;
             int conmax;
-            std::list<Connection> connections;
-            std::list<Connection> active_connections;
+            std::list<Client> clients;
             ServerSocket sock;
+            Commander fredi;
 
-            void refuse_connection(int fd);
-            void addconnection();
-            void removeconnection(int fd);
+            void refuse_client(int fd);
+            void add_client();
+            void remove_client(int fd);
 
             void setnonblock(int fd);
 
             fd_set build_selist(void);
             void garbage_collector(void);
+
+            bool nottaken(std::string username) const;
+
 
 
         public:
