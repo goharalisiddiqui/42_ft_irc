@@ -73,7 +73,7 @@ namespace AFG
             tokens.push_back(_client_request.substr(0, pos));
             _client_request.erase(0, pos + _delimiter.length());
         }
-        if (!tokens.empty())
+        if (!_client_request.empty())
             tokens.push_back(_client_request);
         return (tokens);
     }
@@ -81,7 +81,6 @@ namespace AFG
     /* splits client request in tokens with _delimiter. returns the token at position _token_pos. */
     std::string RequestParser::parseToken(std::string _delimiter, int _token_pos)
     {
-        size_t                      pos = 0;
         std::vector<std::string>    request_split_in_tokens;
 
         request_split_in_tokens = this->afgSplit(this->client_request, _delimiter);
@@ -94,7 +93,6 @@ namespace AFG
     /* splits client request in tokens with _delimiter.at(0). returns the list of token splitted with _delimiter.at(1). */
     std::vector<std::string> RequestParser::parseListToken(std::vector<std::string> _delimiter, int _token_pos)
     {
-        size_t                      pos = 0;
         std::vector<std::string>    request_split_in_tokens;
         std::vector<std::string>    token_list;
 
@@ -106,6 +104,3 @@ namespace AFG
         return (token_list);
     }
 }
-
-//to do: zum laufen bringen (gohars version)
-// to do: parseTargets() schreiben
