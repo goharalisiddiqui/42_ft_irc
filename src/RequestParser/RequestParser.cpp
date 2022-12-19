@@ -14,12 +14,17 @@ namespace AFG
     {
         std::string _command;
         std::vector<std::string> _targets;
+        std::vector<std::string> _delimiter;
         std::string _message;
+
 
         this->client_request = _client_request;
 
         _command = this->parseToken(" ", 0);
-      //  _targets = this->parseTargets(" ", 1);
+
+        _delimiter.push_back(" ");
+        _delimiter.push_back(",");
+        _targets = this->parseListToken(_delimiter, 1);
         _message = this->parseToken(":", 1);
 
         this->string_from_client.setCommand(_command);
@@ -73,7 +78,7 @@ namespace AFG
         return (tokens);
     }
 
-    /* splits client request in tokens with _delimiter as returns the token at position _token_pos. */
+    /* splits client request in tokens with _delimiter. returns the token at position _token_pos. */
     std::string RequestParser::parseToken(std::string _delimiter, int _token_pos)
     {
         size_t                      pos = 0;
@@ -86,4 +91,21 @@ namespace AFG
         return (request_split_in_tokens.at(_token_pos));
     }
 
+    /* splits client request in tokens with _delimiter.at(0). returns the list of token splitted with _delimiter.at(1). */
+    std::vector<std::string> RequestParser::parseListToken(std::vector<std::string> _delimiter, int _token_pos)
+    {
+        size_t                      pos = 0;
+        std::vector<std::string>    request_split_in_tokens;
+        std::vector<std::string>    token_list;
+
+        request_split_in_tokens = this->afgSplit(this->client_request, _delimiter.at(0));
+        /* <= because _token_pos starts with index 0. */
+        if (request_split_in_tokens.size() <= _token_pos)
+            return (std::vector<std::string>()); // throw error instead?
+        token_list = this->afgSplit(request_split_in_tokens.at(_token_pos), _delimiter.at(1));
+        return (token_list);
+    }
 }
+
+//to do: zum laufen bringen (gohars version)
+// to do: parseTargets() schreiben
