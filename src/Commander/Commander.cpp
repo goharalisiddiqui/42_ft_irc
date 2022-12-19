@@ -1,4 +1,5 @@
 #include "../include/Commander.hpp"
+#include "../include/RequestParser.hpp"
 
 
 namespace AFG
@@ -12,6 +13,9 @@ namespace AFG
     void Commander::process(std::list<Client> &clients, Client &caller)
     {
         std::string input = caller.get_message();
+        AFG::RequestParser  parser(input);
+
+        std::cout << parser.getStringFromClient().getCommand() << std::endl;
 
 
 

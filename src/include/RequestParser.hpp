@@ -8,7 +8,7 @@
 
 namespace AFG
 {
-    class   HttpRequest;
+    //class   HttpRequest;
 
     class   RequestParser
     {
