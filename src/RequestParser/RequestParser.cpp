@@ -103,4 +103,31 @@ namespace AFG
         token_list = this->afgSplit(request_split_in_tokens.at(_token_pos), _delimiter.at(1));
         return (token_list);
     }
+
+    /* gets user info in one vector: 0) <username>, 1) <hostname>, 2) <servername>, 3) <realname> 
+    (realname is prefixed by a colon because it can have spaces in it) */
+    std::vector<std::string>    RequestParser::getUserInfo(std::string input)
+    {
+        std::vector<std::string>    user_info;
+        std::vector<std::string>    splitted_input;
+
+        splitted_input = this->afgSplit(input, " ");
+        if (splitted_input.size() != 5)
+        {
+            std::cerr << "Error: Unable to authenticate user" << std::endl;
+            return (std::vector<std::string>()); // or throw error 
+        }
+        for (int i = 1; i <= 3; i++)
+        {
+            user_info.push_back(splitted_input.at(i));
+        }
+        splitted_input = this->afgSplit(input, ":");
+        if (splitted_input.size() != 2)
+        {
+            std::cerr << "Error: Unable to authenticate user" << std::endl;
+            return (std::vector<std::string>()); // or throw error 
+        }
+        user_info.push_back(splitted_input.at(1));
+        return (user_info);
+    }
 }

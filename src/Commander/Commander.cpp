@@ -13,19 +13,22 @@ namespace AFG
     void Commander::process(std::list<Client> &clients, Client &caller)
     {
         std::string input = caller.get_message();
-        AFG::RequestParser  parser(input);
 
-        std::cout << parser.getStringFromClient().getCommand() << std::endl;
+        /* -------work in progress--------- */
+        /* parse user info */
+        AFG::RequestParser          parser(input);
+        std::vector<std::string>    user_info;
 
-
-        if (input == "USER user1 host server :real\n")
+        std::string command = parser.getStringFromClient().getCommand();
+        std::cout << command << std::endl;
+        if (command == "USER")
         {
-            this->commandUSER(clients, caller, "user1","host","server","real");
+            user_info = parser.getUserInfo(input);
+            if (user_info.size() != 0)
+                std::cout << user_info.at(3) << std::endl;
+            this->commandUSER(clients, caller, user_info.at(0), user_info.at(1), user_info.at(2), user_info.at(3));
         }
-        if (input == "USER user2 host server :real\n")
-        {
-            this->commandUSER(clients, caller, "user2","host","server","real");
-        }
+
         if (input == "NICK nick\n")
         {
             this->commandNICK(clients, caller, "nick");
