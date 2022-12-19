@@ -206,18 +206,18 @@ namespace AFG
             {
                 // this->fredi.process(this->clients, *it);
                 
-                AFG::Responder      responder(it->get_message());
-                AFG::RequestParser  parser(responder.getMessage());
-
                 /* --------------PARSING TEST------------ */
-                std::cout << "TEST: " << parser.getStringFromClient().getCommand() << std::endl;
-                if (parser.getStringFromClient().getTargets().size() > 0)
-                {
-                    std::cout << "TEST: " << parser.getStringFromClient().getTargets().at(0) << std::endl;
-                    std::cout << "TEST: " << parser.getStringFromClient().getTargets().at(1) << std::endl;
-                    std::cout << "TEST: " << parser.getStringFromClient().getTargets().at(2) << std::endl;
-                }
-                std::cout << "TEST: " << parser.getStringFromClient().getMessage() << std::endl;
+                //AFG::Responder      responder(it->get_message());
+                //AFG::RequestParser  parser(responder.getMessage());
+
+                //std::cout << "Command: " << parser.getStringFromClient().getCommand() << std::endl;
+                //if (parser.getStringFromClient().getTargets().size() > 2)
+                //{
+                //    std::cout << "Target: " << parser.getStringFromClient().getTargets().at(0) << std::endl;
+                //    std::cout << "Target: " << parser.getStringFromClient().getTargets().at(1) << std::endl;
+                //    std::cout << "Target: " << parser.getStringFromClient().getTargets().at(2) << std::endl;
+                //}
+                //std::cout << "Message: " << parser.getStringFromClient().getMessage() << std::endl;
 
                 this->spreadmsgfrom(&(*it));
                 it->clearmessage();
