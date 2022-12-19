@@ -13,11 +13,12 @@ SRCS		= main.cpp \
 				GateKeeper.cpp \
 				Responder.cpp \
 				RequestParser.cpp \
-				HttpRequest.cpp \
-				ErrorHandler.cpp \
+				StringFromClient.cpp \
+				ErrorHandler.cpp
+
 
 INCLUDES	= -I./include/
-LIBS		= -lc++
+#LIBS		= -lc++
 ODIR		= obj
 OBJS		= $(addprefix $(ODIR)/, $(SRCS:.cpp=.o))
 

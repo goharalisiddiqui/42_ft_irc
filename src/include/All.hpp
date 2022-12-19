@@ -10,8 +10,8 @@
 #include "GateKeeper.hpp"
 #include "Responder.hpp"
 #include "RequestParser.hpp"
-#include "HttpRequest.hpp"
 #include "ErrorHandler.hpp"
+#include "StringFromClient.hpp"
 
 
 

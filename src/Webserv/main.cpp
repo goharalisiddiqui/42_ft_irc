@@ -27,9 +27,9 @@ int AFGwebserver(void)
                 
                 
                     // std::cout << std::endl << it->get_message() << std::endl;
-                    std::cout << std::endl << responder.getRequestParser().getHttpRequest().getHttp_version() << std::endl;
-                    std::cout << std::endl << responder.getRequestParser().getHttpRequest().getMethod() << std::endl;
-                    std::cout << std::endl << responder.getRequestParser().getHttpRequest().getPath() << std::endl;
+                    std::cout << std::endl << responder.getRequestParser().getStringFromClient().getCommand() << std::endl;
+                    //std::cout << std::endl << responder.getRequestParser().getStringFromClient().getTargets() << std::endl;
+                 //   std::cout << std::endl << responder.getRequestParser().getStringFromClient().getMessage() << std::endl;
 
                     it->respond(response);
                     close(it->get_fd());
