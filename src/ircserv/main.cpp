@@ -18,7 +18,7 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
     in_port_t port = readport(std::string(argv[1]));
-    std::cout << "port:" << port << std::endl;
+    // std::cout << "port:" << port << std::endl;
     AFG::GateKeeper heimdal(port);
     std::cout << "Server started" << std::flush;
     while (true)

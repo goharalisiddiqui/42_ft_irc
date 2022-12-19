@@ -102,8 +102,8 @@ namespace AFG
         {
             if (FD_ISSET(it->get_fd(), &selist))
                 it->activate();
-            // else
-            //     it->deactivate();
+            else
+                it->deactivate();
         }
     }
 
@@ -196,19 +196,20 @@ namespace AFG
     {
         for(std::list<AFG::Client>::iterator it = this->clients.begin(); it != this->clients.end(); ++it)
         {
-            
+            if (it->isactive())
+            {
+                it->hear();
+                // printf("Printing message of length %ld\n", it->get_message().size());
+            }
             if (it->ismessagecomplete())
             {
                 this->fredi.process(this->clients, *it);
-                // this->spreadmsgfrom(&(*it));
+                if (it->isauthentic())
+                    this->spreadmsgfrom(&(*it));
                 it->clearmessage();
-            }
-            else if (it->isactive())
-            {
-                it->hear();
                 it->deactivate();
-                // printf("Printing message of length %ld\n", it->get_message().size());
             }
+            
 
         }   
     }

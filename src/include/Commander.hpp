@@ -26,7 +26,7 @@ namespace AFG
 
 
 
-
+            bool usernameTaken(std::string username, std::list<Client> &clients) const;
         public:
 
 
