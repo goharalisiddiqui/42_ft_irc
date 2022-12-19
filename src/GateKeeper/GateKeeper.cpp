@@ -1,4 +1,6 @@
 #include "../include/GateKeeper.hpp"
+#include "../include/Responder.hpp"
+#include "../include/StringFromClient.hpp"
 
 
 namespace AFG
@@ -203,6 +205,20 @@ namespace AFG
             if (it->ismessagecomplete())
             {
                 // this->fredi.process(this->clients, *it);
+                
+                AFG::Responder      responder(it->get_message());
+                AFG::RequestParser  parser(responder.getMessage());
+
+                /* --------------PARSING TEST------------ */
+                std::cout << "TEST: " << parser.getStringFromClient().getCommand() << std::endl;
+                if (parser.getStringFromClient().getTargets().size() > 0)
+                {
+                    std::cout << "TEST: " << parser.getStringFromClient().getTargets().at(0) << std::endl;
+                    std::cout << "TEST: " << parser.getStringFromClient().getTargets().at(1) << std::endl;
+                    std::cout << "TEST: " << parser.getStringFromClient().getTargets().at(2) << std::endl;
+                }
+                std::cout << "TEST: " << parser.getStringFromClient().getMessage() << std::endl;
+
                 this->spreadmsgfrom(&(*it));
                 it->clearmessage();
                 it->deactivate();
