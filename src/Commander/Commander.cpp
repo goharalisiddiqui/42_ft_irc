@@ -51,6 +51,7 @@ namespace AFG
         {
             std::string                 new_topic = parser.getInput().getMessage();
             std::vector<std::string>    channel = parser.getInput().getTargets();
+
             //this->commandTOPIC(caller, channel, new_topic);
         }
     }
@@ -128,17 +129,24 @@ namespace AFG
         }  
         return false;
     }
-
-   // void    Commander::commandTOPIC(Client &caller, std::vector<std::string> channel, std::string new_topic)
-   // {
-   //     if (channel.size() > 1)
-   //     {
-   //         std::cerr << "Error: one and only one channel." << std::endl;
-   //         return ;
-   //     } 
-   //      if (new_topic != "")
-   //         setChannelTopic(channel.at(0), new_topic);
-   //     else
-   //         caller.respond(":AFGchat NOTICE" + this->channel_list.find(channel.at(0)).topic + "\n");
-   // }
+    /* work in progress: pseudo code since channel class is not fully done yet */
+    //void    Commander::commandTOPIC(Client &caller, std::vector<std::string> channel, std::string new_topic)
+    //{
+    //    if (channel.size() > 1)
+    //    {
+    //        std::cerr << "Error: one and only one channel." << std::endl;
+    //        return ;
+    //    } 
+    //    std::vector<std::string>::iterator it_channel = this->channel_list.find(channel.at(0));
+    //    std::vector<std::string>::iterator it_end = this->channel_list.end();
+//
+    //    if (it_channel.isModeT())
+    //    {
+    //        if ()
+    //    }
+    //    if (new_topic != "")
+    //        setChannelTopic(channel.at(0), new_topic);
+    //    else if (it_channel != it_end)
+    //        caller.respond(":AFGchat NOTICE" + it_channel.getName() + "\n");
+    //}
 }
