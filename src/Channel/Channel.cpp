@@ -67,42 +67,6 @@ namespace AFG
     return (operators.count(&user) > 0);
   }
 
-
-  bool Channel::isOperator(Client& user) const
-  {
-    return (operators.count(&user) > 0);
-  }
-
-  void Channel::makeInviteOnly(void)
-  {
-    this->inviteOnly = true;
-  }
-
-  void Channel::removeInviteOnly(void)
-  {
-    this->inviteOnly = false;
-  }
-
-  bool  Channel::isInviteOnly(void) const
-  {
-    return (this->inviteOnly);
-  }
-
-  void Channel::makeTopicOpOnly(void)
-  {
-    this->topicOpOnly = true;
-  }
-
-  void Channel::removeTopicOpOnly(void)
-  {
-    this->topicOpOnly = false;
-  }
-
-  bool  Channel::isTopicOpOnly(void) const
-  {
-    return (this->topicOpOnly);
-  }
-
   void Channel::makeInviteOnly(void)
   {
     this->inviteOnly = true;
