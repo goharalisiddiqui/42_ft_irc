@@ -56,7 +56,7 @@ namespace AFG
     
     void Commander::commandPRIVMSG(std::list<Client> &clients, Client &caller, std::string othername, std::string msg)
     {
-        for(std::list<AFG::Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
+        for(std::list<Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
         {
             std::cout << it->get_nick() << std::endl;
             if (it->get_nick() == othername)
@@ -152,7 +152,7 @@ namespace AFG
 
     bool Commander::usernameTaken(std::string username, std::list<Client> &clients) const
     {
-        for(std::list<AFG::Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
+        for(std::list<Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
         {
             if (it->get_username() == username)
                 return true;
@@ -162,7 +162,7 @@ namespace AFG
 
     bool Commander::nickTaken(std::string nick, std::list<Client> &clients) const
     {
-        for(std::list<AFG::Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
+        for(std::list<Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
         {
             if (it->get_nick() == nick)
                 return true;
