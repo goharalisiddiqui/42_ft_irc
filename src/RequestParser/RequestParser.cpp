@@ -89,7 +89,11 @@ namespace AFG
         return (request_split_in_tokens.at(_token_pos));
     }
 
-    /* splits client request in tokens with _delimiter.at(0). returns the list of token splitted with _delimiter.at(1). */
+    /* splits client request in tokens with _delimiter.at(0). returns the list of token splitted with _delimiter.at(1).
+    e.g.: PRIVMSG user1,user2 :msg 
+    1) gets split with space as the delimiter
+    2) token specified through _token_pos (here "user1,user2") gets split with comma as the delimiter
+    3) returns vector filled with the users (targets) */
     std::vector<std::string> RequestParser::parseListToken(std::vector<std::string> _delimiter, int _token_pos)
     {
         std::vector<std::string>    request_split_in_tokens;
