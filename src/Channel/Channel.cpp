@@ -113,12 +113,10 @@ namespace AFG
   {
     this->inviteOnly = false;
   }
-
   bool  Channel::isInviteOnly(void) const
   {
     return (this->inviteOnly);
   }
-
   void Channel::makeTopicOpOnly(void)
   {
     this->topicOpOnly = true;
