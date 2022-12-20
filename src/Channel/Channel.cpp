@@ -93,6 +93,17 @@ namespace AFG
     return (operators.count(&user) > 0);
   }
 
+  void Channel::spreadmsgfrom(Client &speaker, std::string &msg) const
+  {
+      for(std::set<Client *>::const_iterator it = this->users.begin(); it != this->users.end(); ++it)
+      {
+          if ((*it) != &speaker)
+          {
+              (*it)->respond(msg);
+          }
+      }
+  }
+
   void Channel::makeInviteOnly(void)
   {
     this->inviteOnly = true;
