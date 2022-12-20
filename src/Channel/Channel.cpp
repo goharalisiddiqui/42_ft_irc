@@ -10,12 +10,28 @@ namespace AFG
 
   Channel::Channel(const Channel &src)
   {
+    this->name = src.getName();
+    this->inviteOnly = src.isInviteOnly();
+    this->users = src.getUsers();
+    this->operators = src.getOperators();
+    this->invited_users = src.getInvitedUsers();
+
+
 
   }
   Channel &Channel::operator=(const Channel &src)
   {
+    this->name = src.getName();
+    this->inviteOnly = src.isInviteOnly();
+    this->users = src.getUsers();
+    this->operators = src.getOperators();
+    this->invited_users = src.getInvitedUsers();
+
+    return(*this);
 
   }
+
+
 
   std::string Channel::getName() const
   {
@@ -39,12 +55,22 @@ namespace AFG
 
   bool Channel::hasUser(const Client& user) const
   {
-    return (std::find(users.begin(), users.end(), user) != users.end());
+    return (std::find(users.begin(), users.end(), &user) != users.end());
   }
 
   std::set<Client*> Channel::getUsers(void) const
   {
     return this->users;
+  }
+
+  std::set<Client*> Channel::getOperators(void) const
+  {
+    return this->operators;
+  }
+
+  std::set<Client*> Channel::getInvitedUsers(void) const
+  {
+    return this->invited_users;
   }
 
   void Channel::inviteUser(const Client& inviter, Client& invitee)
@@ -65,6 +91,20 @@ namespace AFG
   bool Channel::isOperator(Client& user) const
   {
     return (operators.count(&user) > 0);
+  }
+
+
+  void Channel::makeInviteOnly(void)
+  {
+    this->inviteOnly = true;
+  }
+  void Channel::removeInviteOnly(void)
+  {
+    this->inviteOnly = false;
+  }
+  bool Channel::isInviteOnly(void) const
+  {
+    return this->inviteOnly;
   }
 
 }

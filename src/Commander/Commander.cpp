@@ -129,6 +129,9 @@ namespace AFG
         if (!channelExists(channelName))
             channels.push_back(Channel(channelName));
         addUserToChannel(caller, channelName);
+
+
+
     }
 
 

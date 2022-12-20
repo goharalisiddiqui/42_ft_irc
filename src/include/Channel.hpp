@@ -25,9 +25,15 @@ class Channel
 
 
 
-
+    /////////////// GETTERS ///////////////////
     // Get the name of the channel
     std::string getName() const;
+
+    // Get a list of all the users in the channel
+    std::set<Client*> getUsers() const;
+    std::set<Client*> getOperators() const;
+    std::set<Client*> getInvitedUsers() const;
+
 
     // Add a user to the channel
     void addUser(Client& user);
@@ -38,8 +44,6 @@ class Channel
     // Check if a user is in the channel
     bool hasUser(const Client& user) const;
 
-    // Get a list of all the users in the channel
-    std::set<Client*> getUsers() const;
 
     // Invite a user to the channel
     void inviteUser(const Client& inviter, Client& invitee);
@@ -55,6 +59,7 @@ class Channel
 
     void makeInviteOnly(void);
     void removeInviteOnly(void);
+    bool isInviteOnly(void) const;
 
   private:
     std::string name;
