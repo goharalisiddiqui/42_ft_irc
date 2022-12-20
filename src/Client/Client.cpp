@@ -183,7 +183,9 @@ namespace AFG
             return;
         std::cout << "User " << this->username << " authenticated!" << std::endl;
         this->authentic = true;
-        this->respond("You are now authenticated. Welcome to AFGchat\n");
+        this->respond(":AFGchat 001 ");
+        this->respond(this->nick);
+        this->respond(" :Welcome to AFGchat. You are now authenticated!\n");
 
     }
 

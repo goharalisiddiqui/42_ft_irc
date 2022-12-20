@@ -167,18 +167,19 @@ namespace AFG
                 this->clients.erase(it);
 				it=this->clients.begin();
 			}
+            //TODO Update the fdmax
         }
     }
 
 
-    void GateKeeper::announce(std::string const &msg) const
-    {
-        for(std::list<AFG::Client>::const_iterator it = this->clients.begin(); it != this->clients.end(); ++it)
-        {
-            if (it->isauthentic())
-                it->respond(msg);
-        }
-    }
+    // void GateKeeper::announce(std::string const &msg) const
+    // {
+    //     for(std::list<AFG::Client>::const_iterator it = this->clients.begin(); it != this->clients.end(); ++it)
+    //     {
+    //         if (it->isauthentic())
+    //             it->respond(msg);
+    //     }
+    // }
 
     void GateKeeper::spreadmsgfrom(Client *speaker) const
     {
@@ -215,15 +216,6 @@ namespace AFG
         }   
     }
 
-    bool GateKeeper::nottaken(std::string username) const
-    {
-        for(std::list<AFG::Client>::const_iterator it = this->clients.begin(); it != this->clients.end(); ++it)
-        {
-            if (it->get_username() == username.substr(0,username.length() - 1))
-                return false;
-        }  
-        return true;
-    }
 
 
 }

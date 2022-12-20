@@ -17,6 +17,7 @@ namespace AFG
     {
         std::string input = caller.get_message();
 
+        input = input.substr(0, input.length() - 1);
         /* parse user info */
         AFG::RequestParser          parser(input);
         std::vector<std::string>    user_info;
@@ -38,8 +39,8 @@ namespace AFG
         }
         else if (command == "PASS")
         {
-            pass = parser.parseToken(" ", 1);
-            this->commandPASS(caller, pass);
+            std::string user_pass = parser.parseToken(" ", 1);
+            this->commandPASS(caller, user_pass);
         }
 
     }
@@ -71,6 +72,7 @@ namespace AFG
     void Commander::commandPASS(Client &caller, std::string pass)
     {
         printf("Correct pass=%s\n", this->pass.c_str());
+        // printf("ENTERED pass=%s\n", pass.c_str());
         if (pass != this->pass)
         {
             caller.respond("Wrong password!\n");

@@ -62,8 +62,6 @@ $(ODIR):
 clean: header
 	@$(RM) -r $(ODIR)
 	@printf "%-51b %b" "$(ERROR_COLOR)$(NAME) cleaned!" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
-	@printf "%-51b %b" "$(ERROR_COLOR)libft cleaned!" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
-	@printf "%-51b %b" "$(ERROR_COLOR)MLX42 cleaned!" "$(OK_COLOR)[✓]$(NO_COLOR)\n"
 
 .PHONY: fclean
 fclean: header clean
