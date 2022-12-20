@@ -63,7 +63,21 @@ class Channel
   void makeInviteOnly(void);
 
   // Make channel open for all
+
+  // Make channel open for all
   void removeInviteOnly(void);
+
+  // Check if channel is invite only
+  bool isInviteOnly(void) const;
+
+  // Make topic of channel changeable only by operators
+  void makeTopicOpOnly(void);
+
+  // Make topic of channel changeable by all
+  void removeTopicOpOnly(void);
+
+  // Check if channel is changeable only by operators
+  bool isTopicOpOnly(void) const;
 
   // Check if channel is invite only
   bool isInviteOnly(void) const;
