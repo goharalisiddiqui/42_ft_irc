@@ -22,6 +22,7 @@ namespace AFG
         std::vector<std::string>    user_info;
         std::string                 user_nick;
 
+
         std::string command = parser.getStringFromClient().getCommand();
         std::cout << command << std::endl;
         if (command == "USER")
@@ -47,6 +48,35 @@ namespace AFG
         {
             caller.respond(":AFGchat PONG :AFGchat\n");
         }
+        else if (command == "PRIVMSG")
+        {
+            this->commandPRIVMSG(clients, caller, parser.parseToken(" ", 1), parser.parseToken(":", 1));
+        }
+    }
+    
+    void Commander::commandPRIVMSG(std::list<Client> &clients, Client &caller, std::string othername, std::string msg)
+    {
+        for(std::list<AFG::Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
+        {
+            std::cout << it->get_nick() << std::endl;
+            if (it->get_nick() == othername)
+            {
+                if (caller.get_nick() == othername)
+                {
+                  caller.respond(":AFGchat 401 ");
+                  caller.respond(caller.get_nick());
+                  caller.respond((" ") + othername + (" :Cannot write to yourself!\n"));
+                    return;
+                }
+                it->respond(":" + caller.get_nick() + "!" + caller.get_username() + ("@"));
+                it->respond(caller.get_hostname() + " PRIVMSG " + othername + " :" + msg + "\n");
+                return;
+            }
+        }
+            //else if nick/othername does not exist
+            caller.respond(":AFGchat 401 ");
+            caller.respond(caller.get_nick());
+            caller.respond((" ") + othername + (" :No such nick!\n"));
     }
 
     void Commander::commandUSER(std::list<Client> &clients, Client &caller, std::string username, std::string hostname, std::string servername, std::string realname)

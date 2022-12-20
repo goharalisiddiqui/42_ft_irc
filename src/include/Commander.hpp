@@ -24,7 +24,7 @@ namespace AFG
             Commander();
             std::string pass;
 
-
+            void commandPRIVMSG(std::list<Client> &clients, Client &caller, std::string othername, std::string msg);
             void commandUSER(std::list<Client> &clients, Client &caller, std::string username, std::string hostname, std::string servername, std::string realname);
             void commandNICK(std::list<Client> &clients, Client &caller, std::string nick);
             void commandPASS(Client &caller, std::string pass);

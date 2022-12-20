@@ -174,7 +174,6 @@ namespace AFG
     {
         if (this->username.length() == 0)
             return;
-
         if (this->hostname.length() == 0)
             return;
         if (this->realname.length() == 0)
@@ -187,9 +186,13 @@ namespace AFG
             return;
         std::cout << "User " << this->username << " authenticated!" << std::endl;
         this->authentic = true;
-        this->respond(":AFGchat 001 ");
-        this->respond(this->nick);
-        this->respond(" :Welcome to AFGchat. You are now authenticated!\n");
+        this->respond(":AFGchat 001 " + this->nick);
+        this->respond(" :Welcome to AFGchat 4.0. You are now authenticated!\n");
+        this->respond(":AFGchat 002 " + this->nick + " :Your host is ");
+        this->respond(this->hostname + " and your user@host is: ");
+        this->respond(this->username + "@" + this->servername );
+        this->respond(". You are known as: " + this->realname);
+        this->respond(". Nice to meet your nick: " + this->nick + "!\n");
     }
 
     void Client::deactivate(void)
