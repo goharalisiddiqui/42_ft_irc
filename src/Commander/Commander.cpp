@@ -36,6 +36,11 @@ namespace AFG
             if (user_nick != "")
                 this->commandNICK(clients, caller, user_nick);
         }
+        else if (command == "PASS")
+        {
+            pass = parser.getUserNick(input);
+            this->commandPASS(caller, pass);
+        }
 
     }
 
