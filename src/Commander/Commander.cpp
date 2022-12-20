@@ -52,6 +52,12 @@ namespace AFG
         {
             this->commandPRIVMSG(clients, caller, parser.parseToken(" ", 1), parser.parseToken(":", 1));
         }
+        else if (command == "JOIN")
+        {
+            std::string channel_name = parser.parseToken(" ", 1);
+            this->commandJOIN(caller, channel_name);
+        }
+        
     }
     
     void Commander::commandPRIVMSG(std::list<Client> &clients, Client &caller, std::string othername, std::string msg)

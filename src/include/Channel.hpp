@@ -61,6 +61,8 @@ class Channel
     void removeInviteOnly(void);
     bool isInviteOnly(void) const;
 
+    void spreadmsgfrom(Client &speaker, std::string &msg) const;
+
   private:
     std::string name;
     std::set<Client*> users;

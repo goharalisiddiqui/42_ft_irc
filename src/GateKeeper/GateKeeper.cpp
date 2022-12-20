@@ -208,8 +208,8 @@ namespace AFG
             {
                 it->trimMessage();
                 this->fredi.process(this->clients, *it);
-                if (it->isauthentic())
-                    this->spreadmsgfrom(&(*it));
+                // if (it->isauthentic())
+                //     this->spreadmsgfrom(&(*it));
                 it->clearmessage();
                 it->deactivate();
             }
