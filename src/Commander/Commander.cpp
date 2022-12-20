@@ -50,10 +50,25 @@ namespace AFG
         }
         else if (command == "PRIVMSG")
         {
+            //TEST
+            std:set channel.get_users();
+            if(parser.parseToken(" ", 1)[0] = "#")
+                this->commandChannelMessage(clients, caller, parser.parseToken(" ", 1), parser.parseToken(":", 1));
+            else
             this->commandPRIVMSG(clients, caller, parser.parseToken(" ", 1), parser.parseToken(":", 1));
         }
     }
-    
+    void Commander::commandChannelMessage(std::list<Client> &clients, Client &caller, Channel &channel, std::string msg)
+    {
+        for(std::list<AFG::Channel>::const_iterator it = channel.begin(); it != channel.end(); ++it)
+        {
+            std::cout << it->get_nick() << std::endl;
+            if (it->get_nick() == othername)
+
+        }
+
+    }
+
     void Commander::commandPRIVMSG(std::list<Client> &clients, Client &caller, std::string othername, std::string msg)
     {
         for(std::list<AFG::Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
