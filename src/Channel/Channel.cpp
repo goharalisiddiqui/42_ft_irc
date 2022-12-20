@@ -7,50 +7,47 @@ std::string Channel::getName() const
   return name;
 }
 
-void Channel::addUser(const std::string& user)
+void Channel::addUser(Client& user)
 {
-  if (invitedUsers.count(user) > 0)
+  if (invited_users.count(&user) > 0 || !this->inviteOnly)
   {
-    users.push_back(user);
-    invitedUsers.erase(user);
+    users.insert(&user);
+    invited_users.erase(&user);
   }
   // Add other checks or error handling here as needed
 }
 
-void Channel::removeUser(const std::string& user)
+void Channel::removeUser(const Client& user)
 {
-  users.erase(std::remove(users.begin(), users.end(), user), users.end());
+  users.erase(std::remove(users.begin(), users.end(), &user), users.end());
 }
 
-bool Channel::hasUser(const std::string& user) const
+bool Channel::hasUser(const Client& user) const
 {
   return (std::find(users.begin(), users.end(), user) != users.end());
 }
 
-std::vector<std::string> Channel::getUsers() const
+std::set<Client*> Channel::getUsers(void) const
 {
-  return users;
+  return this->users;
 }
 
-void Channel::inviteUser(const std::string& inviter, const std::string& invitee)
+void Channel::inviteUser(const Client& inviter, Client& invitee)
 {
-  if (hasUser(inviter))
-  {
-    invitedUsers.insert(invitee);
-  }
+    invited_users.insert(&invitee);
 }
 
-void Channel::addOperator(const std::string& user)
+void Channel::addOperator(Client& user)
 {
-  operators.insert(user);
+  operators.insert(&user);
 }
 
-void Channel::removeOperator(const std::string& user)
+void Channel::removeOperator(Client& user)
 {
-  operators.erase(user);
+  operators.erase(&user);
 }
 
-bool Channel::isOperator(const std::string& user) const
+bool Channel::isOperator(Client& user) const
 {
-  return (operators.count(user) > 0);
+  return (operators.count(&user) > 0);
 }
