@@ -247,4 +247,16 @@ namespace AFG
             return true;
         return false;
     }
+
+    void Client::trimMessage(void)
+    {
+        if (this->message.back() == '\n')
+        {
+            this->message = this->message.substr(0, this->message.length() - 1);
+        }
+        if (this->message.back() == '\r')
+        {
+            this->message = this->message.substr(0, this->message.length() - 1);
+        }
+    }
 }

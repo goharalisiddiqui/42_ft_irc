@@ -50,6 +50,7 @@ namespace AFG
             void respond(std::string response) const;
             void clearmessage();
             bool ismessagecomplete(void);
+            void trimMessage(void);
 
             
             

@@ -205,6 +205,7 @@ namespace AFG
             }
             if (it->ismessagecomplete())
             {
+                it->trimMessage();
                 this->fredi.process(this->clients, *it);
                 if (it->isauthentic())
                     this->spreadmsgfrom(&(*it));
