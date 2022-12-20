@@ -138,6 +138,7 @@ namespace AFG
     could probably be done by using parseToken(), but now the fct is already written ^^ */
     std::string RequestParser::getUserNick(std::string input)
     {
+        std::string                 user_nick;
         std::vector<std::string>    splitted_input;
 
         splitted_input = this->afgSplit(input, " ");
@@ -146,6 +147,13 @@ namespace AFG
             std::cerr << "Error: Unable to authenticate user: NICK" << std::endl;
             return (std::string()); // or throw error 
         }
-        return (splitted_input.at(1));
+        user_nick = splitted_input.at(1);
+        /* "nickname having a maximum length of nine (9) characters" see RFC1459  */
+        if (user_nick.size() > 9)
+        {
+            std::cerr << "Error: Unable to authenticate user: nickname too long" << std::endl;
+            return (std::string()); // or throw error 
+        }
+        return (user_nick);
     }
 }
