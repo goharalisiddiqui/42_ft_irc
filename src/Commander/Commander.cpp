@@ -41,21 +41,26 @@ namespace AFG
             std::string user_pass = parser.parseToken(" ", 1);
             this->commandPASS(caller, user_pass);
         }
-
+        if (!caller.isauthentic())
+            return;
+        if (command == "PING")
+        {
+            caller.respond(":AFGchat PONG :AFGchat\n");
+        }
     }
 
     void Commander::commandUSER(std::list<Client> &clients, Client &caller, std::string username, std::string hostname, std::string servername, std::string realname)
     {
         if (this->usernameTaken(username, clients))
         {
-            caller.respond("Username already taken. please use another\n");
+            caller.respond(":AFGchat NOTICE Auth :Username already taken. please use another\n");
             return;
         }
         caller.set_username(username);
         caller.set_hostname(hostname);
         caller.set_servername(servername);
         caller.set_realname(realname);
-        caller.respond("Username identified.\n");
+        caller.respond(":AFGchat NOTICE Auth :Username identified.\n");
 
         caller.authenticate();
     }
@@ -64,12 +69,22 @@ namespace AFG
     {
         if (this->nickTaken(nick, clients))
         {
-            caller.respond("Nick already taken. please use another\n");
+            caller.respond(":AFGchat NOTICE Auth :Nick already taken. please use another\n");
             return;
         }
+        if (caller.isauthentic())
+        {   
+            caller.respond(":");
+            caller.respond(caller.get_nick());
+            caller.respond("!");
+            caller.respond(caller.get_username());
+            caller.respond("@");
+            caller.respond(caller.get_hostname());
+            caller.respond(" NICK ");
+            caller.respond(nick);
+            caller.respond("\n");
+        }
         caller.set_nick(nick);
-        caller.respond("Nick set.\n");
-        
         caller.authenticate();
     }
 
@@ -79,11 +94,11 @@ namespace AFG
         // printf("ENTERED pass=%s\n", pass.c_str());
         if (pass != this->pass)
         {
-            caller.respond("Wrong password!\n");
+            caller.respond(":AFGchat NOTICE Auth :Wrong password!\n");
             return;
         }
         caller.set_passed();
-        caller.respond("Password accepted.\n");
+        caller.respond(":AFGchat NOTICE Auth :Password accepted.\n");
 
         caller.authenticate();
     }
