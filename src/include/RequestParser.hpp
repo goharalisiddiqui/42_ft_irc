@@ -25,6 +25,7 @@ namespace AFG
             StringFromClient            getStringFromClient(void) const;
             std::vector<std::string>    getUserInfo(std::string input);
             std::string                 getUserNick(std::string input);
+            std::string                 parseToken(std::string _delimiter, int _token_pos);
 
         private:
             std::string                 client_request;
@@ -32,7 +33,6 @@ namespace AFG
             StringFromClient            string_from_client;
 
             std::vector<std::string>    afgSplit(std::string _message, std::string _delimiter);
-            std::string                 parseToken(std::string _delimiter, int _token_pos);
             std::vector<std::string>    parseListToken(std::vector<std::string> _delimiter, int _token_pos);
         public:
             class FlawedMessage: public ::std::exception

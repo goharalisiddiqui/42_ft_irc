@@ -38,7 +38,7 @@ namespace AFG
         }
         else if (command == "PASS")
         {
-            pass = parser.getUserNick(input);
+            pass = parser.parseToken(" ", 1);
             this->commandPASS(caller, pass);
         }
 
