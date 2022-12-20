@@ -134,7 +134,6 @@ namespace AFG
   {
     this->topicOpOnly = false;
   }
-  
   bool  Channel::isTopicOpOnly(void) const
   {
     return (this->topicOpOnly);
