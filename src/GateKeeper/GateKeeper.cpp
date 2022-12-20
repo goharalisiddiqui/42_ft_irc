@@ -174,7 +174,7 @@ namespace AFG
 
     // void GateKeeper::announce(std::string const &msg) const
     // {
-    //     for(std::list<AFG::Client>::const_iterator it = this->clients.begin(); it != this->clients.end(); ++it)
+    //     for(std::list<Client>::const_iterator it = this->clients.begin(); it != this->clients.end(); ++it)
     //     {
     //         if (it->isauthentic())
     //             it->respond(msg);

@@ -63,13 +63,26 @@ class Channel
 
     void spreadmsgfrom(Client &speaker, std::string &msg) const;
 
-  private:
-    std::string name;
-    std::set<Client*> users;
-    std::set<Client*> operators;
-    std::set<Client*> invited_users;
-    bool inviteOnly;
-  };
-}
 
+    // Check if channel is invite only
+    bool isInviteOnly(void) const;
+
+    // Make topic of channel changeable only by operators
+    void makeTopicOpOnly(void);
+
+    // Make topic of channel changeable by all
+    void removeTopicOpOnly(void);
+
+    // Check if channel is changeable only by operators
+    bool isTopicOpOnly(void) const;
+
+private:
+  std::string name;
+  std::set<Client*> users;
+  std::set<Client*> operators;
+  std::set<Client*> invited_users;
+  bool inviteOnly;
+  bool topicOpOnly;
+};
+}
 #endif
