@@ -63,6 +63,11 @@ namespace AFG
 
     void Commander::commandNICK(std::list<Client> &clients, Client &caller, std::string nick)
     {
+        if (this->nickTaken(nick, clients))
+        {
+            caller.respond("Nick already taken. please use another\n");
+            return;
+        }
         caller.set_nick(nick);
         caller.respond("Nick set.\n");
         
@@ -88,7 +93,17 @@ namespace AFG
     {
         for(std::list<AFG::Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
         {
-            if (it->get_username() == username)//.substr(0,username.length() - 1))
+            if (it->get_username() == username)
+                return true;
+        }  
+        return false;
+    }
+
+    bool Commander::nickTaken(std::string nick, std::list<Client> &clients) const
+    {
+        for(std::list<AFG::Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
+        {
+            if (it->get_nick() == nick)
                 return true;
         }  
         return false;
