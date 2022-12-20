@@ -22,7 +22,7 @@ namespace AFG
         std::vector<std::string>    user_info;
         std::string                 user_nick;
 
-        std::string command = parser.getStringFromClient().getCommand();
+        std::string command = parser.getInput().getCommand();
         std::cout << command << std::endl;
         if (command == "USER")
         {

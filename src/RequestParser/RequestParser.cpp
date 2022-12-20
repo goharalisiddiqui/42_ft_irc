@@ -26,10 +26,10 @@ namespace AFG
             _targets = this->parseListToken(_delimiter, 1);
             _message = this->parseToken(":", 1);
 
-            this->string_from_client.setTargets(_targets);
-            this->string_from_client.setMessage(_message);
+            this->input.setTargets(_targets);
+            this->input.setMessage(_message);
         }
-        this->string_from_client.setCommand(_command);
+        this->input.setCommand(_command);
     }
 
     RequestParser::RequestParser(const RequestParser &src)
@@ -42,7 +42,7 @@ namespace AFG
         if (this != &src)
         {
             this->client_request = src.getClientRequest();
-            this->string_from_client = src.getStringFromClient();
+            this->input = src.getInput();
         }
         return (*this);
     }
@@ -54,9 +54,9 @@ namespace AFG
         return (this->client_request);
     }
 
-    StringFromClient   RequestParser::getStringFromClient(void) const
+    Input   RequestParser::getInput(void) const
     {
-        return (this->string_from_client);
+        return (this->input);
     }
 
 /* ------------------ functions --------------- */
