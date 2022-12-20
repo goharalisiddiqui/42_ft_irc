@@ -79,5 +79,5 @@ private:
   bool inviteOnly;
   bool topicOpOnly;
 };
-
+}
 #endif
