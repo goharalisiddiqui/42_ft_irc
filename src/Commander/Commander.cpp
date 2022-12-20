@@ -54,6 +54,41 @@ namespace AFG
 
            // this->commandTOPIC(caller, channel_name, new_topic);
         }
+        else if (command == "PRIVMSG")
+        {
+            this->commandPRIVMSG(clients, caller, parser.parseToken(" ", 1), parser.parseToken(":", 1));
+        }
+        else if (command == "JOIN")
+        {
+            std::string channel_name = parser.parseToken(" ", 1);
+            this->commandJOIN(caller, channel_name);
+        }
+        
+    }
+    
+    void Commander::commandPRIVMSG(std::list<Client> &clients, Client &caller, std::string othername, std::string msg)
+    {
+        for(std::list<Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
+        {
+            std::cout << it->get_nick() << std::endl;
+            if (it->get_nick() == othername)
+            {
+                if (caller.get_nick() == othername)
+                {
+                  caller.respond(":AFGchat 401 ");
+                  caller.respond(caller.get_nick());
+                  caller.respond((" ") + othername + (" :Cannot write to yourself!\n"));
+                    return;
+                }
+                it->respond(":" + caller.get_nick() + "!" + caller.get_username() + ("@"));
+                it->respond(caller.get_hostname() + " PRIVMSG " + othername + " :" + msg + "\n");
+                return;
+            }
+        }
+            //else if nick/othername does not exist
+            caller.respond(":AFGchat 401 ");
+            caller.respond(caller.get_nick());
+            caller.respond((" ") + othername + (" :No such nick!\n"));
     }
 
     void Commander::commandUSER(std::list<Client> &clients, Client &caller, std::string username, std::string hostname, std::string servername, std::string realname)
@@ -95,6 +130,42 @@ namespace AFG
         caller.authenticate();
     }
 
+
+    void Commander::commandJOIN(Client &caller, std::string &channelName)
+    {
+        if (channelName.at(0) != '#')
+        {
+            caller.respond("Wrong Channel name\n");
+            return;
+        }
+        if (!channelExists(channelName))
+            channels.push_back(Channel(channelName));
+        addUserToChannel(caller, channelName);
+
+        return;
+        
+        // std::set<Client*> chan_users;
+        // std::cout << "START printing channels" << std::endl;
+        // for(std::list<Channel>::iterator it = this->channels.begin(); it != this->channels.end(); ++it)
+        // {
+        //     std::cout << "Channel = " << it->getName() << " of size = " << it->getUsers().size() << " :" << std::endl;
+        //     chan_users = it->getUsers();
+        //     for(std::set<Client *>::const_iterator it2 = chan_users.begin(); it2 != chan_users.end(); ++it2)
+        //     {
+        //         std::cout << (*it2)->get_nick() << std::endl;
+        //     }
+        //     std::cout << std::endl;
+        // }
+        // std::cout << "END printing channels" << std::endl;
+
+
+
+    }
+
+
+
+
+
     void Commander::commandPASS(Client &caller, std::string pass)
     {
         printf("Correct pass=%s\n", this->pass.c_str());
@@ -112,7 +183,7 @@ namespace AFG
 
     bool Commander::usernameTaken(std::string username, std::list<Client> &clients) const
     {
-        for(std::list<AFG::Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
+        for(std::list<Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
         {
             if (it->get_username() == username)
                 return true;
@@ -122,7 +193,7 @@ namespace AFG
 
     bool Commander::nickTaken(std::string nick, std::list<Client> &clients) const
     {
-        for(std::list<AFG::Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
+        for(std::list<Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
         {
             if (it->get_nick() == nick)
                 return true;
@@ -155,4 +226,25 @@ namespace AFG
     //    else if (it_channel != it_end)
     //        caller.respond(":AFGchat NOTICE" + it_channel.getName() + "\n");
     //}
+
+    bool Commander::channelExists(std::string channelName) const
+    {
+        for(std::list<Channel>::const_iterator it = this->channels.begin(); it != this->channels.end(); ++it)
+        {
+            if (it->getName() == channelName)
+                return true;
+        }  
+        return false;
+    }
+
+    void Commander::addUserToChannel(Client &user, std::string &channelName)
+    {
+        for(std::list<Channel>::iterator it = this->channels.begin(); it != this->channels.end(); ++it)
+        {
+            if (it->getName() == channelName)
+                it->addUser(user);
+        }
+    }
+
+
 }
