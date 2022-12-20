@@ -17,7 +17,6 @@ namespace AFG
     {
         std::string input = caller.get_message();
 
-        input = input.substr(0, input.length() - 1);
         /* parse user info */
         AFG::RequestParser          parser(input);
         std::vector<std::string>    user_info;

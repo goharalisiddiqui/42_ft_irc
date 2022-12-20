@@ -18,7 +18,7 @@ SRCS		= main.cpp \
 				Commander.cpp \
 
 INCLUDES	= -I./include/
-#LIBS		= -lc++
+# LIBS		= -lc++
 ODIR		= obj
 OBJS		= $(addprefix $(ODIR)/, $(SRCS:.cpp=.o))
 
