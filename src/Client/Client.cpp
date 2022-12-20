@@ -14,6 +14,7 @@ namespace AFG
 
     Client::Client(int fid, in_addr ip)
     {
+        this->authentic = false;
         this->active = false;
         this->passed = false;
         this->garbage = false;
@@ -24,6 +25,7 @@ namespace AFG
 
     Client::Client(const Client &src)
     {
+        this->authentic = src.isauthentic();
         this->fd = src.get_fd();
         this->message = src.get_message();
         this->active = src.isactive();
@@ -42,6 +44,7 @@ namespace AFG
 
     Client &Client::operator=(const Client &src)
     {
+        this->authentic = src.isauthentic();
         this->fd = src.get_fd();
         this->message = src.get_message();
         this->active= src.isactive();
@@ -171,6 +174,7 @@ namespace AFG
     {
         if (this->username.length() == 0)
             return;
+
         if (this->hostname.length() == 0)
             return;
         if (this->realname.length() == 0)
@@ -178,7 +182,7 @@ namespace AFG
         if (this->servername.length() == 0)
             return;
         if (this->nick.length() == 0)
-            return;
+           return;
         if (!(this->ispassed()))
             return;
         std::cout << "User " << this->username << " authenticated!" << std::endl;
@@ -186,7 +190,6 @@ namespace AFG
         this->respond(":AFGchat 001 ");
         this->respond(this->nick);
         this->respond(" :Welcome to AFGchat. You are now authenticated!\n");
-
     }
 
     void Client::deactivate(void)
