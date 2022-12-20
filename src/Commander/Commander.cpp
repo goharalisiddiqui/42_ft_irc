@@ -118,6 +118,23 @@ namespace AFG
         caller.authenticate();
     }
 
+
+    void Commander::commandJOIN(Client &caller, std::string &channelName)
+    {
+        if (channelName.at(0) != '#')
+        {
+            caller.respond("Wrong Channel name");
+            return;
+        }
+        if (!channelExists(channelName))
+            channels.push_back(Channel(channelName));
+        addUserToChannel(caller, channelName);
+    }
+
+
+
+
+
     void Commander::commandPASS(Client &caller, std::string pass)
     {
         printf("Correct pass=%s\n", this->pass.c_str());
@@ -151,6 +168,25 @@ namespace AFG
                 return true;
         }  
         return false;
+    }
+
+    bool Commander::channelExists(std::string channelName) const
+    {
+        for(std::list<Channel>::const_iterator it = this->channels.begin(); it != this->channels.end(); ++it)
+        {
+            if (it->getName() == channelName)
+                return true;
+        }  
+        return false;
+    }
+
+    void Commander::addUserToChannel(Client &user, std::string &channelName)
+    {
+        for(std::list<Channel>::iterator it = this->channels.begin(); it != this->channels.end(); ++it)
+        {
+            if (it->getName() == channelName)
+                it->addUser(user);
+        }
     }
 
 

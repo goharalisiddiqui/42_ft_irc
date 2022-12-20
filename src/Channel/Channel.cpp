@@ -1,53 +1,70 @@
 #include "../include/Channel.hpp"
 
-Channel::Channel(const std::string& name) : name(name) {}
 
-std::string Channel::getName() const
-{
-  return name;
-}
 
-void Channel::addUser(Client& user)
+namespace AFG
 {
-  if (invited_users.count(&user) > 0 || !this->inviteOnly)
+  Channel::Channel(const std::string& name) : name(name) {}
+
+  Channel::~Channel(){}
+
+  Channel::Channel(const Channel &src)
   {
-    users.insert(&user);
-    invited_users.erase(&user);
+
   }
-  // Add other checks or error handling here as needed
-}
+  Channel &Channel::operator=(const Channel &src)
+  {
 
-void Channel::removeUser(const Client& user)
-{
-  users.erase(std::remove(users.begin(), users.end(), &user), users.end());
-}
+  }
 
-bool Channel::hasUser(const Client& user) const
-{
-  return (std::find(users.begin(), users.end(), user) != users.end());
-}
+  std::string Channel::getName() const
+  {
+    return name;
+  }
 
-std::set<Client*> Channel::getUsers(void) const
-{
-  return this->users;
-}
+  void Channel::addUser(Client& user)
+  {
+    if (invited_users.count(&user) > 0 || !this->inviteOnly)
+    {
+      users.insert(&user);
+      invited_users.erase(&user);
+    }
+    // Add other checks or error handling here as needed
+  }
 
-void Channel::inviteUser(const Client& inviter, Client& invitee)
-{
-    invited_users.insert(&invitee);
-}
+  void Channel::removeUser(Client& user)
+  {
+    users.erase(&user);
+  }
 
-void Channel::addOperator(Client& user)
-{
-  operators.insert(&user);
-}
+  bool Channel::hasUser(const Client& user) const
+  {
+    return (std::find(users.begin(), users.end(), user) != users.end());
+  }
 
-void Channel::removeOperator(Client& user)
-{
-  operators.erase(&user);
-}
+  std::set<Client*> Channel::getUsers(void) const
+  {
+    return this->users;
+  }
 
-bool Channel::isOperator(Client& user) const
-{
-  return (operators.count(&user) > 0);
+  void Channel::inviteUser(const Client& inviter, Client& invitee)
+  {
+      invited_users.insert(&invitee);
+  }
+
+  void Channel::addOperator(Client& user)
+  {
+    operators.insert(&user);
+  }
+
+  void Channel::removeOperator(Client& user)
+  {
+    operators.erase(&user);
+  }
+
+  bool Channel::isOperator(Client& user) const
+  {
+    return (operators.count(&user) > 0);
+  }
+
 }
