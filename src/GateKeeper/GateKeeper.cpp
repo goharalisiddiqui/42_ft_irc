@@ -128,7 +128,7 @@ namespace AFG
         this->clients.push_back(newcon);
         if (newfd > this->fdmax)
             this->fdmax = newfd;
-        newcon.respond("To enter you must first give three commands: PASS, USER and NICK\n");
+        newcon.respond(":AFGchat NOTICE Auth :To enter you must first give three commands: PASS, USER and NICK\n");
     }
 
     void GateKeeper::refuse_client(int fd)
