@@ -3,7 +3,7 @@
 
 namespace AFG
 {
-    GateKeeper::GateKeeper() : sock(), conmax(10)
+    GateKeeper::GateKeeper() : sock(), conmax(10), fredi("")
     {
         this->sock.socklisten();
         this->fdmax = this->sock.get_socket();
@@ -11,14 +11,14 @@ namespace AFG
 
     }
 
-    GateKeeper::GateKeeper(int domain, int type, int protocol, int ip, int port, int backlog, int nmax) : sock(domain, type, protocol), conmax(nmax)
+    GateKeeper::GateKeeper(int domain, int type, int protocol, int ip, int port, int backlog, int nmax, std::string pass) : sock(domain, type, protocol), conmax(nmax), fredi(pass)
     {
         this->sock.socklisten((struct in_addr){(in_addr_t)ip}, port, backlog);
         this->fdmax = sock.get_socket();
         setnonblock(this->sock.get_socket());
     }
 
-    GateKeeper::GateKeeper(in_port_t port) : sock(), conmax(10)
+    GateKeeper::GateKeeper(in_port_t port, std::string pass) : sock(), conmax(10), fredi(pass)
     {
         this->sock.socklisten((struct in_addr){(in_addr_t)INADDR_ANY}, port, 10);
         this->fdmax = sock.get_socket();
@@ -128,6 +128,7 @@ namespace AFG
         this->clients.push_back(newcon);
         if (newfd > this->fdmax)
             this->fdmax = newfd;
+        newcon.respond("To enter you must first give three commands: PASS, USER and NICK\n");
     }
 
     void GateKeeper::refuse_client(int fd)

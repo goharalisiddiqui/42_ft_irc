@@ -19,8 +19,8 @@ namespace AFG
 
             // GateKeeper &operator=(const GateKeeper &src);
 
-            GateKeeper(int domain, int type, int protocol, int ip, int port, int backlog, int nmax);
-            GateKeeper(in_port_t port);
+            GateKeeper(int domain, int type, int protocol, int ip, int port, int backlog, int nmax, std::string pass);
+            GateKeeper(in_port_t port, std::string pass);
 
 
             std::list<Client> &get_clients(void);

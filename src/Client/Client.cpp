@@ -15,6 +15,7 @@ namespace AFG
     Client::Client(int fid, in_addr ip)
     {
         this->active = false;
+        this->passed = false;
         this->garbage = false;
         this->fd = fid;
         this->ip = ip;
@@ -26,6 +27,7 @@ namespace AFG
         this->fd = src.get_fd();
         this->message = src.get_message();
         this->active = src.isactive();
+        this->passed = src.ispassed();
         this->garbage = src.isgarbage();
         this->username = src.get_username();
         this->servername = src.get_servername();
@@ -43,6 +45,7 @@ namespace AFG
         this->fd = src.get_fd();
         this->message = src.get_message();
         this->active= src.isactive();
+        this->passed = src.ispassed();
         this->garbage = src.isgarbage();
         this->username = src.get_username();
         this->servername = src.get_servername();
@@ -102,6 +105,11 @@ namespace AFG
         return (this->active);
     }
 
+    bool Client::ispassed() const
+    {
+        return (this->passed);
+    }
+
     bool Client::isauthentic() const
     {
         return (this->authentic);
@@ -149,6 +157,11 @@ namespace AFG
         this->garbage = true;
     }
 
+    void Client::set_passed(void)
+    {
+        this->passed = true;
+    }
+
     void Client::activate(void)
     {
         this->active = true;
@@ -156,8 +169,21 @@ namespace AFG
 
     void Client::authenticate(void)
     {
+        if (this->username.length() == 0)
+            return;
+        if (this->hostname.length() == 0)
+            return;
+        if (this->realname.length() == 0)
+            return;
+        if (this->servername.length() == 0)
+            return;
+        if (this->nick.length() == 0)
+            return;
+        if (!(this->ispassed()))
+            return;
         std::cout << "User " << this->username << " authenticated!" << std::endl;
         this->authentic = true;
+        this->respond("You are now authenticated. Welcome to AFGchat\n");
 
     }
 

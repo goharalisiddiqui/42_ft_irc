@@ -28,6 +28,7 @@ namespace AFG
             std::string get_nick(void) const;
             struct in_addr get_ip(void) const;
             bool isactive(void) const;
+            bool ispassed(void) const;
             bool isauthentic(void) const;
             bool isgarbage(void) const;
 
@@ -38,6 +39,7 @@ namespace AFG
             void set_servername(std::string const &str);
             void set_nick(std::string const &str);
             void set_garbage(void);
+            void set_passed(void);
             void activate(void);
             void deactivate(void);
             void authenticate(void);
@@ -57,6 +59,7 @@ namespace AFG
             std::string message;
             bool active;
             bool authentic;
+            bool passed;
             bool garbage;
             std::string username;
             std::string nick;
