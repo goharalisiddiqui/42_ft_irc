@@ -20,6 +20,10 @@
 #include <utility>
 #include <sys/time.h>
 #include <sstream>
+#include <string>
+#include <vector>
+#include <set>
+#include <algorithm>
 
 
 #endif
