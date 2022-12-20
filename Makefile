@@ -16,6 +16,7 @@ SRCS		= main.cpp \
 				StringFromClient.cpp \
 				ErrorHandler.cpp \
 				Commander.cpp \
+				Channel.cpp \
 
 INCLUDES	= -I./include/
 # LIBS		= -lc++

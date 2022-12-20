@@ -12,6 +12,7 @@
 #include "Commander.hpp"
 #include "RequestParser.hpp"
 #include "ErrorHandler.hpp"
+#include "Channel.hpp"
 
 
 

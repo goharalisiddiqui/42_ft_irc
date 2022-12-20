@@ -174,7 +174,7 @@ namespace AFG
 
     // void GateKeeper::announce(std::string const &msg) const
     // {
-    //     for(std::list<AFG::Client>::const_iterator it = this->clients.begin(); it != this->clients.end(); ++it)
+    //     for(std::list<Client>::const_iterator it = this->clients.begin(); it != this->clients.end(); ++it)
     //     {
     //         if (it->isauthentic())
     //             it->respond(msg);
@@ -183,7 +183,8 @@ namespace AFG
 
     void GateKeeper::spreadmsgfrom(Client *speaker) const
     {
-        for(std::list<AFG::Client>::const_iterator it = this->clients.begin(); it != this->clients.end(); ++it)
+            return; //not needed anymore and conflicts with PRIVMSG 
+        for(std::list<Client>::const_iterator it = this->clients.begin(); it != this->clients.end(); ++it)
         {
             if (it->isauthentic() && &(*it) != speaker)
             {
@@ -196,7 +197,7 @@ namespace AFG
     }
     void GateKeeper::serve(void)
     {
-        for(std::list<AFG::Client>::iterator it = this->clients.begin(); it != this->clients.end(); ++it)
+        for(std::list<Client>::iterator it = this->clients.begin(); it != this->clients.end(); ++it)
         {
             if (it->isactive())
             {
@@ -207,8 +208,8 @@ namespace AFG
             {
                 it->trimMessage();
                 this->fredi.process(this->clients, *it);
-                if (it->isauthentic())
-                    this->spreadmsgfrom(&(*it));
+                // if (it->isauthentic())
+                //     this->spreadmsgfrom(&(*it));
                 it->clearmessage();
                 it->deactivate();
             }
