@@ -4,11 +4,11 @@
 #pragma once
 
 #include "libs.hpp"
-#include "HttpRequest.hpp"
+#include "StringFromClient.hpp"
 
 namespace AFG
 {
-    class   HttpRequest;
+    //class   HttpRequest;
 
     class   RequestParser
     {
@@ -21,18 +21,19 @@ namespace AFG
 
             RequestParser &operator=(const RequestParser &src);
 
-            std::string                 getMessage(void) const;
-            HttpRequest                 getHttpRequest(void) const;
+            std::string                 getClientRequest(void) const;
+            StringFromClient            getStringFromClient(void) const;
+            std::vector<std::string>    getUserInfo(std::string input);
+            std::string                 getUserNick(std::string input);
 
         private:
-            std::string                 message;
-            std::vector<std::string>    message_split_in_lines;
-            HttpRequest                 http_request;
+            std::string                 client_request;
+            std::vector<std::string>    client_request_split_in_lines;
+            StringFromClient            string_from_client;
 
             std::vector<std::string>    afgSplit(std::string _message, std::string _delimiter);
-            std::string                 parseToken(std::string _delimiter, int _line_nbr, int _token_pos);
-            void                        fillFields();
-
+            std::string                 parseToken(std::string _delimiter, int _token_pos);
+            std::vector<std::string>    parseListToken(std::vector<std::string> _delimiter, int _token_pos);
         public:
             class FlawedMessage: public ::std::exception
             {

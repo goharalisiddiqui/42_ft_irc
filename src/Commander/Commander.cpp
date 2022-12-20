@@ -1,4 +1,5 @@
 #include "../include/Commander.hpp"
+#include "../include/RequestParser.hpp"
 
 
 namespace AFG
@@ -16,25 +17,25 @@ namespace AFG
     {
         std::string input = caller.get_message();
 
+        /* parse user info */
+        AFG::RequestParser          parser(input);
+        std::vector<std::string>    user_info;
+        std::string                 user_nick;
 
-        if (input == "USER user1 host server :real\n")
+        std::string command = parser.getStringFromClient().getCommand();
+        std::cout << command << std::endl;
+        if (command == "USER")
         {
-            this->commandUSER(clients, caller, "user1","host","server","real");
+            user_info = parser.getUserInfo(input);
+            if (user_info.size() == 4)
+                this->commandUSER(clients, caller, user_info.at(0), user_info.at(1), user_info.at(2), user_info.at(3));
         }
-        else if (input == "USER user2 host server :real\n")
+        else if (command == "NICK")
         {
-            this->commandUSER(clients, caller, "user2","host","server","real");
+            user_nick = parser.getUserNick(input);
+            if (user_nick != "")
+                this->commandNICK(clients, caller, user_nick);
         }
-        else if (input == "NICK nick\n")
-        {
-            this->commandNICK(clients, caller, "nick");
-        }
-        else if (input == "PASS pass\n")
-        {
-            this->commandPASS(caller, "pass");
-        }
-        else if (!caller.isauthentic())
-            caller.respond("Command not known.\n");
 
     }
 
