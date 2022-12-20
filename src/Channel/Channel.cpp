@@ -4,7 +4,9 @@
 
 namespace AFG
 {
-  Channel::Channel(const std::string& name) : name(name) {}
+  Channel::Channel(const std::string& name) : name(name) {
+    this->inviteOnly = false;
+  }
 
   Channel::~Channel(){}
 
