@@ -50,23 +50,43 @@ namespace AFG
         }
         else if (command == "PRIVMSG")
         {
-            //TEST
-            std:set channel.get_users();
-            if(parser.parseToken(" ", 1)[0] = "#")
+            //if(*(parser.parseToken(" ", 1).begin()) == '#')
+            if(parser.parseToken(" ", 1)[0] == '#')
                 this->commandChannelMessage(clients, caller, parser.parseToken(" ", 1), parser.parseToken(":", 1));
             else
             this->commandPRIVMSG(clients, caller, parser.parseToken(" ", 1), parser.parseToken(":", 1));
         }
     }
-    void Commander::commandChannelMessage(std::list<Client> &clients, Client &caller, Channel &channel, std::string msg)
+//    void Commander::commandChannelMessage(std::list<Client> &clients, Client &caller, Channel &channel, std::string msg)
+    void Commander::commandChannelMessage(std::list<Client> &clients, Client &caller, std::string channel, std::string msg)
     {
-        for(std::list<AFG::Channel>::const_iterator it = channel.begin(); it != channel.end(); ++it)
+            std::list<std::string> channel_lst = {"#test0","#test1","#test2"};
+        //for(std::list<AFG::Channel>::const_iterator it = channel.begin(); it != channel.end(); ++it)
+        for(std::list<std::string>::const_iterator it = channel_lst.begin(); it != channel_lst.end(); ++it)
         {
-            std::cout << it->get_nick() << std::endl;
-            if (it->get_nick() == othername)
-
+            std::cout << *it << std::endl;
+            if (*it == channel) //if channel looking for is channel in lst
+            {
+                //if() !channel.hasuser()
+                    //return;
+                //std::set<Client*> users = channel.getUsers();
+                std::list<std::string> users = {"ppp", "aaa"};
+                for(std::list<std::string>::const_iterator jt = users.begin(); jt != users.end(); ++jt)
+                {
+                    std::cout << *jt << "=User| NICK" << caller.get_nick() << std::endl;
+                    if (*jt == caller.get_nick()) // dont send message to yourself
+                        continue;
+                    //jt->respond(":" + caller.get_nick() + "!" + caller.get_username() + ("@"));
+                    //jt->respond(caller.get_hostname() + " PRIVMSG " + channel + " :" + msg + "\n");
+                return;
+                }
+                return;
+            }
         }
-
+        //channel not found
+        caller.respond(":AFGchat 401 ");
+        caller.respond(caller.get_nick());
+        caller.respond((" ") + channel + (" :No such channel!\n"));
     }
 
     void Commander::commandPRIVMSG(std::list<Client> &clients, Client &caller, std::string othername, std::string msg)
