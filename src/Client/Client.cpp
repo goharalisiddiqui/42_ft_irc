@@ -14,7 +14,7 @@ namespace AFG
 
     Client::Client(int fid, in_addr ip)
     {
-        //this->authentic = false;
+        this->authentic = false;
         this->active = false;
         this->passed = false;
         this->garbage = false;
@@ -25,7 +25,7 @@ namespace AFG
 
     Client::Client(const Client &src)
     {
-       // this->authentic = src.isauthentic();
+        this->authentic = src.isauthentic();
         this->fd = src.get_fd();
         this->message = src.get_message();
         this->active = src.isactive();
@@ -44,6 +44,7 @@ namespace AFG
 
     Client &Client::operator=(const Client &src)
     {
+        this->authentic = src.isauthentic();
         this->fd = src.get_fd();
         this->message = src.get_message();
         this->active= src.isactive();
