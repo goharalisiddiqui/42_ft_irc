@@ -17,20 +17,19 @@ namespace AFG
         std::vector<std::string> _delimiter;
         std::string _message;
 
-
         this->client_request = _client_request;
-
         _command = this->parseToken(" ", 0);
+        if (_command != "USER" && _command != "NICK")
+        {
+            _delimiter.push_back(" ");
+            _delimiter.push_back(",");
+            _targets = this->parseListToken(_delimiter, 1);
+            _message = this->parseToken(":", 1);
 
-        _delimiter.push_back(" ");
-        _delimiter.push_back(",");
-        _targets = this->parseListToken(_delimiter, 1);
-        _message = this->parseToken(":", 1);
-
+            this->string_from_client.setTargets(_targets);
+            this->string_from_client.setMessage(_message);
+        }
         this->string_from_client.setCommand(_command);
-        this->string_from_client.setTargets(_targets);
-        this->string_from_client.setMessage(_message);
-
     }
 
     RequestParser::RequestParser(const RequestParser &src)
@@ -114,7 +113,7 @@ namespace AFG
         splitted_input = this->afgSplit(input, " ");
         if (splitted_input.size() != 5)
         {
-            std::cerr << "Error: Unable to authenticate user" << std::endl;
+            std::cerr << "Error: Unable to authenticate user: USERNAME, HOSTNAME, SERVERNAME" << std::endl;
             return (std::vector<std::string>()); // or throw error 
         }
         for (int i = 1; i <= 3; i++)
@@ -124,10 +123,25 @@ namespace AFG
         splitted_input = this->afgSplit(input, ":");
         if (splitted_input.size() != 2)
         {
-            std::cerr << "Error: Unable to authenticate user" << std::endl;
+            std::cerr << "Error: Unable to authenticate user: REAL NAME" << std::endl;
             return (std::vector<std::string>()); // or throw error 
         }
         user_info.push_back(splitted_input.at(1));
         return (user_info);
+    }
+
+    /* parses the user nick.
+    could probably be done by using parseToken(), but now the fct is already written ^^ */
+    std::string RequestParser::getUserNick(std::string input)
+    {
+        std::vector<std::string>    splitted_input;
+
+        splitted_input = this->afgSplit(input, " ");
+        if (splitted_input.size() != 2)
+        {
+            std::cerr << "Error: Unable to authenticate user: NICK" << std::endl;
+            return (std::string()); // or throw error 
+        }
+        return (splitted_input.at(1));
     }
 }

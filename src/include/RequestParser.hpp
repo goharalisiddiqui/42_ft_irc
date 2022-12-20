@@ -24,6 +24,7 @@ namespace AFG
             std::string                 getClientRequest(void) const;
             StringFromClient            getStringFromClient(void) const;
             std::vector<std::string>    getUserInfo(std::string input);
+            std::string                 getUserNick(std::string input);
 
         private:
             std::string                 client_request;

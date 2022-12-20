@@ -14,24 +14,24 @@ namespace AFG
     {
         std::string input = caller.get_message();
 
-        /* -------work in progress--------- */
         /* parse user info */
         AFG::RequestParser          parser(input);
         std::vector<std::string>    user_info;
+        std::string                 user_nick;
 
         std::string command = parser.getStringFromClient().getCommand();
         std::cout << command << std::endl;
         if (command == "USER")
         {
             user_info = parser.getUserInfo(input);
-            if (user_info.size() != 0)
-                std::cout << user_info.at(3) << std::endl;
-            this->commandUSER(clients, caller, user_info.at(0), user_info.at(1), user_info.at(2), user_info.at(3));
+            if (user_info.size() == 4)
+                this->commandUSER(clients, caller, user_info.at(0), user_info.at(1), user_info.at(2), user_info.at(3));
         }
-
-        if (input == "NICK nick\n")
+        if (command == "NICK")
         {
-            this->commandNICK(clients, caller, "nick");
+            user_nick = parser.getUserNick(input);
+            if (user_nick != "")
+                this->commandNICK(clients, caller, user_nick);
         }
     }
 
