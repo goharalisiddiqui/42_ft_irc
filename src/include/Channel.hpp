@@ -59,7 +59,6 @@ class Channel
 
     void makeInviteOnly(void);
     void removeInviteOnly(void);
-    bool isInviteOnly(void) const;
 
     void spreadmsgfrom(Client &speaker, std::string &msg) const;
 
