@@ -4,7 +4,11 @@
 
 namespace AFG
 {
-  Channel::Channel(const std::string& name) : name(name) {}
+  Channel::Channel(const std::string& name) : name(name) 
+  {
+    this->inviteOnly = false;
+    this->topicOpOnly = false;
+  }
 
   Channel::~Channel(){}
 
@@ -12,6 +16,7 @@ namespace AFG
   {
     this->name = src.getName();
     this->inviteOnly = src.isInviteOnly();
+    this->topicOpOnly = src.isTopicOpOnly();
     this->users = src.getUsers();
     this->operators = src.getOperators();
     this->invited_users = src.getInvitedUsers();
@@ -23,6 +28,7 @@ namespace AFG
   {
     this->name = src.getName();
     this->inviteOnly = src.isInviteOnly();
+    this->topicOpOnly = src.isTopicOpOnly();
     this->users = src.getUsers();
     this->operators = src.getOperators();
     this->invited_users = src.getInvitedUsers();
@@ -56,6 +62,11 @@ namespace AFG
   bool Channel::hasUser(const Client& user) const
   {
     return (std::find(users.begin(), users.end(), &user) != users.end());
+  }
+
+  bool Channel::isInvited(const Client& user) const
+  {
+    return (std::find(this->invited_users.begin(), this->invited_users.end(), &user) != this->invited_users.end());
   }
 
   std::set<Client*> Channel::getUsers(void) const
