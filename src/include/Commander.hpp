@@ -28,7 +28,7 @@ namespace AFG
             void commandUSER(std::list<Client> &clients, Client &caller, std::string username, std::string hostname, std::string servername, std::string realname);
             void commandNICK(std::list<Client> &clients, Client &caller, std::string nick);
             void commandPASS(Client &caller, std::string pass);
-            void commandTOPIC(Client &caller, std::vector<std::string> channel, std::string new_topic);
+            void commandTOPIC(Client &caller, std::vector<std::string> channel_name, std::string new_topic);
 
 
 

@@ -50,9 +50,9 @@ namespace AFG
         if (command == "TOPIC")
         {
             std::string                 new_topic = parser.getInput().getMessage();
-            std::vector<std::string>    channel = parser.getInput().getTargets();
+            std::vector<std::string>    channel_name = parser.getInput().getTargets();
 
-            //this->commandTOPIC(caller, channel, new_topic);
+            this->commandTOPIC(caller, channel_name, new_topic);
         }
     }
 
@@ -130,23 +130,29 @@ namespace AFG
         return false;
     }
     /* work in progress: pseudo code since channel class is not fully done yet */
-    //void    Commander::commandTOPIC(Client &caller, std::vector<std::string> channel, std::string new_topic)
-    //{
-    //    if (channel.size() > 1)
-    //    {
-    //        std::cerr << "Error: one and only one channel." << std::endl;
-    //        return ;
-    //    } 
-    //    std::vector<std::string>::iterator it_channel = this->channel_list.find(channel.at(0));
-    //    std::vector<std::string>::iterator it_end = this->channel_list.end();
-//
-    //    if (it_channel.isModeT())
-    //    {
-    //        if ()
-    //    }
-    //    if (new_topic != "")
-    //        setChannelTopic(channel.at(0), new_topic);
-    //    else if (it_channel != it_end)
-    //        caller.respond(":AFGchat NOTICE" + it_channel.getName() + "\n");
-    //}
+    void    Commander::commandTOPIC(Client &caller, std::vector<std::string> channel_name, std::string new_topic)
+    {
+        if (channel_name.size() > 1)
+        {
+            std::cerr << "Error: one and only one channel." << std::endl;
+            return ;
+        } 
+        std::vector<std::string>::iterator it_channel = this->channel_list.find(channel_name.at(0));
+        std::vector<std::string>::iterator it_end = this->channel_list.end();
+
+        if (new_topic != "")
+        {
+            if (it_channel.isTopicOpOnly())
+            {
+                if (it_channel.isOperator(caller) == false)
+                {
+                    std::cerr << "Can't change topic: channel is in -t mode: only operators can change the topic" << std::endl;
+                    return ;
+                }
+                it_channel.setName(new_topic);
+            }
+        }
+        else if (it_channel != it_end)
+            caller.respond(":AFGchat NOTICE" + it_channel.getName() + "\n");
+    }
 }
