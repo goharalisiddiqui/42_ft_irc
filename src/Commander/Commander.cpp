@@ -193,7 +193,17 @@ namespace AFG
         for(std::list<Channel>::iterator it = this->channels.begin(); it != this->channels.end(); ++it)
         {
             if (it->getName() == channelName)
-                it->addUser(user);
+            {
+                if (it->isInvited(user) || it->isInviteOnly())
+                    it->addUser(user);
+                else
+                {
+                    user.respond(":AFGchat 401 ");
+                    user.respond(user.get_nick());
+                    user.respond(" :Uninvited users connot join invite-only channels\n");
+                }
+                return;
+            }
         }
     }
 

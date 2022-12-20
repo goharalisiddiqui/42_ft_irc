@@ -44,6 +44,9 @@ class Channel
     // Check if a user is in the channel
     bool hasUser(const Client& user) const;
 
+    // Check if a user is in the channel
+    bool isInvited(const Client& user) const;
+
 
     // Invite a user to the channel
     void inviteUser(const Client& inviter, Client& invitee);
