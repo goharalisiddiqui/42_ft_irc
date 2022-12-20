@@ -47,6 +47,12 @@ namespace AFG
         {
             caller.respond(":AFGchat PONG :AFGchat\n");
         }
+        if (command == "TOPIC")
+        {
+            std::string                 new_topic = parser.getInput().getMessage();
+            std::vector<std::string>    channel = parser.getInput().getTargets();
+            //this->commandTOPIC(caller, channel, new_topic);
+        }
     }
 
     void Commander::commandUSER(std::list<Client> &clients, Client &caller, std::string username, std::string hostname, std::string servername, std::string realname)
@@ -123,5 +129,16 @@ namespace AFG
         return false;
     }
 
-
+   // void    Commander::commandTOPIC(Client &caller, std::vector<std::string> channel, std::string new_topic)
+   // {
+   //     if (channel.size() > 1)
+   //     {
+   //         std::cerr << "Error: one and only one channel." << std::endl;
+   //         return ;
+   //     } 
+   //      if (new_topic != "")
+   //         setChannelTopic(channel.at(0), new_topic);
+   //     else
+   //         caller.respond(":AFGchat NOTICE" + this->channel_list.find(channel.at(0)).topic + "\n");
+   // }
 }
