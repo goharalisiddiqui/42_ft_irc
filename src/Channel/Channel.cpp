@@ -117,38 +117,39 @@ namespace AFG
   {
     this->topicOpOnly = false;
   }
+
   bool  Channel::isTopicOpOnly(void) const
   {
     return (this->topicOpOnly);
   }
-}
 
-void Channel::makeInviteOnly(void)
-{
-  this->inviteOnly = true;
-}
+  void Channel::makeInviteOnly(void)
+  {
+    this->inviteOnly = true;
+  }
 
-void Channel::removeInviteOnly(void)
-{
-  this->inviteOnly = false;
-}
+  void Channel::removeInviteOnly(void)
+  {
+    this->inviteOnly = false;
+  }
 
-bool  Channel::isInviteOnly(void) const
-{
-  return (this->inviteOnly);
-}
+  bool  Channel::isInviteOnly(void) const
+  {
+    return (this->inviteOnly);
+  }
 
-void Channel::makeTopicOpOnly(void)
-{
-  this->topicOpOnly = true;
-}
+  void Channel::makeTopicOpOnly(void)
+  {
+    this->topicOpOnly = true;
+  }
 
-void Channel::removeTopicOpOnly(void)
-{
-  this->topicOpOnly = false;
-}
+  void Channel::removeTopicOpOnly(void)
+  {
+    this->topicOpOnly = false;
+  }
 
-bool  Channel::isTopicOpOnly(void) const
-{
-  return (this->topicOpOnly);
+  bool  Channel::isTopicOpOnly(void) const
+  {
+    return (this->topicOpOnly);
+  }
 }
