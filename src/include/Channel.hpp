@@ -63,8 +63,6 @@ class Channel
   void makeInviteOnly(void);
 
   // Make channel open for all
-
-  // Make channel open for all
   void removeInviteOnly(void);
 
   // Check if channel is invite only
