@@ -1,5 +1,5 @@
-#ifndef STRINGFROMCLIENT_HPP
-#define STRINGFROMCLIENT_HPP
+#ifndef INPUT_HPP
+#define INPUT_HPP
 
 #pragma once
 
@@ -7,15 +7,15 @@
 
 namespace AFG
 {
-    class StringFromClient
+    class Input
     {
         public:
-            StringFromClient();
-            ~StringFromClient();
+            Input();
+            ~Input();
 
-            StringFromClient(const StringFromClient &src);
+            Input(const Input &src);
 
-            StringFromClient &operator=(const StringFromClient &src);
+            Input &operator=(const Input &src);
 
             std::string                         getCommand(void) const;
             std::vector<std::string>			getTargets(void) const;

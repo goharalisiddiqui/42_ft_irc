@@ -26,10 +26,10 @@ namespace AFG
             _targets = this->parseListToken(_delimiter, 1);
             _message = this->parseToken(":", 1);
 
-            this->string_from_client.setTargets(_targets);
-            this->string_from_client.setMessage(_message);
+            this->input.setTargets(_targets);
+            this->input.setMessage(_message);
         }
-        this->string_from_client.setCommand(_command);
+        this->input.setCommand(_command);
     }
 
     RequestParser::RequestParser(const RequestParser &src)
@@ -42,7 +42,7 @@ namespace AFG
         if (this != &src)
         {
             this->client_request = src.getClientRequest();
-            this->string_from_client = src.getStringFromClient();
+            this->input = src.getInput();
         }
         return (*this);
     }
@@ -54,9 +54,9 @@ namespace AFG
         return (this->client_request);
     }
 
-    StringFromClient   RequestParser::getStringFromClient(void) const
+    Input   RequestParser::getInput(void) const
     {
-        return (this->string_from_client);
+        return (this->input);
     }
 
 /* ------------------ functions --------------- */
@@ -138,6 +138,7 @@ namespace AFG
     could probably be done by using parseToken(), but now the fct is already written ^^ */
     std::string RequestParser::getUserNick(std::string input)
     {
+        std::string                 user_nick;
         std::vector<std::string>    splitted_input;
 
         splitted_input = this->afgSplit(input, " ");
@@ -146,6 +147,13 @@ namespace AFG
             std::cerr << "Error: Unable to authenticate user: NICK" << std::endl;
             return (std::string()); // or throw error 
         }
-        return (splitted_input.at(1));
+        user_nick = splitted_input.at(1);
+        /* "nickname having a maximum length of nine (9) characters" see RFC1459  */
+        if (user_nick.size() > 9)
+        {
+            std::cerr << "Error: Unable to authenticate user: nickname too long" << std::endl;
+            return (std::string()); // or throw error 
+        }
+        return (user_nick);
     }
 }

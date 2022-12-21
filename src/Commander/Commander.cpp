@@ -22,8 +22,7 @@ namespace AFG
         std::vector<std::string>    user_info;
         std::string                 user_nick;
 
-
-        std::string command = parser.getStringFromClient().getCommand();
+        std::string command = parser.getInput().getCommand();
         std::cout << command << std::endl;
         if (command == "USER")
         {
@@ -48,8 +47,19 @@ namespace AFG
         {
             caller.respond(":AFGchat PONG :AFGchat\n");
         }
+        if (command == "TOPIC")
+        {
+            std::string                 new_topic = parser.getInput().getMessage();
+            std::vector<std::string>    channel_name = parser.getInput().getTargets();
+
+            this->commandTOPIC(caller, channel_name, new_topic);
+        }
         else if (command == "PRIVMSG")
         {
+            //if(*(parser.parseToken(" ", 1).begin()) == '#')
+            if(parser.parseToken(" ", 1)[0] == '#')
+                this->commandChannelMessage(clients, caller, parser.parseToken(" ", 1), parser.parseToken(":", 1));
+            else
             this->commandPRIVMSG(clients, caller, parser.parseToken(" ", 1), parser.parseToken(":", 1));
         }
         else if (command == "JOIN")
@@ -59,12 +69,40 @@ namespace AFG
         }
         
     }
-    
+//    void Commander::commandChannelMessage(std::list<Client> &clients, Client &caller, Channel &channel, std::string msg)
+    void Commander::commandChannelMessage(std::list<Client> &clients, Client &caller, std::string channel, std::string msg)
+    {
+         //std::cout << "Channel" << std::endl;
+        for(std::list<Channel>::const_iterator it = this->channels.begin(); it != this->channels.end(); ++it)
+        {
+            //std::cout << it->getName() << " listitem | channel: "<< channel << "!" <<std::endl;
+            if (it->getName() == channel) //if channel looking for is channel in lst
+            {
+                if(it->hasUser(caller) == false); //geht das?
+                    std::cout << "no user\n"; //return;
+                std::set<Client*> users = it->getUsers();
+                for(std::set<Client*>::const_iterator jt = users.begin(); jt != users.end(); ++jt)
+                {
+                    //std::cout << (*jt)->get_nick() << "=Nick now| NICK caller" << caller.get_nick() << std::endl;
+                    if ((*jt)->get_nick() == caller.get_nick()) // dont send message to yourself
+                        continue;
+                    (*jt)->respond(":" + caller.get_nick() + "!" + caller.get_username() + ("@"));
+                    (*jt)->respond(caller.get_hostname() + " PRIVMSG " + channel + " :" + msg + "\n");
+                }
+                return;
+            }
+        }
+        //channel not found
+        caller.respond(":AFGchat 401 ");
+        caller.respond(caller.get_nick());
+        caller.respond((" ") + channel + (" :No such channel!\n"));
+    }
+
     void Commander::commandPRIVMSG(std::list<Client> &clients, Client &caller, std::string othername, std::string msg)
     {
         for(std::list<Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
         {
-            std::cout << it->get_nick() << std::endl;
+            //std::cout << it->get_nick() << std::endl;
             if (it->get_nick() == othername)
             {
                 if (caller.get_nick() == othername)
@@ -129,13 +167,14 @@ namespace AFG
     {
         if (channelName.at(0) != '#')
         {
-            caller.respond("Wrong Channel name\n");
+            //caller.respond("Wrong Channel name\n");
+            caller.respond(":AFGchat 403 " + caller.get_nick() + " " + channelName + " :Invalid channel!\n");
             return;
         }
         if (!channelExists(channelName))
             channels.push_back(Channel(channelName));
         addUserToChannel(caller, channelName);
-
+        caller.respond(":AFGchat 353 " + caller.get_nick() + " = " + channelName + " :Joined!\n");
         return;
     }
 
@@ -176,6 +215,35 @@ namespace AFG
                 return true;
         }  
         return false;
+    }
+    /* work in progress: pseudo code since channel class is not fully done yet */
+    void    Commander::commandTOPIC(Client &caller, std::vector<std::string> channel_name, std::string new_topic)
+    {
+        if (channel_name.size() != 1)
+        {
+            std::cerr << "Error: one and only one channel." << std::endl;
+            return ;
+        }
+        std::list<Channel>::iterator it;
+        for(it = this->channels.begin(); it != this->channels.end(); ++it)
+        {
+            if (it->getName() == channel_name.at(0)) //if channel looking for is channel in lst
+                break ;
+        }
+        if (new_topic != "")
+        {
+            if (it->isTopicOpOnly() == true)
+            {
+                if (it->isOperator(caller) == false)
+                {
+                    std::cerr << "Can't change topic: channel is in -t mode: only operators can change the topic" << std::endl;
+                    return ;
+                }
+            }
+            it->setTopic(new_topic);
+        }
+        else if (this->channelExists(channel_name.at(0)))
+            caller.respond(":AFGchat NOTICE " + it->getTopic() + "\n"); // correct format for weechat?
     }
 
     bool Commander::channelExists(std::string channelName) const

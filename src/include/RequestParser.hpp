@@ -4,7 +4,7 @@
 #pragma once
 
 #include "libs.hpp"
-#include "StringFromClient.hpp"
+#include "Input.hpp"
 
 namespace AFG
 {
@@ -22,7 +22,7 @@ namespace AFG
             RequestParser &operator=(const RequestParser &src);
 
             std::string                 getClientRequest(void) const;
-            StringFromClient            getStringFromClient(void) const;
+            Input            getInput(void) const;
             std::vector<std::string>    getUserInfo(std::string input);
             std::string                 getUserNick(std::string input);
             std::string                 parseToken(std::string _delimiter, int _token_pos);
@@ -30,7 +30,7 @@ namespace AFG
         private:
             std::string                 client_request;
             std::vector<std::string>    client_request_split_in_lines;
-            StringFromClient            string_from_client;
+            Input                       input;
 
             std::vector<std::string>    afgSplit(std::string _message, std::string _delimiter);
             std::vector<std::string>    parseListToken(std::vector<std::string> _delimiter, int _token_pos);
