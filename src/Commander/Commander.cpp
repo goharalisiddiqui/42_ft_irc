@@ -93,7 +93,7 @@ namespace AFG
             }
         }
         //channel not found
-        caller.respond(":AFGchat 401 ");
+        caller.respond(":AFGchat 403 ");
         caller.respond(caller.get_nick());
         caller.respond((" ") + channel + (" :No such channel!\n"));
     }
@@ -127,7 +127,7 @@ namespace AFG
     {
         if (this->usernameTaken(username, clients))
         {
-            caller.respond(":AFGchat NOTICE Auth :Username already taken. please use another\n");
+            caller.respond(":AFGchat 462 NOTICE Auth :Username already taken. please use another\n");
             return;
         }
         caller.set_username(username);
@@ -143,7 +143,7 @@ namespace AFG
     {
         if (this->nickTaken(nick, clients))
         {
-            caller.respond(":AFGchat NOTICE Auth :Nick already taken. please use another\n");
+            caller.respond(":AFGchat 433 NOTICE Auth :Nick already taken. please use another\n");
             return;
         }
         if (caller.isauthentic())
@@ -188,7 +188,7 @@ namespace AFG
         // printf("ENTERED pass=%s\n", pass.c_str());
         if (pass != this->pass)
         {
-            caller.respond(":AFGchat NOTICE Auth :Wrong password!\n");
+            caller.respond(":AFGchat 464 NOTICE Auth :Wrong password!\n");
             return;
         }
         caller.set_passed();
@@ -221,7 +221,7 @@ namespace AFG
     {
         if (channel_name.size() != 1)
         {
-            std::cerr << "Error: one and only one channel." << std::endl;
+            caller.respond(":AFGchat 407 NOTICE :TOPIC needs one and only one channel.\n"); // correct format for weechat?
             return ;
         }
         std::list<Channel>::iterator it;
@@ -236,14 +236,14 @@ namespace AFG
             {
                 if (it->isOperator(caller) == false)
                 {
-                    std::cerr << "Can't change topic: channel is in -t mode: only operators can change the topic" << std::endl;
+                    caller.respond(":AFGchat 482 NOTICE :channel is in -t mode. only operators can change the topic\n"); // correct format for weechat?
                     return ;
                 }
             }
             it->setTopic(new_topic);
         }
         else if (this->channelExists(channel_name.at(0)))
-            caller.respond(":AFGchat NOTICE " + it->getTopic() + "\n"); // correct format for weechat?
+            caller.respond(":AFGchat 332 NOTICE " + it->getTopic() + "\n"); // correct format for weechat?
     }
 
     bool Commander::channelExists(std::string channelName) const
@@ -266,7 +266,7 @@ namespace AFG
                     it->addUser(user);
                 else
                 {
-                    user.respond(":AFGchat 401 ");
+                    user.respond(":AFGchat 473 ");
                     user.respond(user.get_nick());
                     user.respond(" :Uninvited users connot join invite-only channels\n");
                 }
