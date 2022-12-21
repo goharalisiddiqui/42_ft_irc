@@ -24,7 +24,7 @@ namespace AFG
             _delimiter.push_back(" ");
             _delimiter.push_back(",");
             _targets = this->parseListToken(_delimiter, 1);
-            _message = this->parseToken(":", 1);
+            _message = this->parseMessage();
 
             this->input.setTargets(_targets);
             this->input.setMessage(_message);
@@ -155,5 +155,14 @@ namespace AFG
             return (std::string()); // or throw error 
         }
         return (user_nick);
+    }
+
+    std::string RequestParser::parseMessage(void)
+    {
+        std::string _message = "";
+
+        if (this->client_request.find(':') != this->client_request.npos)
+            _message = this->client_request.substr(this->client_request.find(':') + 1, this->client_request.npos);
+        return (_message);
     }
 }

@@ -63,9 +63,9 @@ namespace AFG
         {
             //if(*(parser.parseToken(" ", 1).begin()) == '#')
             if(parser.parseToken(" ", 1)[0] == '#')
-                this->commandChannelMessage(clients, caller, parser.parseToken(" ", 1), parser.parseToken(":", 1));
+                this->commandChannelMessage(clients, caller, parser.parseToken(" ", 1), parser.parseMessage());
             else
-            this->commandPRIVMSG(clients, caller, parser.parseToken(" ", 1), parser.parseToken(":", 1));
+                this->commandPRIVMSG(clients, caller, parser.parseToken(" ", 1), parser.parseMessage());
         }
         else if (command == "JOIN")
         {

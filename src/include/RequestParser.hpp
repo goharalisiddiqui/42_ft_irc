@@ -27,6 +27,7 @@ namespace AFG
             std::string                 getUserNick(std::string input);
             std::string                 parseToken(std::string _delimiter, int _token_pos);
             std::vector<std::string>    parseListToken(std::vector<std::string> _delimiter, int _token_pos);
+            std::string                 parseMessage(void);
 
         private:
             std::string                 client_request;
