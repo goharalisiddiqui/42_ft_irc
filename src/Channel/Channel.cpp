@@ -4,29 +4,33 @@
 
 namespace AFG
 {
-  Channel::Channel(const std::string& name) : name(name) {}
+  Channel::Channel(const std::string& name) : name(name), topic("default topic"){}
 
   Channel::~Channel(){}
 
   Channel::Channel(const Channel &src)
   {
     this->name = src.getName();
+    this->topic = src.getTopic();
     this->inviteOnly = src.isInviteOnly();
     this->users = src.getUsers();
     this->operators = src.getOperators();
     this->invited_users = src.getInvitedUsers();
-
+    this->inviteOnly = src.isInviteOnly();
+    this->topicOpOnly = src.isTopicOpOnly();
 
 
   }
   Channel &Channel::operator=(const Channel &src)
   {
     this->name = src.getName();
+    this->topic = src.getTopic();
     this->inviteOnly = src.isInviteOnly();
     this->users = src.getUsers();
     this->operators = src.getOperators();
     this->invited_users = src.getInvitedUsers();
-
+    this->inviteOnly = src.isInviteOnly();
+    this->topicOpOnly = src.isTopicOpOnly();
     return(*this);
 
   }
@@ -36,6 +40,11 @@ namespace AFG
   std::string Channel::getName() const
   {
     return name;
+  }
+
+  std::string Channel::getTopic() const
+  {
+    return topic;
   }
 
   void Channel::addUser(Client& user)
@@ -130,5 +139,10 @@ namespace AFG
   bool  Channel::isTopicOpOnly(void) const
   {
     return (this->topicOpOnly);
+  }
+
+  void  Channel::setTopic(std::string new_topic)
+  {
+    this->topic = new_topic;
   }
 }

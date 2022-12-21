@@ -29,6 +29,9 @@ class Channel
     // Get the name of the channel
     std::string getName() const;
 
+    // Get the topic of the channel
+    std::string getTopic() const;
+
     // Get a list of all the users in the channel
     std::set<Client*> getUsers() const;
     std::set<Client*> getOperators() const;
@@ -77,8 +80,13 @@ class Channel
   // Check if channel is changeable only by operators
   bool isTopicOpOnly(void) const;
 
+  // Set the topic of the channel
+  void setTopic(std::string new_topic);
+
+
 private:
   std::string name;
+  std::string topic;
   std::set<Client*> users;
   std::set<Client*> operators;
   std::set<Client*> invited_users;
