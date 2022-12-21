@@ -262,7 +262,7 @@ namespace AFG
         {
             if (it->getName() == channelName)
             {
-                if (it->isInvited(user) || it->isInviteOnly())
+                if (it->isInvited(user) || !it->isInviteOnly())
                     it->addUser(user);
                 else
                 {
