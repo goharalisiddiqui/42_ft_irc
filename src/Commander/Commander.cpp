@@ -64,8 +64,15 @@ namespace AFG
         }
         else if (command == "JOIN")
         {
-            std::string channel_name = parser.parseToken(" ", 1);
-            this->commandJOIN(caller, channel_name);
+            std::vector<std::string> delims;
+            delims.push_back(" ");
+            delims.push_back(",");
+            std::vector<std::string> channel_name = parser.parseListToken(delims, 1);
+
+            for(std::vector<std::string>::iterator it = channel_name.begin(); it != channel_name.end(); ++it)
+            {
+                this->commandJOIN(caller, *it);
+            }
         }
         
     }
@@ -78,7 +85,7 @@ namespace AFG
             //std::cout << it->getName() << " listitem | channel: "<< channel << "!" <<std::endl;
             if (it->getName() == channel) //if channel looking for is channel in lst
             {
-                if(it->hasUser(caller) == false); //geht das?
+                if(it->hasUser(caller) == false) //geht das?
                     std::cout << "no user\n"; //return;
                 std::set<Client*> users = it->getUsers();
                 for(std::set<Client*>::const_iterator jt = users.begin(); jt != users.end(); ++jt)
@@ -174,7 +181,7 @@ namespace AFG
         if (!channelExists(channelName))
             channels.push_back(Channel(channelName));
         addUserToChannel(caller, channelName);
-        caller.respond(":AFGchat 353 " + caller.get_nick() + " = " + channelName + " :Joined!\n");
+        printChannels();
         return;
     }
 
@@ -262,8 +269,20 @@ namespace AFG
         {
             if (it->getName() == channelName)
             {
-                if (it->isInvited(user) || it->isInviteOnly())
+                if (it->isInvited(user) || !it->isInviteOnly())
+                {
                     it->addUser(user);
+                    user.respond(":");
+                    user.respond(user.get_nick());
+                    user.respond("!");
+                    user.respond(user.get_username());
+                    user.respond("@");
+                    user.respond(user.get_hostname());
+                    user.respond(" JOIN :");
+                    user.respond(channelName);
+                    user.respond("\n");
+                    user.respond(":AFGchat 353 " + user.get_nick() + " = " + channelName + " :Joined!\n");
+                }
                 else
                 {
                     user.respond(":AFGchat 401 ");
