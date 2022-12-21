@@ -77,8 +77,8 @@ namespace AFG
         while (return_val == 0)
         {
             selist = build_selist();
-			timeout.tv_sec = 0;
-			timeout.tv_usec = 10;
+			      timeout.tv_sec = 0;
+			      timeout.tv_usec = 10;
 		    return_val = select(this->fdmax + 1, &selist, (fd_set *) 0, (fd_set *) 0, &timeout);
 		    if (return_val < 0)
             {
@@ -87,7 +87,7 @@ namespace AFG
 
             }
 		    if (return_val == 0) {
-			    printf(".");
+			    // printf(".");
 			    fflush(stdout);
 		    }
         }
