@@ -22,8 +22,7 @@ namespace AFG
         std::vector<std::string>    user_info;
         std::string                 user_nick;
 
-
-        std::string command = parser.getStringFromClient().getCommand();
+        std::string command = parser.getInput().getCommand();
         std::cout << command << std::endl;
         if (command == "USER")
         {
@@ -47,6 +46,13 @@ namespace AFG
         if (command == "PING")
         {
             caller.respond(":AFGchat PONG :AFGchat\n");
+        }
+        if (command == "TOPIC")
+        {
+            std::string                 new_topic = parser.getInput().getMessage();
+            std::vector<std::string>    channel_name = parser.getInput().getTargets();
+
+            this->commandTOPIC(caller, channel_name, new_topic);
         }
         else if (command == "PRIVMSG")
         {
@@ -176,6 +182,35 @@ namespace AFG
                 return true;
         }  
         return false;
+    }
+    /* work in progress: pseudo code since channel class is not fully done yet */
+    void    Commander::commandTOPIC(Client &caller, std::vector<std::string> channel_name, std::string new_topic)
+    {
+        if (channel_name.size() != 1)
+        {
+            std::cerr << "Error: one and only one channel." << std::endl;
+            return ;
+        }
+        std::list<Channel>::iterator it;
+        for(it = this->channels.begin(); it != this->channels.end(); ++it)
+        {
+            if (it->getName() == channel_name.at(0)) //if channel looking for is channel in lst
+                break ;
+        }
+        if (new_topic != "")
+        {
+            if (it->isTopicOpOnly() == true)
+            {
+                if (it->isOperator(caller) == false)
+                {
+                    std::cerr << "Can't change topic: channel is in -t mode: only operators can change the topic" << std::endl;
+                    return ;
+                }
+            }
+            it->setTopic(new_topic);
+        }
+        else if (this->channelExists(channel_name.at(0)))
+            caller.respond(":AFGchat NOTICE " + it->getTopic() + "\n"); // correct format for weechat?
     }
 
     bool Commander::channelExists(std::string channelName) const
