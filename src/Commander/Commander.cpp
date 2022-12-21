@@ -29,12 +29,17 @@ namespace AFG
             user_info = parser.getUserInfo(input);
             if (user_info.size() == 4)
                 this->commandUSER(clients, caller, user_info.at(0), user_info.at(1), user_info.at(2), user_info.at(3));
+            else
+              caller.respond(":AFGchat 461 NOTICE Auth :Unable to authenticate user\n");
+
         }
         else if (command == "NICK")
         {
             user_nick = parser.getUserNick(input);
             if (user_nick != "")
                 this->commandNICK(clients, caller, user_nick);
+            else
+              caller.respond(":AFGchat 432 NOTICE Auth :Unable to authenticate nick\n");
         }
         else if (command == "PASS")
         {
