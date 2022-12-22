@@ -177,7 +177,7 @@ namespace AFG
 
     void Commander::commandJOIN(Client &caller, std::string &channelName)
     {
-        if (channelName.at(0) != '#')
+        if ((channelName.at(0) != '#') || (channelName.find_first_of(":") != channelName.npos))
         {
             //caller.respond("Wrong Channel name\n");
             caller.respond(":AFGchat 403 " + caller.get_nick() + " " + channelName + " :Invalid channel!\n");
