@@ -258,7 +258,7 @@ namespace AFG
             it->setTopic(new_topic);
         }
         else if (this->channelExists(channel_name.at(0)))
-            caller.respond(":AFGchat 332 NOTICE " + it->getTopic() + "\n"); // correct format for weechat?
+            caller.respond(":AFGchat 332 NOTICE " + channel_name.at(0) + " :" + it->getTopic() + "\n"); // correct format for weechat?
     }
 
     bool Commander::channelExists(std::string channelName) const
