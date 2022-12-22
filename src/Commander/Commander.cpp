@@ -184,7 +184,10 @@ namespace AFG
             return;
         }
         if (!channelExists(channelName))
+        {
             channels.push_back(Channel(channelName));
+            channels.back().addOperator(caller);
+        }
         addUserToChannel(caller, channelName);
         printChannels();
         return;
