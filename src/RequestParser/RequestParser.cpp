@@ -117,17 +117,22 @@ namespace AFG
         splitted_input = this->afgSplit(input, " ");
         if (splitted_input.size() != 5)
         {
-            std::cerr << "Error: Unable to authenticate user: USERNAME, HOSTNAME, SERVERNAME" << std::endl;
+            std::cerr << "Error. Unable to authenticate user. USERNAME, HOSTNAME, SERVERNAME, REALNAME" << std::endl;
             return (std::vector<std::string>()); // or throw error 
         }
         for (int i = 1; i <= 3; i++)
         {
+            if (splitted_input.at(i).find_first_of(":") != splitted_input.at(i).npos)
+            {
+                std::cerr << "Error. Unable to authenticate user. USERNAME, HOSTNAME, SERVERNAME" << std::endl;
+                return (std::vector<std::string>()); // or throw error 
+            }
             user_info.push_back(splitted_input.at(i));
         }
         splitted_input = this->afgSplit(input, ":");
         if (splitted_input.size() != 2)
         {
-            std::cerr << "Error: Unable to authenticate user: REAL NAME" << std::endl;
+            std::cerr << "Error. Unable to authenticate user. REAL NAME" << std::endl;
             return (std::vector<std::string>()); // or throw error 
         }
         user_info.push_back(splitted_input.at(1));
@@ -138,20 +143,20 @@ namespace AFG
     could probably be done by using parseToken(), but now the fct is already written ^^ */
     std::string RequestParser::getUserNick(std::string input)
     {
-        std::string                 user_nick;
+        std::string                 user_nick = "";
         std::vector<std::string>    splitted_input;
 
         splitted_input = this->afgSplit(input, " ");
         if (splitted_input.size() != 2)
         {
-            std::cerr << "Error: Unable to authenticate user: NICK" << std::endl;
-            return (std::string()); // or throw error 
+            std::cerr << "Error. Unable to authenticate user. too many params" << std::endl;
+            return (user_nick); // or throw error 
         }
         user_nick = splitted_input.at(1);
         /* "nickname having a maximum length of nine (9) characters" see RFC1459  */
-        if (user_nick.size() > 9)
+        if (user_nick.size() > 9 || user_nick.find_first_of("!@#$%+-:,") != user_nick.npos)
         {
-            std::cerr << "Error: Unable to authenticate user: nickname too long" << std::endl;
+            std::cerr << "Error. Unable to authenticate user. nickname too long || invalid character(s)" << std::endl;
             return (std::string()); // or throw error 
         }
         return (user_nick);
