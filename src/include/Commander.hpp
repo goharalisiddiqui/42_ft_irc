@@ -35,8 +35,7 @@ namespace AFG
             void commandPASS(Client &caller, std::string pass);
             void commandTOPIC(Client &caller, std::vector<std::string> channel_name, std::string new_topic);
             void commandJOIN(Client &caller, std::string &channelName);
-
-
+            void commandMODE(Client &caller, std::string channel_name, std::string modes, std::string user);
 
 
             bool usernameTaken(std::string username, std::list<Client> &clients) const;
