@@ -42,7 +42,9 @@ namespace AFG
                 caller.respond(reply + MSG_END_SEQ);
                 reply = prefix;
             }
-            reply.append(" " + (*it)->get_nick());
+            if (reply != prefix)
+                reply.append(" ");
+            reply.append((*it)->get_nick());
         }
         if (reply != prefix)
             caller.respond(reply + MSG_END_SEQ);
