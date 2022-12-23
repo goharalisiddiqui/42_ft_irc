@@ -385,15 +385,15 @@ namespace AFG
                 }
                 std::cout << (*it_client)->get_nick() << std::endl;
 
-                // if (it->hasUser(*it_client) == false)
-                // {
-                //     caller.respond(":AFGchat 401 NOTICE " + user + " :No such nick\n"); // correct format for weechat?
-                //     return ;
-                // }
-                // if (modes.at(0) == '+')
-                //     it->addOperator(*it_client);
-                // else
-                //     it->removeOperator();
+                if (it->hasUser(*(*it_client)) == false)
+                {
+                    caller.respond(":AFGchat 401 NOTICE " + user + " :No such nick\n"); // correct format for weechat?
+                    return ;
+                }
+                if (modes.at(0) == '+')
+                    it->addOperator(*(*it_client));
+                else
+                    it->removeOperator(*(*it_client));
             }
         }
     }
