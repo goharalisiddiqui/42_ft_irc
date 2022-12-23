@@ -21,6 +21,8 @@
 #define RPL_NOTOPIC "331"
 #define RPL_TOPIC "332"
 #define RPL_NAMREPLY "353"
+#define RPL_ENDOFNAMES "366"
+
 
 class Channel;
 

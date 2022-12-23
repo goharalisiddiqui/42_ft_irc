@@ -46,6 +46,9 @@ namespace AFG
         }
         if (reply != prefix)
             caller.respond(reply + MSG_END_SEQ);
+
+        caller.respond(":" SERVER_NAME " " RPL_ENDOFNAMES " " + caller.get_nick() + " " + channel.getName() + " :End of NAMES list" MSG_END_SEQ);
+
     }
 
 
