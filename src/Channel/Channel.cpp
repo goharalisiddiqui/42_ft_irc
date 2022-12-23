@@ -43,12 +43,12 @@ namespace AFG
 
 
 
-  std::string Channel::getName() const
+  std::string const &Channel::getName() const
   {
     return name;
   }
 
-  std::string Channel::getTopic() const
+  std::string const &Channel::getTopic() const
   {
     return topic;
   }
@@ -71,6 +71,17 @@ namespace AFG
   bool Channel::hasUser(const Client& user) const
   {
     return (std::find(users.begin(), users.end(), &user) != users.end());
+  }
+
+  Client *Channel::getUser(std::string const &nick) const
+  {
+    for (std::set<Client*>::const_iterator it = this->users.begin(); it != users.end(); ++it)
+    {
+        if ((*it)->get_nick() == nick)
+            return *it;
+    }
+    return nullptr;
+
   }
 
   bool Channel::isInvited(const Client& user) const
@@ -121,6 +132,14 @@ namespace AFG
           {
               (*it)->respond(msg);
           }
+      }
+  }
+
+  void Channel::announce(std::string msg) const
+  {
+      for(std::set<Client *>::const_iterator it = this->users.begin(); it != this->users.end(); ++it)
+      {
+        (*it)->respond(msg);
       }
   }
 

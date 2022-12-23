@@ -8,6 +8,17 @@
 #include "ServerSocket.hpp"
 #include "Channel.hpp"
 
+#define ERR_NOSUCHNICK "401"
+#define ERR_NOSUCHCHANNEL "403"
+#define ERR_NOTONCHANNEL "422"
+#define ERR_NEEDMOREPARAMS "461"
+#define ERR_INVITEONLYCHAN "473" 
+#define ERR_CHANOPRIVSNEEDED "482"
+
+
+#define RPL_NOTOPIC "331"
+#define RPL_TOPIC "332"
+
 class Channel;
 
 namespace AFG
@@ -35,6 +46,7 @@ namespace AFG
             void commandPASS(Client &caller, std::string pass);
             void commandTOPIC(Client &caller, std::vector<std::string> channel_name, std::string new_topic);
             void commandJOIN(Client &caller, std::string &channelName);
+            void commandKICK(Client &caller, std::vector<std::string> &usernames, std::vector<std::string> &channelnames, std::string &comment);
 
 
 
