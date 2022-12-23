@@ -8,6 +8,8 @@
 #include "ServerSocket.hpp"
 #include "Channel.hpp"
 
+#define MAX_MSG_LENGTH 512
+
 #define ERR_NOSUCHNICK "401"
 #define ERR_NOSUCHCHANNEL "403"
 #define ERR_NOTONCHANNEL "422"
@@ -18,6 +20,7 @@
 
 #define RPL_NOTOPIC "331"
 #define RPL_TOPIC "332"
+#define RPL_NAMREPLY "353"
 
 class Channel;
 
