@@ -16,6 +16,7 @@ SRCS		= main.cpp \
 				Input.cpp \
 				ErrorHandler.cpp \
 				Commander.cpp \
+				CommanderTopic.cpp \
 				Channel.cpp \
 
 INCLUDES	= -I./include/
