@@ -69,8 +69,6 @@ namespace AFG
                     if ((*it_client)->get_nick() == user) //if user looking for is user in channel
                         break ;
                 }
-                std::cout << (*it_client)->get_nick() << std::endl;
-
                 if (it->hasUser(*(*it_client)) == false)
                 {
                     caller.respond(":AFGchat 401 NOTICE " + user + " :No such nick\n"); // correct format for weechat?

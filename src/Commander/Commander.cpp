@@ -87,6 +87,13 @@ namespace AFG
 
             this->commandMODE(caller, channel_name, modes, user);
         }
+        else if (command == "INVITE")
+        {
+            std::string nick = parser.parseToken(" ", 1);
+            std::string channel_name = parser.parseToken(" ", 2);
+
+            this->commandINVITE(clients, caller, nick, channel_name);
+        }
     }
 //    void Commander::commandChannelMessage(std::list<Client> &clients, Client &caller, Channel &channel, std::string msg)
     void Commander::commandChannelMessage(std::list<Client> &clients, Client &caller, std::string channel, std::string msg)

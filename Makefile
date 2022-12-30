@@ -18,6 +18,7 @@ SRCS		= main.cpp \
 				Commander.cpp \
 				CommanderTOPIC.cpp \
 				CommanderMODE.cpp \
+				CommanderINVITE.cpp \
 				Channel.cpp \
 
 INCLUDES	= -I./include/
