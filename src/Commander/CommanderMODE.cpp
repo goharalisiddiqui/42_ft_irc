@@ -28,7 +28,6 @@ namespace AFG
             caller.respond(":AFGchat 472 NOTICE " + modes + " :is unknown mode char to me\n"); // correct format for weechat?
             return ;
         }
-        // to do: inform client about changes
         if (modes.find_first_of("i") != modes.npos)
         {
             if (modes.at(0) == '+')
