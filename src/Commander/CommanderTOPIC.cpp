@@ -29,6 +29,11 @@ namespace AFG
             it->setTopic(new_topic);
         }
         else if (this->channelExists(channel_name.at(0)))
-            caller.respond(":AFGchat 332 NOTICE " + channel_name.at(0) + " :" + it->getTopic() + "\n"); // correct format for weechat?
+        {
+            if (it->getTopic() != "")
+                caller.respond(":AFGchat 332 NOTICE " + channel_name.at(0) + " :" + it->getTopic() + "\n"); // correct format for weechat?
+            else
+                caller.respond(":AFGchat 331 NOTICE " + channel_name.at(0) + " :No topic is set\n"); // correct format for weechat?
+        }
     }
 }
