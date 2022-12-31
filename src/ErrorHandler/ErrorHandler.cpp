@@ -24,7 +24,7 @@ namespace AFG
 
     // }
 
-    void ErrorHandler::handle(std::exception &e)
+    void ErrorHandler::handle(const std::exception &e)
     {
         try 
         {

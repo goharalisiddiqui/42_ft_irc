@@ -213,7 +213,7 @@ namespace AFG
         int flag = 1;
         char readchar = '\0';
 
-        while(flag > 0)
+        while(flag > 0 && !this->ismessagecomplete())
         {
             // usleep(1000);
             flag = read(this->fd, &readchar, 1);
@@ -249,20 +249,17 @@ namespace AFG
 
     bool Client::ismessagecomplete(void)
     {
-        if (this->message.back() == '\n')
+        if (this->message.length() >= sizeof(MSG_END_SEQ)
+            && this->message.substr(this->message.length() - 2, 2) == MSG_END_SEQ)
             return true;
         return false;
     }
 
     void Client::trimMessage(void)
     {
-        if (this->message.back() == '\n')
+        if (this->ismessagecomplete())
         {
-            this->message = this->message.substr(0, this->message.length() - 1);
-        }
-        if (this->message.back() == '\r')
-        {
-            this->message = this->message.substr(0, this->message.length() - 1);
+            this->message = this->message.substr(0, this->message.length() - sizeof(MSG_END_SEQ));
         }
     }
 }

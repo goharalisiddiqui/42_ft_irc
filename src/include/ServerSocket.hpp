@@ -31,7 +31,8 @@ namespace AFG
             void socklisten(struct in_addr ip, in_port_t port, int queue_len);
 
             int sockaccept();
-            int sockaccept(std::string &message);
+            int sockaccept(struct sockaddr_in &raddr, socklen_t &socklen);
+
 
         private:
             struct sockaddr_in addr;

@@ -43,76 +43,73 @@ namespace AFG
     void ServerSocket::socklisten(struct in_addr ip, in_port_t port, int queue_len)
     {
         int return_val;
+        ErrorHandler elliot;
 
-        if (this->status < AFG_SOCK_CREATED)
-            throw SimpleSocket::EmptySocket();
-        if (this->status >= AFG_SOCK_LISTENING)
-            return;
+        try
+        {
+            if (this->status < AFG_SOCK_CREATED)
+                throw SimpleSocket::EmptySocket();
+            if (this->status >= AFG_SOCK_LISTENING)
+                return;
 
-        memset((char *)&(this->addr), 0, sizeof(this->addr));
-        this->addr.sin_addr = ip;
-        //TODO maybe have to use htonl on ip also
-        this->addr.sin_family = get_params().domain;
-        this->addr.sin_port = htons(port);
+            memset((char *)&(this->addr), 0, sizeof(this->addr));
+            this->addr.sin_addr = ip;
+            //TODO maybe have to use htonl on ip also
+            this->addr.sin_family = get_params().domain;
+            this->addr.sin_port = htons(port);
 
-        // printf("Binding now\n");
-        return_val = bind(this->get_socket(), (const sockaddr *)&(this->addr), sizeof(this->addr));
+            // printf("Binding now\n");
+            return_val = bind(this->get_socket(), (const sockaddr *)&(this->addr), sizeof(this->addr));
 
-        if (return_val == 0)
-            this->status = AFG_SOCK_BOUND;
-        else
-            throw ServerSocket::CannotBindSocket();
+            if (return_val == 0)
+                this->status = AFG_SOCK_BOUND;
+            else
+                throw ServerSocket::CannotBindSocket();
 
-        // printf("Starting listen now\n");
-        return_val = listen(get_socket(), queue_len);
+            // printf("Starting listen now\n");
+            return_val = listen(get_socket(), queue_len);
 
-        if (return_val == 0)
-            this->status = AFG_SOCK_LISTENING;
-        else
-            throw ServerSocket::SocketCannotListen();
+            if (return_val == 0)
+                this->status = AFG_SOCK_LISTENING;
+            else
+                throw ServerSocket::SocketCannotListen();
+        }
+        catch(const std::exception& e)
+        {
+            elliot.handle(e);
+        }
     }
 
     int ServerSocket::sockaccept()
     {
         int return_val;
-        socklen_t addrlen = sizeof(this->addr);
-
-        if (this->status < AFG_SOCK_LISTENING)
-            throw ServerSocket::SocketCannotAccept();
-
-        // printf("socket=%d, ip-%d, port=%d\n", get_socket(), addr.sin_addr, addr.sin_port);
-        // printf("Starting accept now\n");
-        return_val = accept(this->get_socket(), (sockaddr *)&(this->addr), &addrlen);
-        // printf("Accepted now\n");
-
-        if (return_val < 0)
-            throw ServerSocket::SocketCannotAccept();
-        
+        struct sockaddr_in raddr;
+        socklen_t addrlen;
+        return_val = this->sockaccept(raddr, addrlen);
         return return_val;
     }
 
-    // int ServerSocket::sockaccept(std::string &message)
-    // {
-    //     int return_val;
-    //     int flag = 1;
-    //     char readchar;
-    //     std::string msg;
+    int ServerSocket::sockaccept(struct sockaddr_in &raddr, socklen_t &socklen)
+    {
+        int return_val;
+        ErrorHandler elliot;
 
-    //     return_val = sockaccept();
-    //     fcntl(return_val, F_SETFL, O_NONBLOCK);
-    //     while(flag > 0)
-    //     {
-    //         usleep(100);
-    //         flag = read(return_val, &readchar, 1);
-    //         if (flag > 0)
-    //             message += readchar;
-    //         printf("flag=%d, char=%d\n",flag, readchar);
-    //     }
+        try
+        {
+            if (this->status < AFG_SOCK_LISTENING)
+                throw ServerSocket::SocketCannotAccept();
 
-        
+            return_val = accept(this->get_socket(), (struct sockaddr *)&raddr, &socklen);
+            if (return_val < 0)
+                throw ServerSocket::SocketCannotAccept();
+        }
+        catch(const std::exception& e)
+        {
+            elliot.handle(e);
+        }
+        return return_val;
 
-    //     return return_val;
-    // }
+    }
 
 
 } // namespace AFG

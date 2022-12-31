@@ -18,7 +18,7 @@ namespace AFG
 
         // ErrorHandler &operator=(const ErrorHandler &src);
 
-        void handle(std::exception &e);
+        void handle(const std::exception &e);
 
 
 

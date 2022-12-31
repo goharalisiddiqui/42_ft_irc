@@ -109,18 +109,13 @@ namespace AFG
 
     void GateKeeper::add_client()
     {
-        struct sockaddr_in addr = sock.getaddr();
+        struct sockaddr_in addr;
         socklen_t addr_len = (socklen_t)sizeof(addr);
 
-        int newfd = accept(this->sock.get_socket(),(struct sockaddr *)&addr, &addr_len);
-        //TODO Use sockaccept from ServerSocket instead
-        if (newfd < 0)
-            throw ServerSocket::SocketCannotAccept();
+        int newfd = this->sock.sockaccept(addr, addr_len);
         setnonblock(newfd);
-        // printf("New Client fd=%d\n", newfd);
         if (this->clients.size() == this->conmax)
         {
-            // printf("Refusing Client of %d\n", newfd);
             refuse_client(newfd);
             return;
         }
@@ -172,29 +167,6 @@ namespace AFG
     }
 
 
-    // void GateKeeper::announce(std::string const &msg) const
-    // {
-    //     for(std::list<Client>::const_iterator it = this->clients.begin(); it != this->clients.end(); ++it)
-    //     {
-    //         if (it->isauthentic())
-    //             it->respond(msg);
-    //     }
-    // }
-
-    void GateKeeper::spreadmsgfrom(Client *speaker) const
-    {
-            return; //not needed anymore and conflicts with PRIVMSG 
-        for(std::list<Client>::const_iterator it = this->clients.begin(); it != this->clients.end(); ++it)
-        {
-            if (it->isauthentic() && &(*it) != speaker)
-            {
-                it->respond(speaker->get_username());
-                it->respond(": ");
-                it->respond(speaker->get_message());
-            }
-        }
-
-    }
     void GateKeeper::serve(void)
     {
         for(std::list<Client>::iterator it = this->clients.begin(); it != this->clients.end(); ++it)
@@ -208,8 +180,6 @@ namespace AFG
             {
                 it->trimMessage();
                 this->fredi.process(this->clients, *it);
-                // if (it->isauthentic())
-                //     this->spreadmsgfrom(&(*it));
                 it->clearmessage();
                 it->deactivate();
             }

@@ -19,13 +19,20 @@ int main(int argc, char **argv)
     }
     in_port_t port = readport(std::string(argv[1]));
     std::string pass(argv[2]);
-    // std::cout << "port:" << port << std::endl;
     AFG::GateKeeper heimdal(port, pass);
     std::cout << "Server started" << std::flush;
+    AFG::ErrorHandler elliot;
     while (true)
     {
-        heimdal.watchover();
-        heimdal.serve();
+        try
+        {
+            heimdal.watchover();
+            heimdal.serve();
+        }
+        catch(const std::exception& e)
+        {
+            elliot.handle(e);
+        }
     }
 
 

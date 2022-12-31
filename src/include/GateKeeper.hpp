@@ -26,8 +26,6 @@ namespace AFG
             std::list<Client> &get_clients(void);
 
             void watchover();
-            void announce(std::string const &msg) const;
-            void spreadmsgfrom(Client *speaker) const;
 
             void serve(void);
 
@@ -47,7 +45,6 @@ namespace AFG
             fd_set build_selist(void);
             void garbage_collector(void);
 
-            bool nottaken(std::string username) const;
 
 
 

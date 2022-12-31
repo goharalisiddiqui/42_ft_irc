@@ -11,9 +11,10 @@ namespace AFG
 
     SimpleSocket::SimpleSocket()
     {
+        
         this->status = AFG_SOCK_EMPTY;
         this->params = default_params;
-        create_socket(this->params);
+        
     }
 
     SimpleSocket::SimpleSocket(int domain, int type, int protocol)
@@ -81,20 +82,28 @@ namespace AFG
 
     void SimpleSocket::create_socket(struct s_sockparams par)
     {
+        ErrorHandler elliot;
         int return_val;
+        try
+        {
 
-        if (this->status >= AFG_SOCK_CREATED)
-            return;
+            if (this->status >= AFG_SOCK_CREATED)
+                return;
 
-        return_val = socket(par.domain, par.type, par.protocol);
-        if (return_val < 0)
-            throw SimpleSocket::CannotCreateSocket();
-        
-        this->status = AFG_SOCK_CREATED;
-        this->sock = return_val;
-        return_val = setsockopt(this->sock, SOL_SOCKET, SO_REUSEADDR, &this->reuse_addr, sizeof(this->reuse_addr));
-        if (return_val < 0)
-            throw SimpleSocket::CannotReuseSocket();
+            return_val = socket(par.domain, par.type, par.protocol);
+            if (return_val < 0)
+                throw SimpleSocket::CannotCreateSocket();
+            
+            this->status = AFG_SOCK_CREATED;
+            this->sock = return_val;
+            return_val = setsockopt(this->sock, SOL_SOCKET, SO_REUSEADDR, &this->reuse_addr, sizeof(this->reuse_addr));
+            if (return_val < 0)
+                throw SimpleSocket::CannotReuseSocket();
+        }
+        catch(const std::exception& e)
+        {
+            elliot.handle(e);
+        }
     }
 
 }

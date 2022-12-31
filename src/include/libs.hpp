@@ -29,5 +29,7 @@
 #include <set>
 #include <algorithm>
 
+#include "ErrorHandler.hpp"
+
 
 #endif
