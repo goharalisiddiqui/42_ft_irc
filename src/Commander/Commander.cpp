@@ -92,7 +92,7 @@ namespace AFG
             std::string nick = parser.parseToken(" ", 1);
             std::string channel_name = parser.parseToken(" ", 2);
 
-            this->commandINVITE(clients, caller, nick, channel_name);
+            this->commandINVITE(clients, caller, channel_name, nick);
         }
     }
 //    void Commander::commandChannelMessage(std::list<Client> &clients, Client &caller, Channel &channel, std::string msg)
@@ -238,10 +238,14 @@ namespace AFG
 
     bool Commander::nickTaken(std::string nick, std::list<Client> &clients) const
     {
+        std::cout << "test 123" << std::endl;
+
         for(std::list<Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
         {
             if (it->get_nick() == nick)
                 return true;
+               std::cout << "all the nicks: " << it->get_nick() << std::endl;
+            
         }  
         return false;
     }

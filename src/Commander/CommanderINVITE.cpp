@@ -9,6 +9,11 @@ namespace AFG
             caller.respond(":AFGchat 401 NOTICE " + nick + " :No such nick\n"); // correct format for weechat?
             return ;
         }
+        if (channel_name == "")
+        {
+            caller.respond(":AFGchat 461 NOTICE INVITE :Not enough parameters\n"); // correct format for weechat?
+            return ;
+        }
         if (channelExists(channel_name) == false)
         {
             caller.respond(":AFGchat 341 NOTICE " + channel_name + nick + " :got invited\n"); // correct format for weechat?
