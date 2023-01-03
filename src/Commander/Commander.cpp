@@ -238,14 +238,10 @@ namespace AFG
 
     bool Commander::nickTaken(std::string nick, std::list<Client> &clients) const
     {
-        std::cout << "test 123" << std::endl;
-
         for(std::list<Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
         {
             if (it->get_nick() == nick)
                 return true;
-               std::cout << "all the nicks: " << it->get_nick() << std::endl;
-            
         }  
         return false;
     }
