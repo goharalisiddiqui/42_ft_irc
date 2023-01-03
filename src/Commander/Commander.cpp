@@ -133,5 +133,4 @@ namespace AFG
         }
         std::cout << "END printing channels" << std::endl;
     }
-
 }

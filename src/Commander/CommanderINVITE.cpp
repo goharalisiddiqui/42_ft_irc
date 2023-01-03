@@ -42,8 +42,5 @@ namespace AFG
         }  
         // to do: msg to users
         it->inviteUser(caller, *it_client);
-
-
     }
-    
 }
