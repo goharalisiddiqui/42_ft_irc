@@ -23,7 +23,8 @@ namespace AFG
             return ;
         }
         if ((modes.at(0) != '-' && modes.at(0) != '+') \
-            || modes.find_first_not_of("iot", 1) != modes.npos)
+            || modes.find_first_not_of("iot", 1) != modes.npos
+            || modes.find_first_of("iot", 1) == modes.npos)
         {
             caller.respond(":AFGchat 472 NOTICE " + modes + " :is unknown mode char to me\n"); // correct format for weechat?
             return ;
