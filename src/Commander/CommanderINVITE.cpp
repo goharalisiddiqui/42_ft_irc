@@ -38,9 +38,10 @@ namespace AFG
         for(it_client = clients.begin(); it_client != clients.end(); ++it_client)
         {
             if (it_client->get_nick() == nick)
-                break ;
-        }  
-        // to do: msg to users
-        it->inviteUser(caller, *it_client);
+            {
+                it_client->respond("You got invited to " + channel_name);
+                it->inviteUser(caller, *it_client);
+            }
+        }
     }
 }
