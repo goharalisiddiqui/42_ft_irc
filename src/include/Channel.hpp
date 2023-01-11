@@ -27,10 +27,10 @@ class Channel
 
     /////////////// GETTERS ///////////////////
     // Get the name of the channel
-    std::string getName() const;
+    std::string const &getName() const;
 
     // Get the topic of the channel
-    std::string getTopic() const;
+    std::string const &getTopic() const;
 
     // Get a list of all the users in the channel
     std::set<Client*> getUsers() const;
@@ -46,6 +46,9 @@ class Channel
 
     // Check if a user is in the channel
     bool hasUser(const Client& user) const;
+
+    // Get pointer to the Client in the channel by nick, nullptr if not present
+    Client *getUser(std::string const &nick) const;
 
     // Check if a user is in the channel
     bool isInvited(const Client& user) const;
@@ -67,6 +70,7 @@ class Channel
     void removeInviteOnly(void);
 
     void spreadmsgfrom(Client &speaker, std::string &msg) const;
+    void announce(std::string msg) const;
 
 
     // Check if channel is invite only

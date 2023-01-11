@@ -2,6 +2,8 @@
 #include "../include/RequestParser.hpp"
 
 
+
+
 namespace AFG
 {
     Commander::Commander()
@@ -93,6 +95,21 @@ namespace AFG
             std::string channel_name = parser.parseToken(" ", 2);
 
             this->commandINVITE(clients, caller, channel_name, nick);
+        }
+        else if (command == "KICK")
+        {
+            // TODO: Check if enought params are provided, otherwise respond
+            // caller.respond(":" SERVER_NAME " " ERR_NEEDMOREPARAMS + command + " :Not enough parameters" + MSG_END_SEQ);
+            std::vector<std::string> delims;
+            delims.push_back(" ");
+            delims.push_back(",");
+            std::vector<std::string> channel_names = parser.parseListToken(delims, 0);
+            std::vector<std::string> user_names = parser.parseListToken(delims, 1);
+            std::string comment = parser.parseToken(" ", 3);
+            if (comment == "")
+                comment = ":" + caller.get_nick();
+
+            commandKICK(caller, channel_names, user_names, comment);
         }
     }
 

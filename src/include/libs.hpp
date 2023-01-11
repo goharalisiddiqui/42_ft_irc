@@ -4,6 +4,10 @@
 #pragma once
 
 
+#define SERVER_NAME "AFGchat"
+#define SERVER_VERSION 4.0
+#define MSG_END_SEQ "\r\n"
+
 #include <stdio.h>
 #include <sys/socket.h>
 #include <unistd.h>
