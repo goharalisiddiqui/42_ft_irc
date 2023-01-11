@@ -23,7 +23,6 @@ SRCS		= main.cpp \
 				CommanderPASS.cpp \
 				CommanderPRIVMSG.cpp \
 				CommanderUSER.cpp \
-				CommanderJOIN.cpp \
 				CommandKICK.cpp \
 				CommandJOIN.cpp \
 				Channel.cpp \
