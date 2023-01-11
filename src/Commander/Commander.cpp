@@ -111,6 +111,15 @@ namespace AFG
 
             commandKICK(caller, channel_names, user_names, comment);
         }
+        else if (command == "LIST")
+        {
+            caller.respond(":AFGchat 321 " + caller.get_nick() + " Channel :Users Name (START of LIST)\n");
+            for (std::list<Channel>::iterator it = channels.begin(); it != channels.end(); ++it)
+            {
+                caller.respond(":AFGchat 322 " + caller.get_nick() + " " + it->getName() + " " + std::to_string(it->getUsers().size()) + " [" + it->getModes() + "]\n");
+            }
+            caller.respond(":AFGchat 323 " + caller.get_nick() + " :END of LIST\n");
+        }
     }
 
     bool Commander::nickTaken(std::string nick, std::list<Client> &clients) const

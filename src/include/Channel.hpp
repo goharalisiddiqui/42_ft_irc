@@ -26,6 +26,9 @@ class Channel
 
 
     /////////////// GETTERS ///////////////////
+    // Get the modes that are set of the channel
+    std::string const getModes() const;
+
     // Get the name of the channel
     std::string const &getName() const;
 
