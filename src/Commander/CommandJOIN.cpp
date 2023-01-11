@@ -80,6 +80,7 @@ namespace AFG
         {
             channels.push_back(Channel(channelName));
             ch = &(channels.back());
+            ch->addOperator(caller);
         }
         if (ch->isInviteOnly() && !ch->isInvited(caller))
         {
