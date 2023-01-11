@@ -81,6 +81,8 @@ namespace AFG
             ch = &(channels.back());
             ch->addOperator(caller);
         }
+        if (ch->hasUser(caller)) // When caller is already in the channel
+            return;
         if (ch->isInviteOnly() && !ch->isInvited(caller))
         {
             cJOIN_reponseNotInvited(caller, *ch);
