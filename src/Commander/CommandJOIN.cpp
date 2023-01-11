@@ -97,21 +97,3 @@ namespace AFG
 
 
 }
-
-
-
-/*
-
-
-
-
-JOIN #channel
-            │21:09:39 --> gnirc | :momo!~momo@localhost JOIN :#channel
-            │21:09:39 --> gnirc | :irc.example.net 353 momo = #channel :momo @gohar
-            │21:09:39 --> gnirc | :irc.example.net 366 momo #channel :End of NAMES list
-            │21:09:41 <-- gnirc | MODE #channel
-            │21:09:41 --> gnirc | :irc.example.net 324 momo #channel +
-            │21:09:41 --> gnirc | :irc.example.net 329 momo #channel 1671825638
-            │21:10:05 <-- gnirc | PING 127.0.0.1
-            │21:10:05 --> gnirc | :irc.example.net PONG irc.example.net :127.0.0.1
-*/
