@@ -28,6 +28,11 @@ namespace AFG
         std::cout << command << std::endl;
         if (command == "USER")
         {
+            if (caller.isauthentic())
+            {
+                caller.respond(":AFGchat 462 NOTICE Auth :You may not reregister\n");
+                return ;
+            }
             user_info = parser.getUserInfo(input);
             if (user_info.size() == 4)
                 this->commandUSER(clients, caller, user_info.at(0), user_info.at(1), user_info.at(2), user_info.at(3));
@@ -45,6 +50,11 @@ namespace AFG
         }
         else if (command == "PASS")
         {
+            if (caller.isauthentic())
+            {
+                caller.respond(":AFGchat 462 NOTICE Auth :You may not reregister\n");
+                return ;
+            }
             std::string user_pass = parser.parseToken(" ", 1);
             this->commandPASS(caller, user_pass);
         }
