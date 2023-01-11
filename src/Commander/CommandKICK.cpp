@@ -26,8 +26,12 @@ namespace AFG
 
     void cKICK_reponseNotifyChannelOfRemoval(Client &user, Client &caller, Channel &channel, std::string &comment) // Notify channel of the removal of the user from the channel
     {
+        std::set<Client*> allusers = channel.getUsers();
+        for (std::set<Client*>::iterator it = allusers.begin(); it != allusers.end(); ++it)
+        {
+            (*it)->respond(":" + caller.get_nick() + "!" + caller.get_username() + "@" + caller.get_hostname() + " KICK " + channel.getName() + " " + user.get_nick() + " :" + comment + MSG_END_SEQ);
+        }
 
-        caller.respond(":" + caller.get_nick() + "!" + caller.get_username() + "@" + caller.get_hostname() + " KICK " + channel.getName() + " " + user.get_nick() + " :" + comment + MSG_END_SEQ);
     }
 
     Channel *cKICK_getChannel(std::list<Channel> &channels, std::string const &channelname)
@@ -81,8 +85,8 @@ namespace AFG
                     cKICK_reponseUserNotPresent(caller, *cit, *uit);
                     continue;
                 }
-                ch->removeUser(*us);
                 cKICK_reponseNotifyChannelOfRemoval(*us, caller, *ch, comment); // Notify caller of the removal of the user from the channel
+                ch->removeUser(*us);
             }
             
         }

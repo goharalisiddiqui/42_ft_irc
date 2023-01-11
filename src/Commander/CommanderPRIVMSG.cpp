@@ -37,7 +37,10 @@ namespace AFG
             if (it->getName() == channel) //if channel looking for is channel in lst
             {
                 if(it->hasUser(caller) == false) //geht das?
+                {
                     std::cout << "no user\n"; //return;
+                    return;
+                }
                 std::set<Client*> users = it->getUsers();
                 for(std::set<Client*>::const_iterator jt = users.begin(); jt != users.end(); ++jt)
                 {

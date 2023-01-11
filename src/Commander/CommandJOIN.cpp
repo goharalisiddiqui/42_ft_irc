@@ -29,7 +29,6 @@ namespace AFG
 
     void cJOIN_reponseSendNewcomerNamelist(Client &caller, Channel &channel) // Notify channel of the joined user
     {
-        // :irc.example.net 353 momo = #channel :
         std::string prefix = ":" SERVER_NAME " " RPL_NAMREPLY " " + caller.get_nick() + " = " + channel.getName() + " :";
         int length  = prefix.length();
         std::set<Client *> users = channel.getUsers();

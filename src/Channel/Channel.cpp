@@ -21,8 +21,6 @@ namespace AFG
     this->users = src.getUsers();
     this->operators = src.getOperators();
     this->invited_users = src.getInvitedUsers();
-    this->inviteOnly = src.isInviteOnly();
-    this->topicOpOnly = src.isTopicOpOnly();
 
 
   }
@@ -35,8 +33,6 @@ namespace AFG
     this->users = src.getUsers();
     this->operators = src.getOperators();
     this->invited_users = src.getInvitedUsers();
-    this->inviteOnly = src.isInviteOnly();
-    this->topicOpOnly = src.isTopicOpOnly();
     return(*this);
 
   }
@@ -65,7 +61,7 @@ namespace AFG
 
   void Channel::removeUser(Client& user)
   {
-    users.erase(&user);
+    this->users.erase(&user);
   }
 
   bool Channel::hasUser(const Client& user) const
