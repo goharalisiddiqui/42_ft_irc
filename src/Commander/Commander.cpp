@@ -98,8 +98,6 @@ namespace AFG
         }
         else if (command == "KICK")
         {
-            // TODO: Check if enought params are provided, otherwise respond
-            // caller.respond(":" SERVER_NAME " " ERR_NEEDMOREPARAMS + command + " :Not enough parameters" + MSG_END_SEQ);
             std::vector<std::string> delims;
             delims.push_back(" ");
             delims.push_back(",");
@@ -108,8 +106,10 @@ namespace AFG
             std::string comment = parser.parseToken(" ", 3);
             if (comment == "")
                 comment = ":" + caller.get_nick();
-
-            commandKICK(caller, user_names, channel_names, comment);
+            if (channel_names.at(0) == "" || user_names.at(0) == "")
+                caller.respond(":" SERVER_NAME " " ERR_NEEDMOREPARAMS + command + " :Not enough parameters" + MSG_END_SEQ);
+            else
+                commandKICK(caller, user_names, channel_names, comment);
         }
     }
 
