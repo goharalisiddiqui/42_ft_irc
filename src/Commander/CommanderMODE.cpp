@@ -80,8 +80,13 @@ namespace AFG
 				        }
                 	    else
 				        {
-	                        caller.respond(":AFGchat 324 NOTICE " + channel_name + " :" + (*it_client)->get_nick() + " operator privileges OFF\n"); // correct format for weechat?
-                            it_channel->removeOperator(*(*it_client));
+                            if (it_channel->getOperators().size() > 1)
+                            {
+                                it_channel->removeOperator(*(*it_client));
+	                            caller.respond(":AFGchat 324 NOTICE " + channel_name + " :" + (*it_client)->get_nick() + " operator privileges OFF\n"); // correct format for weechat?
+                            }
+                            else
+	                            caller.respond(":AFGchat 324 NOTICE " + channel_name + " :" + " only one operator on channel. " + (*it_client)->get_nick() + " operator privileges UNCHANGED.\n"); // correct format for weechat?
 				        }
                         return ;
 					}
