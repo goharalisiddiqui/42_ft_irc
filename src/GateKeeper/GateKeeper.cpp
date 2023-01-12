@@ -1,4 +1,5 @@
 #include "../include/GateKeeper.hpp"
+#include "../include/ErrorHandler.hpp"
 
 
 namespace AFG
@@ -35,6 +36,11 @@ namespace AFG
     std::list<Client> &GateKeeper::get_clients(void)
     {
         return (this->clients);
+    }
+
+    ServerSocket &GateKeeper::get_sock(void)
+    {
+        return this->sock;
     }
 
     ///////////// FUNCTIONS /////////////////////

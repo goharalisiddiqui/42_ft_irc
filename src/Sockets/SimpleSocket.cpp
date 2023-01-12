@@ -1,5 +1,5 @@
 #include "../include/SimpleSocket.hpp"
-
+#include "../include/ErrorHandler.hpp"
 
 
 namespace AFG
@@ -14,6 +14,7 @@ namespace AFG
         
         this->status = AFG_SOCK_EMPTY;
         this->params = default_params;
+        create_socket(this->params);
         
     }
 
@@ -74,7 +75,11 @@ namespace AFG
         if (status >= AFG_SOCK_CREATED)
             return this->sock;
         else
+        {
+                printf("HERE2 STATUS=%d\n", status);
+
             throw SimpleSocket::EmptySocket();
+        }
 
     }
 

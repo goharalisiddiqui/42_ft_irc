@@ -1,4 +1,7 @@
 #include "../include/ErrorHandler.hpp"
+#include "../include/ServerSocket.hpp"
+#include "../include/SimpleSocket.hpp"
+#include "../include/GateKeeper.hpp"
 
 namespace AFG
 {
@@ -35,8 +38,8 @@ namespace AFG
             this->bindExceptioHandler();
         }
         catch(std::exception &e) {
-            std::cout << "An exception was thrown which is not handled by the ErrorHandler yet the error message is:" << e.what() << std::endl;
-            std::cout << "Continuing..." << e.what() << std::endl;
+            std::cout << "An exception was thrown which is not handled by the ErrorHandler yet, the error message is: " << e.what() << std::endl;
+            std::cout << "Continuing..." << std::endl;
         }
 
 

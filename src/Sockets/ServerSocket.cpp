@@ -1,4 +1,6 @@
 #include "../include/ServerSocket.hpp"
+#include "../include/ErrorHandler.hpp"
+
 namespace AFG
 {
 
@@ -30,6 +32,16 @@ namespace AFG
 
     }
 
+    ServerSocket &ServerSocket::operator=(const ServerSocket &src)
+    {
+        this->sock = src.get_socket();
+        this->params = src.get_params();
+        this->addr = src.getaddr();
+        this->status = src.get_status();
+
+        return *this; 
+    }
+
     struct sockaddr_in ServerSocket::getaddr(void) const
     {
         return this->addr;
@@ -48,7 +60,11 @@ namespace AFG
         try
         {
             if (this->status < AFG_SOCK_CREATED)
+            {
+                printf("HERE\n");
                 throw SimpleSocket::EmptySocket();
+
+            }
             if (this->status >= AFG_SOCK_LISTENING)
                 return;
 

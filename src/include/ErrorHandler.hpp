@@ -4,7 +4,6 @@
 #pragma once
 
 #include "libs.hpp"
-#include "All.hpp"
 
 namespace AFG
 {
@@ -31,6 +30,7 @@ namespace AFG
     };
 
 }
+
 
 
 #endif

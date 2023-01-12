@@ -20,7 +20,15 @@ int main(int argc, char **argv)
     in_port_t port = readport(std::string(argv[1]));
     std::string pass(argv[2]);
     AFG::GateKeeper heimdal(port, pass);
-    std::cout << "Server started" << std::flush;
+    while (true)
+    {
+        printf("status=%d\n", heimdal.get_sock().get_status());
+        if (heimdal.get_sock().get_status() == 1)
+            break;
+        heimdal = AFG::GateKeeper(port,pass);
+    }
+    std::cout << "Server started" << std::endl;
+    exit(0);
     AFG::ErrorHandler elliot;
     while (true)
     {

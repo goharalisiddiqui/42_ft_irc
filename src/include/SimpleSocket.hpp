@@ -44,15 +44,15 @@ namespace AFG
 
 
         private:
-            int sock;
             int reuse_addr;
-            struct s_sockparams params;
             const static struct s_sockparams default_params;
 
             void create_socket(struct s_sockparams par);
         
         protected:
             int status;
+            int sock;
+            struct s_sockparams params;
 
             
         

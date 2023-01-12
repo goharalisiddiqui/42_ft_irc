@@ -24,6 +24,7 @@ namespace AFG
 
 
             std::list<Client> &get_clients(void);
+            ServerSocket &get_sock(void);
 
             void watchover();
 
@@ -62,5 +63,6 @@ namespace AFG
 
     };
 }
+
 
 #endif

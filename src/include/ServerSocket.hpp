@@ -71,4 +71,5 @@ namespace AFG
 
 }
 
+#include "ErrorHandler.hpp"
 #endif
