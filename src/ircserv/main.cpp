@@ -22,13 +22,12 @@ int main(int argc, char **argv)
     AFG::GateKeeper heimdal(port, pass);
     while (true)
     {
-        printf("status=%d\n", heimdal.get_sock().get_status());
-        if (heimdal.get_sock().get_status() == 1)
+        // printf("status=%d\n", heimdal.get_sock().get_status());
+        if (heimdal.get_sock().get_status() == AFG_SOCK_LISTENING)
             break;
         heimdal = AFG::GateKeeper(port,pass);
     }
     std::cout << "Server started" << std::endl;
-    exit(0);
     AFG::ErrorHandler elliot;
     while (true)
     {
@@ -43,6 +42,7 @@ int main(int argc, char **argv)
         }
     }
 
+    exit(0);
 
     return (0);
 }

@@ -43,6 +43,8 @@ namespace AFG
             }
             if (reply != prefix)
                 reply.append(" ");
+            if (channel.isOperator(*(*it)))
+                reply.append("@");
             reply.append((*it)->get_nick());
         }
         if (reply != prefix)

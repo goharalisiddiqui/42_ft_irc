@@ -51,7 +51,7 @@ namespace AFG
 
         wait = 5;
         std::cout << "Cannot bind socket, this is probably because it needs time to be freed" << std::endl;
-        std::cout << "Will wait " << wait << " seconds before continuing" << std::flush;
+        std::cout << "Will wait " << wait << " seconds before reattempting" << std::flush;
         while(wait > 0)
         {
             sleep(1);

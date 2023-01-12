@@ -234,6 +234,7 @@ namespace AFG
                 this->message += readchar;
             // this->done_read = ismessagecomplete();
         }
+        // printf("current received message: %s\n", this->message.c_str());
     }
 
     void Client::respond(std::string response) const
@@ -259,7 +260,9 @@ namespace AFG
     {
         if (this->ismessagecomplete())
         {
-            this->message = this->message.substr(0, this->message.length() - sizeof(MSG_END_SEQ));
+            // printf("Trimming this msg: %s\n", this->message.c_str());
+            this->message = this->message.substr(0, this->message.length() - sizeof(MSG_END_SEQ) + 1);
+            // printf("Trimmmed msg: %s\n", this->message.c_str());
         }
     }
 }

@@ -46,6 +46,9 @@ namespace AFG
         else if (command == "PASS")
         {
             std::string user_pass = parser.parseToken(" ", 1);
+            // printf("Input=%s\n", input.c_str());
+            // printf("ENTERED pass=%s\n", user_pass.c_str());
+
             this->commandPASS(caller, user_pass);
         }
         if (!caller.isauthentic())

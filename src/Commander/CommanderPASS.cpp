@@ -4,7 +4,7 @@ namespace AFG
 {
     void Commander::commandPASS(Client &caller, std::string pass)
     {
-        printf("Correct pass=%s\n", this->pass.c_str());
+        // printf("Correct pass=%s\n", this->pass.c_str());
         // printf("ENTERED pass=%s\n", pass.c_str());
         if (pass != this->pass)
         {

@@ -115,9 +115,9 @@ namespace AFG
     operators.erase(&user);
   }
 
-  bool Channel::isOperator(Client& user) const
+  bool Channel::isOperator(Client const &user) const
   {
-    return (operators.count(&user) > 0);
+    return (operators.count((Client *)&user) > 0);
   }
 
   void Channel::spreadmsgfrom(Client &speaker, std::string &msg) const

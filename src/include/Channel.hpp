@@ -64,7 +64,7 @@ class Channel
     void removeOperator(Client& user);
 
     // Check if a user is an operator in the channel
-    bool isOperator(Client& user) const;
+    bool isOperator(Client const &user) const;
 
     void makeInviteOnly(void);
     void removeInviteOnly(void);
