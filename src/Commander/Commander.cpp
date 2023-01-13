@@ -113,11 +113,11 @@ namespace AFG
             std::vector<std::string> delims;
             delims.push_back(" ");
             delims.push_back(",");
-            std::vector<std::string> channel_names = parser.parseListToken(delims, 0);
-            std::vector<std::string> user_names = parser.parseListToken(delims, 1);
-            std::string comment = parser.parseToken(" ", 3);
+            std::vector<std::string> channel_names = parser.parseListToken(delims, 1);
+            std::vector<std::string> user_names = parser.parseListToken(delims, 2);
+            std::string comment = parser.getInput().getMessage();
             if (comment == "")
-                comment = ":" + caller.get_nick();
+                comment = caller.get_nick();
 
             commandKICK(caller, channel_names, user_names, comment);
         }
