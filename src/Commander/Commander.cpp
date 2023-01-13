@@ -131,6 +131,13 @@ namespace AFG
 
             commandKICK(caller, channel_names, user_names, comment);
         }
+        else if (command == "PART")
+        {
+            std::vector<std::string> channel_names;
+            channel_names = parser.getInput().getTargets();
+
+            this->commandPART(caller, channel_names);
+        }
     }
 
     bool Commander::nickTaken(std::string nick, std::list<Client> &clients) const
