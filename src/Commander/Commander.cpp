@@ -138,6 +138,10 @@ namespace AFG
 
             this->commandPART(caller, channel_names);
         }
+        else if (command == "QUIT")
+        {
+            this->commandQUIT(caller);
+        }
     }
 
     bool Commander::nickTaken(std::string nick, std::list<Client> &clients) const

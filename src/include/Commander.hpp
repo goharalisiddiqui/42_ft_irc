@@ -55,6 +55,7 @@ namespace AFG
             void commandINVITE(std::list<Client> &clients, Client &caller, std::string channel_name, std::string nick);
             void commandKICK(Client &caller, std::vector<std::string> &usernames, std::vector<std::string> &channelnames, std::string &comment);
             void commandPART(Client &caller, std::vector<std::string> &channel_names);
+            void commandQUIT(Client &caller);
 
 
 

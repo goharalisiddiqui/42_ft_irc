@@ -22,7 +22,7 @@ namespace AFG
             caller.respond(":AFGchat 482 NOTICE " + channel_name + " :You're not channel operator\n"); // correct format for weechat?
             return ;
         }
-        if ((modes.at(0) != '-' && modes.at(0) != '+') \
+        if ((modes.length() > 0 && modes.at(0) != '-' && modes.at(0) != '+') \
             || modes.find_first_not_of("iot", 1) != modes.npos
             || modes.find_first_of("iot", 1) == modes.npos)
         {
