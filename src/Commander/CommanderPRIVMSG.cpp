@@ -211,4 +211,5 @@ knowledge we can earn. A new way of communicating, a new way to be. IRC and AI, 
             else if (i <= 17)
               return whatIsHelloResponses[index];
         }
+        return("Yeah.... how about you?");
 }
