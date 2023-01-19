@@ -173,7 +173,7 @@ knowledge we can earn. A new way of communicating, a new way to be. IRC and AI, 
         for (std::string::iterator it = msg.begin(); it != msg.end(); ++it) {
             *it = std::tolower(*it);
         }
-        if (msg[msg.length()] == '?' || msg[msg.length()] == '!') //erase last character if space or ?
+        if (msg[msg.length() - 1] == '?' || msg[msg.length() - 1] == '!') //erase last character if space or ?
               msg.erase(--msg.end());
         int i = 0;
         while (i < 17)
