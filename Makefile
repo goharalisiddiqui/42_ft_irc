@@ -25,6 +25,8 @@ SRCS		= main.cpp \
 				CommanderUSER.cpp \
 				CommandKICK.cpp \
 				CommandJOIN.cpp \
+				CommanderPART.cpp \
+				CommanderQUIT.cpp \
 				Channel.cpp \
 
 INCLUDES	= -I./include/
