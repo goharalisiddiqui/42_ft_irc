@@ -161,14 +161,19 @@ namespace AFG
 
     void GateKeeper::garbage_collector(void)
     {
+        this->fdmax = this->sock.get_socket();
         for(std::list<Client>::iterator it=this->clients.begin(); it != this->clients.end(); ++it)
         {
             if (it->isgarbage())
 			{
                 this->clients.erase(it);
+                // printf("Removed client with nick %s\n", it->get_nick().c_str());
 				it=this->clients.begin();
 			}
-            //TODO Update the fdmax
+            else if (it->get_fd() > this->fdmax)
+            {
+                this->fdmax = it->get_fd();
+            }
         }
     }
 

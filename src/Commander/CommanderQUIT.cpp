@@ -10,9 +10,11 @@ namespace AFG
             if (it->hasUser(caller))
             {
                 it->removeUser(caller);
-/*                 if (it->isOperator(caller))
-                    it->removeOperator(caller); */
+                if (it->isOperator(caller))
+                    it->removeOperator(caller);
             }
         }
+        close(caller.get_fd());
+        caller.set_garbage();
     }
 }
