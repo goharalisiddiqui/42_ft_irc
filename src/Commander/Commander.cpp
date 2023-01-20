@@ -77,10 +77,20 @@ namespace AFG
         else if (command == "PRIVMSG")
         {
             //if(*(parser.parseToken(" ", 1).begin()) == '#')
-            if(parser.parseToken(" ", 1)[0] == '#')
-                this->commandChannelMessage(clients, caller, parser.parseToken(" ", 1), parser.parseMessage());
-            else
-                this->commandPRIVMSG(clients, caller, parser.parseToken(" ", 1), parser.parseMessage());
+            std::vector<std::string> targets;
+            targets = parser.getInput().getTargets();
+            if (targets.size() == 0)
+            {
+                caller.respond(":AFGchat 411 NOTICE Auth :No recipient given (PRIVMSG)\n");
+                return ;
+            }
+            for (int i = 0; i < targets.size(); i++)
+            {
+                if(targets[i][0] == '#')
+                    this->commandChannelMessage(clients, caller, targets[i], parser.parseMessage());
+                else
+                    this->commandPRIVMSG(clients, caller, targets[i], parser.parseMessage());
+            }
         }
         else if (command == "JOIN")
         {
