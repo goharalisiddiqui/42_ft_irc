@@ -39,12 +39,8 @@ namespace AFG
         {
             if (it_client->get_nick() == nick)
             {
-<<<<<<< HEAD
-                it_client->respond("You got invited to " + channel_name + "\n");
-=======
                 it_client->respond(":AFGchat 341 NOTICE " + nick + " You got invited to " + channel_name);
                 caller.respond(":AFGchat 341 NOTICE " + channel_name + " " + nick);
->>>>>>> origin/chatbot
                 it->inviteUser(caller, *it_client);
             }
         }
