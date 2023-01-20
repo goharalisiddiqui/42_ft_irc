@@ -39,8 +39,12 @@ namespace AFG
         {
             if (it_client->get_nick() == nick)
             {
-                it_client->respond(":AFGchat 341 NOTICE " + nick + " You got invited to " + channel_name);
-                caller.respond(":AFGchat 341 NOTICE " + channel_name + " " + nick);
+                //to invite someone :nicki!a@127.0.0.1 INVITE ni :#chan2
+                //it_client->respond(":AFGchat 341 " + caller.get_nick() + " " + nick + " " + channel_name + "\n");
+                it_client->respond(":" + caller.get_nick() + "!" + caller.get_username() + ("@"));
+                it_client->respond(caller.get_hostname() + " INVITE " + nick + " :" + channel_name + "\n");
+                //response to caller :irc.local 341 nicki ni #chan2
+                caller.respond(":AFGchat 341 " + caller.get_nick() + " " + nick + " " + channel_name + "\n");
                 it->inviteUser(caller, *it_client);
             }
         }

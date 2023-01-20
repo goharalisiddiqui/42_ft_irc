@@ -24,7 +24,7 @@ namespace AFG
         if (channel.getTopic() == "")
             caller.respond(":" SERVER_NAME " " RPL_NOTOPIC " " + caller.get_nick() + " " + channel.getName() + " :No topic is set" + MSG_END_SEQ);
         else
-            caller.respond(":" SERVER_NAME " " RPL_NOTOPIC " " + caller.get_nick() + " " + channel.getName() + " :" + channel.getTopic() + MSG_END_SEQ);
+            caller.respond(":" SERVER_NAME " 332 " + caller.get_nick() + " " + channel.getName() + " :" + channel.getTopic() + MSG_END_SEQ);
     }
 
     void cJOIN_reponseSendNewcomerNamelist(Client &caller, Channel &channel) // Notify channel of the joined user

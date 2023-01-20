@@ -44,13 +44,13 @@ namespace AFG
     if(this->inviteOnly)
     {
       if(this->topicOpOnly)
-        return "it";
+        return "+it";
       else
-        return "i";
+        return "+i";
     }
     if(this->topicOpOnly)
-        return "t";
-    return "";
+        return "+t";
+    return "___"; //Remove _ at end!!!
   }
 
   std::string const &Channel::getName() const
