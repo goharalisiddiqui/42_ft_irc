@@ -16,7 +16,7 @@ namespace AFG
         }
         if (channelExists(channel_name) == false)
         {
-            caller.respond(":AFGchat 341 NOTICE " + channel_name + nick + " :got invited\n"); // correct format for weechat?
+            caller.respond(":AFGchat 341 NOTICE " + channel_name + " " + nick + " :got invited\n"); // correct format for weechat?
             // to do: notify user who got invited?
             return ;
         }
@@ -39,7 +39,7 @@ namespace AFG
         {
             if (it_client->get_nick() == nick)
             {
-                it_client->respond("You got invited to " + channel_name);
+                it_client->respond("You got invited to " + channel_name + "\n");
                 it->inviteUser(caller, *it_client);
             }
         }

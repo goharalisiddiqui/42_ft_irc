@@ -71,7 +71,8 @@ namespace AFG
     {
         Channel *ch;
 
-        if ((channelName.at(0) != '#') || (channelName.find_first_of(":") != channelName.npos))
+        if ((channelName.size() < 2) || (channelName.at(0) != '#') \
+            || (channelName.find_first_of(":") != channelName.npos))
         {
             cJOIN_reponseInvalidChannel(caller, channelName);   
             return;
