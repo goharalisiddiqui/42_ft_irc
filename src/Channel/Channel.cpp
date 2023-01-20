@@ -39,6 +39,20 @@ namespace AFG
 
 
 
+  std::string const Channel::getModes() const
+  {
+    if(this->inviteOnly)
+    {
+      if(this->topicOpOnly)
+        return "it";
+      else
+        return "i";
+    }
+    if(this->topicOpOnly)
+        return "t";
+    return "";
+  }
+
   std::string const &Channel::getName() const
   {
     return name;

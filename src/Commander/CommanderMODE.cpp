@@ -22,7 +22,12 @@ namespace AFG
             caller.respond(":AFGchat 482 NOTICE " + channel_name + " :You're not channel operator\n"); // correct format for weechat?
             return ;
         }
-        if ((modes.length() > 0 && modes.at(0) != '-' && modes.at(0) != '+') \
+        if (modes == "")
+        {
+            caller.respond(":AFGchat 324 " + caller.get_nick() + " " + channel_name + " +" + it_channel->getModes() + "\n");
+            return;
+        }
+        if ((modes.at(0) != '-' && modes.at(0) != '+') \
             || modes.find_first_not_of("iot", 1) != modes.npos
             || modes.find_first_of("iot", 1) == modes.npos)
         {
@@ -31,7 +36,7 @@ namespace AFG
         }
         if (modes.find_first_of("i") != modes.npos)
         {
-            if (modes.length() > 0 && modes.at(0) == '+')
+            if (modes.at(0) == '+')
 			{
                 caller.respond(":AFGchat 324 NOTICE " + channel_name + " :invite-only ON\n"); // correct format for weechat?
                 it_channel->makeInviteOnly();
@@ -44,7 +49,7 @@ namespace AFG
         }
         if (modes.find_first_of("t") != modes.npos)
         {
-            if (modes.length() > 0 && modes.at(0) == '+')
+            if (modes.at(0) == '+')
 			{
                 caller.respond(":AFGchat 324 NOTICE " + channel_name + " :topic operater only ON\n"); // correct format for weechat?
                 it_channel->makeTopicOpOnly();
@@ -73,7 +78,7 @@ namespace AFG
                     if ((*it_client)->get_nick() == user)
 					{
                 	    std::cout << (*it_client)->get_nick() << std::endl;
-                	    if (modes.length() > 0 && modes.at(0) == '+')
+                	    if (modes.at(0) == '+')
 				        {
 	                        caller.respond(":AFGchat 324 NOTICE " + channel_name + " :" + (*it_client)->get_nick() + " operator privileges ON\n"); // correct format for weechat?
                             it_channel->addOperator(*(*it_client));
