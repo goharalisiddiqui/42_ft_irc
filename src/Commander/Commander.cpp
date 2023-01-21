@@ -128,7 +128,7 @@ namespace AFG
             std::vector<std::string> user_names = parser.parseListToken(delims, 2);
             std::string comment = parser.parseToken(" ", 3);
             if (comment == "")
-                comment = ":" + caller.get_nick();
+                comment = caller.get_nick();
             if (channel_names.at(0) == "" || user_names.at(0) == "")
                 caller.respond(":" SERVER_NAME " " ERR_NEEDMOREPARAMS + command + " :Not enough parameters" + MSG_END_SEQ);
             else
