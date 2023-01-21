@@ -61,7 +61,7 @@ namespace AFG
 
             this->commandPASS(caller, user_pass);
         }
-        if (!caller.isauthentic())
+        if (!caller.isauthentic() || command == "NICK" || command == "USER" || command == "PASS")
             return;
         if (command == "PING")
         {
@@ -153,6 +153,10 @@ namespace AFG
                 caller.respond(":AFGchat 322 " + caller.get_nick() + " " + it->getName() + " " + std::to_string(it->getUsers().size()) + " [" + it->getModes() + "]\n");
             }
             caller.respond(":AFGchat 323 " + caller.get_nick() + " :END of LIST\n");
+        }
+        else
+        {
+            caller.respond(":AFGchat 421 NOTICE " + command + " :Unknown command\n");
         }
     }
 
