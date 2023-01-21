@@ -39,7 +39,7 @@ namespace AFG
             void set_servername(std::string const &str);
             void set_nick(std::string const &str);
             void set_garbage(void);
-            void set_passed(void);
+            void set_passed(bool state);
             void activate(void);
             void deactivate(void);
             void authenticate(void);
