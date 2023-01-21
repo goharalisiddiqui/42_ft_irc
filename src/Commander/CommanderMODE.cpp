@@ -24,7 +24,7 @@ namespace AFG
         }
         if (it_channel->isOperator(caller) == false)
         {
-            caller.respond(":AFGchat 482 NOTICE " + channel_name + " :You're not channel operator\n"); // correct format for weechat?
+            caller.respond(":AFGchat 482 " + channel_name + " :You're not channel operator\n"); // correct format for weechat?
             return ;
         }
         if ((modes.at(0) != '-' && modes.at(0) != '+') \

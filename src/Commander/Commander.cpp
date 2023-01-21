@@ -150,7 +150,12 @@ namespace AFG
             caller.respond(":AFGchat 321 " + caller.get_nick() + " Channel :Users Name (START of LIST)\n");
             for (std::list<Channel>::iterator it = channels.begin(); it != channels.end(); ++it)
             {
-                caller.respond(":AFGchat 322 " + caller.get_nick() + " " + it->getName() + " " + std::to_string(it->getUsers().size()) + " :[" + it->getModes() + "] " + it->getTopic() + "\n");
+                int i = it->getUsers().size();
+                std::string s;
+                std::stringstream out;
+                out << i;
+                s = out.str();
+                caller.respond(":AFGchat 322 " + caller.get_nick() + " " + it->getName() + " " + s + " :[" + it->getModes() + "] " + it->getTopic() + "\n");
             }
             caller.respond(":AFGchat 323 " + caller.get_nick() + " :END of LIST\n");
         }
@@ -158,6 +163,8 @@ namespace AFG
 
     bool Commander::nickTaken(std::string nick, std::list<Client> &clients) const
     {
+        if ( nick == "chatbot")
+            return true;
         for(std::list<Client>::const_iterator it = clients.begin(); it != clients.end(); ++it)
         {
             if (it->get_nick() == nick)

@@ -50,7 +50,7 @@ namespace AFG
     }
     if(this->topicOpOnly)
         return "+t";
-    return "___"; //Remove _ at end!!!
+    return "";
   }
 
   std::string const &Channel::getName() const
