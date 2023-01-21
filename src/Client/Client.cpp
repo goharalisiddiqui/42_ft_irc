@@ -251,7 +251,7 @@ namespace AFG
     bool Client::ismessagecomplete(void)
     {
         if (this->message.length() >= sizeof(MSG_END_SEQ)
-            && this->message.substr(this->message.length() - 2, 2) == MSG_END_SEQ)
+            && this->message.substr(this->message.length() - sizeof(MSG_END_SEQ), sizeof(MSG_END_SEQ)) == MSG_END_SEQ)
             return true;
         return false;
     }
