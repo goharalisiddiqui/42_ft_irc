@@ -2,6 +2,12 @@
 
 namespace AFG
 {
+
+    void cTOPIC_reponseNotifyChannelOfTopic(Client &caller, Channel &channel) // Notify channel of the joined user
+    {
+        channel.announce(":" SERVER_NAME " " RPL_TOPIC " " + caller.get_nick() + " " + channel.getName() + " :" + channel.getTopic() + MSG_END_SEQ);
+    }
+
     /* does two things: either - if a topic is given - setting a new topic or sending the current topic */
     void    Commander::commandTOPIC(Client &caller, std::vector<std::string> channel_name, std::string new_topic)
     {
@@ -22,11 +28,12 @@ namespace AFG
             {
                 if (it->isOperator(caller) == false)
                 {
-                    caller.respond(":AFGchat 482 NOTICE :channel is in -t mode. only operators can change the topic\n"); // correct format for weechat?
+                    caller.respond(":AFGchat 482 :channel is in -t mode. only operators can change the topic\n"); // correct format for weechat?
                     return ;
                 }
             }
             it->setTopic(new_topic);
+            cTOPIC_reponseNotifyChannelOfTopic(caller, *it);
         }
         else if (this->channelExists(channel_name.at(0)))
         {
