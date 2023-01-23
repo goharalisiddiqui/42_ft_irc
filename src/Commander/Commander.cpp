@@ -61,7 +61,7 @@ namespace AFG
 
             this->commandPASS(caller, user_pass);
         }
-        if (!caller.isauthentic())
+        if (!caller.isauthentic() || command == "NICK" || command == "USER" || command == "PASS")
             return;
         if (command == "PING")
         {
@@ -128,7 +128,7 @@ namespace AFG
             std::vector<std::string> user_names = parser.parseListToken(delims, 2);
             std::string comment = parser.parseToken(" ", 3);
             if (comment == "")
-                comment = ":" + caller.get_nick();
+                comment = caller.get_nick();
             if (channel_names.at(0) == "" || user_names.at(0) == "")
                 caller.respond(":" SERVER_NAME " " ERR_NEEDMOREPARAMS + command + " :Not enough parameters" + MSG_END_SEQ);
             else
@@ -153,6 +153,10 @@ namespace AFG
                 caller.respond(":AFGchat 322 " + caller.get_nick() + " " + it->getName() + " " + std::to_string(it->getUsers().size()) + " [" + it->getModes() + "]\n");
             }
             caller.respond(":AFGchat 323 " + caller.get_nick() + " :END of LIST\n");
+        }
+        else
+        {
+            caller.respond(":AFGchat 421 NOTICE " + command + " :Unknown command\n");
         }
     }
 

@@ -160,9 +160,9 @@ namespace AFG
         this->garbage = true;
     }
 
-    void Client::set_passed(void)
+    void Client::set_passed(bool state)
     {
-        this->passed = true;
+        this->passed = state;
     }
 
     void Client::activate(void)
