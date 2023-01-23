@@ -13,7 +13,7 @@ namespace AFG
     {
         if (channel_name.size() != 1)
         {
-            caller.respond(":AFGchat 407 NOTICE :TOPIC needs one and only one channel.\n"); // correct format for weechat?
+            caller.respond(":AFGchat 461 NOTICE TOPIC :Not enough parameters\n"); // correct format for weechat?
             return ;
         }
         std::list<Channel>::iterator it;
@@ -26,16 +26,21 @@ namespace AFG
         {
             if (new_topic != "")
             {
-                if (it->isTopicOpOnly() == true)
+                if (it->isTopicOpOnly() == true && it->isOperator(caller) == false)
                 {
-                    if (it->isOperator(caller) == false)
-                    {
-                        caller.respond(":AFGchat 482 :channel is in -t mode. only operators can change the topic\n"); // correct format for weechat?
-                        return ;
-                    }
+                    caller.respond(":AFGchat 482 NOTICE " + channel_name.at(0) + " :You're not channel operator\n"); // correct format for weechat?
+                    return ;
                 }
-                it->setTopic(new_topic);
-                cTOPIC_reponseNotifyChannelOfTopic(caller, *it);
+                else if (!it->hasUser(caller))
+                {
+                    caller.respond(":AFGchat 442 NOTICE " + channel_name.at(0) + " :You're not on that channel\n"); // correct format for weechat?
+                    return ;
+                }
+                else
+                {
+                    it->setTopic(new_topic);
+                    cTOPIC_reponseNotifyChannelOfTopic(caller, *it);
+                }
             }
             else
             {
@@ -45,5 +50,7 @@ namespace AFG
                     caller.respond(":AFGchat 331 NOTICE " + channel_name.at(0) + " :No topic is set\n"); // correct format for weechat?
             }
         }
+        else
+            caller.respond(":AFGchat 442 NOTICE " + channel_name.at(0) + " :You're not on that channel\n"); // correct format for weechat?
     }
 }
