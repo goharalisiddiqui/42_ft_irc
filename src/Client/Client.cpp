@@ -160,9 +160,9 @@ namespace AFG
         this->garbage = true;
     }
 
-    void Client::set_passed(void)
+    void Client::set_passed(bool state)
     {
-        this->passed = true;
+        this->passed = state;
     }
 
     void Client::activate(void)
@@ -250,8 +250,9 @@ namespace AFG
 
     bool Client::ismessagecomplete(void)
     {
-        if (this->message.length() >= sizeof(MSG_END_SEQ)
-            && this->message.substr(this->message.length() - 2, 2) == MSG_END_SEQ)
+        int msglen = sizeof(MSG_END_SEQ) - 1;
+        if (this->message.length() >= msglen
+            && this->message.substr(this->message.length() - msglen, msglen) == MSG_END_SEQ)
             return true;
         return false;
     }
