@@ -67,7 +67,7 @@ namespace AFG
         {
             caller.respond(":AFGchat PONG :AFGchat\n");
         }
-        if (command == "TOPIC")
+        else if (command == "TOPIC")
         {
             std::string                 new_topic = parser.getInput().getMessage();
             std::vector<std::string>    channel_name = parser.getInput().getTargets();
