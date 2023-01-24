@@ -61,7 +61,6 @@ namespace AFG
         {
             if (this->status < AFG_SOCK_CREATED)
             {
-                printf("HERE\n");
                 throw SimpleSocket::EmptySocket();
 
             }

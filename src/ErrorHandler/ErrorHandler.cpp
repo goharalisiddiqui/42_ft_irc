@@ -27,6 +27,18 @@ namespace AFG
 
     // }
 
+
+    void ErrorHandler::waiter(int wait)
+    {
+        while(wait > 0)
+        {
+            sleep(1);
+            std::cout << "." << std::flush;
+            wait--;
+        }
+        std::cout << std::endl;
+    }
+
     void ErrorHandler::handle(const std::exception &e)
     {
         try 
@@ -35,31 +47,32 @@ namespace AFG
         }
         catch( ServerSocket::CannotBindSocket &e) 
         {
-            this->bindExceptioHandler();
+            this->bindExceptionHandler();
+        }
+        catch( GateKeeper::CannotSelect &e) 
+        {
+            this->selectExceptionHandler();
         }
         catch(std::exception &e) {
             std::cout << "An exception was thrown which is not handled by the ErrorHandler yet, the error message is: " << e.what() << std::endl;
-            std::cout << "Continuing..." << std::endl;
+            std::cout << "Continuing in " << ERR_WAIT << "seconds";
         }
 
 
     }
 
-    void ErrorHandler::bindExceptioHandler(void)
+    void ErrorHandler::bindExceptionHandler(void)
     {
-        int wait;
-
-        wait = 5;
         std::cout << "Cannot bind socket, this is probably because it needs time to be freed" << std::endl;
-        std::cout << "Will wait " << wait << " seconds before reattempting" << std::flush;
-        while(wait > 0)
-        {
-            sleep(1);
-            std::cout << "." << std::flush;
-            wait--;
-        }
-        std::cout << std::endl;
+        std::cout << "Will wait " << ERR_WAIT << " seconds before reattempting" << std::flush;
+        this->waiter(ERR_WAIT);
+    }
 
+    void ErrorHandler::selectExceptionHandler(void)
+    {
+        std::cout << "Error while trying to select a client to serve, this should not happen" << std::endl;
+        std::cout << "Will wait " << ERR_WAIT << " seconds before reattempting" << std::flush;
+        this->waiter(ERR_WAIT);
     }
 
 }

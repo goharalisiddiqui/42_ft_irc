@@ -52,9 +52,10 @@ namespace AFG
 
     SimpleSocket &SimpleSocket::operator=(SimpleSocket const &src)
     {
-        //NOTE: Only copies the scoket settings
-
         this->params = src.get_params();
+        this->sock = src.sock;
+        this->status = src.sock;
+
         return *this;
     }
 
@@ -76,8 +77,6 @@ namespace AFG
             return this->sock;
         else
         {
-                printf("HERE2 STATUS=%d\n", status);
-
             throw SimpleSocket::EmptySocket();
         }
 

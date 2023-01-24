@@ -5,6 +5,8 @@
 
 #include "libs.hpp"
 
+#define ERR_WAIT 5
+
 namespace AFG
 {
 
@@ -23,7 +25,9 @@ namespace AFG
 
     private:
 
-        void bindExceptioHandler(void);
+        void bindExceptionHandler(void);
+        void selectExceptionHandler(void);
+        void waiter(int wait);
         
 
 

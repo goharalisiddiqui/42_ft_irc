@@ -35,7 +35,7 @@ namespace AFG
             ~Commander();
             // Commander(const Commander &src);
 
-            // Commander &operator=(const Commander &src);
+            Commander &operator=(const Commander &src);
             void process(std::list<Client> &clients, Client &caller);
  
             void cQUIT_purgeClient(Client &caller);

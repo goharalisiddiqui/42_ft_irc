@@ -19,13 +19,11 @@ int main(int argc, char **argv)
     }
     in_port_t port = readport(std::string(argv[1]));
     std::string pass(argv[2]);
-    AFG::GateKeeper heimdal(port, pass);
-    while (true)
+    AFG::GateKeeper *heimdal = new AFG::GateKeeper(port, pass);
+    while (heimdal->get_sock().get_status() != AFG_SOCK_LISTENING)
     {
-        // printf("status=%d\n", heimdal.get_sock().get_status());
-        if (heimdal.get_sock().get_status() == AFG_SOCK_LISTENING)
-            break;
-        heimdal = AFG::GateKeeper(port,pass);
+        delete(heimdal);
+        heimdal = new AFG::GateKeeper(port, pass);
     }
     std::cout << "Server started" << std::endl;
     AFG::ErrorHandler elliot;
@@ -33,16 +31,15 @@ int main(int argc, char **argv)
     {
         try
         {
-            heimdal.watchover();
-            // heimdal.printClients();
-            heimdal.serve();
+            heimdal->watchover();
+            // heimdal->printClients();
+            heimdal->serve();
         }
         catch(const std::exception& e)
         {
             elliot.handle(e);
         }
     }
-
-
+    delete(heimdal);
     return (0);
 }

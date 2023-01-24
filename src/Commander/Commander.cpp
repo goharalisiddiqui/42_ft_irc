@@ -15,6 +15,16 @@ namespace AFG
     Commander::~Commander()
     {
     }
+
+    Commander &Commander::operator=(const Commander &src)
+    {
+        this->pass = src.pass;
+        this->channels = src.channels;
+        return (*this);
+    }
+
+
+
     void Commander::process(std::list<Client> &clients, Client &caller)
     {
         std::string input = caller.get_message();

@@ -31,6 +31,18 @@ namespace AFG
 
     }
 
+    GateKeeper &GateKeeper::operator=(const GateKeeper &src)
+    {
+        this->fdmax = src.fdmax;
+        this->conmax = src.conmax;
+        this->clients = src.clients;
+        this->sock = src.sock;
+        this->fredi = src.fredi;
+
+        return (*this);
+    }
+
+
     ///////////// Getters /////////////////////
 
     std::list<Client> &GateKeeper::get_clients(void)
@@ -87,7 +99,7 @@ namespace AFG
 		    return_val = select(this->fdmax + 1, &selist, (fd_set *) 0, (fd_set *) 0, &timeout);
 		    if (return_val < 0)
             {
-                // perror("select:");
+                perror("select:");
                 throw GateKeeper::CannotSelect();
 
             }
