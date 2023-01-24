@@ -6,9 +6,9 @@ static std::string ChatbotAnswer(std::string &msg);
 
 namespace AFG
 {
-    void Commander::commandPRIVMSG(std::list<Client> &clients, Client &caller, std::string othername, std::string msg)
+    void Commander::commandPRIVMSG(std::list<Client> &clients, Client &caller, std::string othername, std::string msg, std::string command)
     {
-        if ("chatbot" == othername)
+        if ("chatbot" == othername && command != "NOTICE")
         {
             std::string answer = ChatbotAnswer(msg);
             caller.respond(":chatbot!chat@");

@@ -74,7 +74,7 @@ namespace AFG
 
             this->commandTOPIC(caller, channel_name, new_topic);
         }
-        else if (command == "PRIVMSG")
+        else if (command == "PRIVMSG" || command == "NOTICE")
         {
             //if(*(parser.parseToken(" ", 1).begin()) == '#')
             std::vector<std::string> targets;
@@ -89,7 +89,7 @@ namespace AFG
                 if(targets[i][0] == '#')
                     this->commandChannelMessage(clients, caller, targets[i], parser.parseMessage());
                 else
-                    this->commandPRIVMSG(clients, caller, targets[i], parser.parseMessage());
+                    this->commandPRIVMSG(clients, caller, targets[i], parser.parseMessage(), command);
             }
         }
         else if (command == "JOIN")
