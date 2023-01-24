@@ -56,9 +56,11 @@ namespace AFG
         FD_SET(this->sock.get_socket(), &res);
         for(std::list<Client>::iterator it=this->clients.begin(); it != this->clients.end(); ++it)
         {
-            // printf("Adding %d to sellist.\n", it->get_fd());
             if (!it->ismessagecomplete())
+            {
+                // printf("Adding %d to sellist.\n", it->get_fd());
                 FD_SET(it->get_fd(), &res);
+            }
         }
         return res;
     }
@@ -68,12 +70,10 @@ namespace AFG
     {
         struct timeval timeout;
         int return_val = 0;
-		timeout.tv_sec = 1;
-		timeout.tv_usec = 0;
 
         garbage_collector();
 
-        fd_set selist = build_selist();
+        fd_set selist;
 
         // printf("Server Socket status=%d\n", this->sock.get_status());
         // printf("Max file descriptor=%d\n", this->fdmax);
@@ -91,10 +91,10 @@ namespace AFG
                 throw GateKeeper::CannotSelect();
 
             }
-		    if (return_val == 0) {
-			    // printf(".");
-			    fflush(stdout);
-		    }
+		    // if (return_val == 0) {
+			//     printf(".");
+			//     fflush(stdout);
+		    // }
         }
         // printf("HERE1\n");
         if (FD_ISSET(this->sock.get_socket(),&selist))
@@ -160,6 +160,7 @@ namespace AFG
 
     void GateKeeper::garbage_collector(void)
     {
+        // printf("Garbage collector started.\n");
         this->fdmax = this->sock.get_socket();
         for(std::list<Client>::iterator it=this->clients.begin(); it != this->clients.end(); ++it)
         {
@@ -169,11 +170,12 @@ namespace AFG
                 // printf("Removed client with nick %s\n", it->get_nick().c_str());
                 it = this->clients.erase(it);
 			}
-            else if (it->get_fd() > this->fdmax)
+            if (it->get_fd() > this->fdmax)
             {
                 this->fdmax = it->get_fd();
             }
         }
+        // printf("Garbage collector ended.\n");
     }
 
 
