@@ -38,6 +38,7 @@ namespace AFG
             // Commander &operator=(const Commander &src);
             void process(std::list<Client> &clients, Client &caller);
  
+            void cQUIT_purgeClient(Client &caller);
 
         private:
             Commander();
@@ -62,7 +63,6 @@ namespace AFG
             bool usernameTaken(std::string username, std::list<Client> &clients) const;
             bool nickTaken(std::string nick, std::list<Client> &clients) const;
             bool channelExists(std::string channelName) const;
-            void addUserToChannel(Client &user, std::string &channelName);
             void printChannels(); // only for Debugging
         public:
 

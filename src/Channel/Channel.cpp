@@ -149,7 +149,8 @@ namespace AFG
   {
       for(std::set<Client *>::const_iterator it = this->users.begin(); it != this->users.end(); ++it)
       {
-        (*it)->respond(msg);
+        if (!(*it)->isgarbage())
+          (*it)->respond(msg);
       }
   }
 

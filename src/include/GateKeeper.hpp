@@ -30,6 +30,9 @@ namespace AFG
 
             void serve(void);
 
+            //temp
+            void printClients(void);
+
         private:
             int fdmax;
             int conmax;
@@ -42,9 +45,9 @@ namespace AFG
             void remove_client(int fd);
 
             void setnonblock(int fd);
+            void garbage_collector(void);
 
             fd_set build_selist(void);
-            void garbage_collector(void);
 
 
 

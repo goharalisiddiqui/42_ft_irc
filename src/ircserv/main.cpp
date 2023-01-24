@@ -34,6 +34,7 @@ int main(int argc, char **argv)
         try
         {
             heimdal.watchover();
+            // heimdal.printClients();
             heimdal.serve();
         }
         catch(const std::exception& e)
@@ -42,7 +43,6 @@ int main(int argc, char **argv)
         }
     }
 
-    exit(0);
 
     return (0);
 }

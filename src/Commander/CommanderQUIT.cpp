@@ -8,7 +8,7 @@ namespace AFG
         channel.announce(":" + caller.get_nick() + "!" + caller.get_username() + "@" + caller.get_hostname() + " QUIT :" + " " + MSG_END_SEQ);
     }
 
-    void Commander::commandQUIT(Client &caller)
+    void Commander::cQUIT_purgeClient(Client &caller)
     {
         std::list<AFG::Channel>::iterator it;
         for (it = this->channels.begin(); it != this->channels.end(); it++)
@@ -22,7 +22,12 @@ namespace AFG
                 break;
             }
         }
-        close(caller.get_fd());
         caller.set_garbage();
+    }
+
+    void Commander::commandQUIT(Client &caller)
+    {
+        this->cQUIT_purgeClient(caller);
+        close(caller.get_fd());
     }
 }
