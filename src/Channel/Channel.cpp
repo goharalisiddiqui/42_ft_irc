@@ -113,7 +113,7 @@ namespace AFG
     return this->invited_users;
   }
 
-  void Channel::inviteUser(const Client& inviter, Client& invitee)
+  void Channel::inviteUser(Client& invitee)
   {
       invited_users.insert(&invitee);
   }

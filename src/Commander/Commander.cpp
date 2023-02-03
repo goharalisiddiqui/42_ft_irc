@@ -91,10 +91,10 @@ namespace AFG
                 caller.respond(":AFGchat 411 NOTICE Auth :No recipient given (PRIVMSG)\n");
                 return ;
             }
-            for (int i = 0; i < targets.size(); i++)
+            for (size_t i = 0; i < targets.size(); i++)
             {
                 if(targets[i][0] == '#')
-                    this->commandChannelMessage(clients, caller, targets[i], parser.parseMessage());
+                    this->commandChannelMessage(caller, targets[i], parser.parseMessage());
                 else
                     this->commandPRIVMSG(clients, caller, targets[i], parser.parseMessage(), command);
             }

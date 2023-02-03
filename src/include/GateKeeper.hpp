@@ -33,7 +33,7 @@ namespace AFG
 
         private:
             int fdmax;
-            int conmax;
+            size_t conmax;
             std::list<Client> clients;
             ServerSocket sock;
             Commander fredi;

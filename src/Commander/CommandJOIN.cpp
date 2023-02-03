@@ -35,7 +35,6 @@ namespace AFG
     void cJOIN_reponseSendNewcomerNamelist(Client &caller, Channel &channel) // Notify channel of the joined user
     {
         std::string prefix = ":" SERVER_NAME " " RPL_NAMREPLY " " + caller.get_nick() + " = " + channel.getName() + " :";
-        int length  = prefix.length();
         std::set<Client *> users = channel.getUsers();
         std::string reply = prefix;
 

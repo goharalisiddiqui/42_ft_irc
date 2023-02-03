@@ -41,7 +41,7 @@ namespace AFG
                 it_client->respond(":" + caller.get_nick() + "!" + caller.get_username() + ("@"));
                 it_client->respond(caller.get_hostname() + " INVITE " + nick + " :" + channel_name + "\n");
                 caller.respond(":AFGchat 341 " + caller.get_nick() + " " + nick + " " + channel_name + "\n");
-                it->inviteUser(caller, *it_client);
+                it->inviteUser(*it_client);
             }
         }
     }

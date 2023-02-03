@@ -23,8 +23,8 @@ namespace AFG
             Input            getInput(void) const;
             std::vector<std::string>    getUserInfo(std::string input);
             std::string                 getUserNick(std::string input);
-            std::string                 parseToken(std::string _delimiter, int _token_pos);
-            std::vector<std::string>    parseListToken(std::vector<std::string> _delimiter, int _token_pos);
+            std::string                 parseToken(std::string _delimiter, size_t _token_pos);
+            std::vector<std::string>    parseListToken(std::vector<std::string> _delimiter, size_t _token_pos);
             std::string                 parseMessage(void);
 
         private:

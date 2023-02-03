@@ -4,7 +4,7 @@
 
 namespace AFG
 {
-    GateKeeper::GateKeeper() : sock(), conmax(MAX_CLIENTS), fredi("")
+    GateKeeper::GateKeeper() : conmax(MAX_CLIENTS), sock(), fredi("")
     {
         this->sock.socklisten();
         this->fdmax = this->sock.get_socket();
@@ -12,14 +12,14 @@ namespace AFG
 
     }
 
-    GateKeeper::GateKeeper(int domain, int type, int protocol, int ip, int port, int backlog, int nmax, std::string pass) : sock(domain, type, protocol), conmax(nmax), fredi(pass)
+    GateKeeper::GateKeeper(int domain, int type, int protocol, int ip, int port, int backlog, int nmax, std::string pass) :  conmax(nmax), sock(domain, type, protocol), fredi(pass)
     {
         this->sock.socklisten((struct in_addr){(in_addr_t)ip}, port, backlog);
         this->fdmax = sock.get_socket();
         setnonblock(this->sock.get_socket());
     }
 
-    GateKeeper::GateKeeper(in_port_t port, std::string pass) : sock(), conmax(MAX_CLIENTS), fredi(pass)
+    GateKeeper::GateKeeper(in_port_t port, std::string pass) : conmax(MAX_CLIENTS), sock(), fredi(pass)
     {
         this->sock.socklisten((struct in_addr){(in_addr_t)INADDR_ANY}, port, 10);
         this->fdmax = sock.get_socket();

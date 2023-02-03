@@ -1,9 +1,9 @@
 NAME		= ircserv
 
 CC			= gcc
-CFLAGS		=  #-Wall -Werror -Wextra -g
+CFLAGS		=  -Wall -Werror -Wextra -g
 CXX			= c++
-CXXFLAGS	= #-Wall -Werror -Wextra -g --std=98
+CXXFLAGS	= -Wall -Werror -Wextra -g --std=98
 
 SDIR		= src/*
 SRCS		= main.cpp \

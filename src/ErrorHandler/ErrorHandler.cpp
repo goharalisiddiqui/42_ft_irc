@@ -30,6 +30,7 @@ namespace AFG
 
     void ErrorHandler::handle(const std::exception &e)
     {
+        e.what();
         try 
         {
             throw;

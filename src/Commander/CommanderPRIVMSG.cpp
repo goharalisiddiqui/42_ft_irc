@@ -36,7 +36,7 @@ namespace AFG
             caller.respond((" ") + othername + (" :No such nick!\n"));
     }
 
-    void Commander::commandChannelMessage(std::list<Client> &clients, Client &caller, std::string channel, std::string msg)
+    void Commander::commandChannelMessage(Client &caller, std::string channel, std::string msg)
     {
         for(std::list<Channel>::const_iterator it = this->channels.begin(); it != this->channels.end(); ++it)
         {

@@ -58,7 +58,7 @@ class Channel
 
 
     // Invite a user to the channel
-    void inviteUser(const Client& inviter, Client& invitee);
+    void inviteUser(Client& invitee);
 
     // Add an operator to the channel
     void addOperator(Client& user);

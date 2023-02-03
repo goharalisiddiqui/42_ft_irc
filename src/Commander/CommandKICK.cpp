@@ -9,7 +9,7 @@ namespace AFG
         caller.respond(":" SERVER_NAME " " ERR_NOSUCHCHANNEL " " + caller.get_nick() + " " +  channelname + " :No such channel" MSG_END_SEQ);
     }
 
-    void cKICK_reponseUserNotPresent(Client &caller, std::string &channelname, std::string &username) // When user not in channel
+    void cKICK_reponseUserNotPresent(Client &caller, std::string &username) // When user not in channel
     {
         caller.respond(":" SERVER_NAME " " ERR_NOSUCHNICK " " + caller.get_nick() + " " + username + " :No such nick" MSG_END_SEQ);
     }
@@ -82,7 +82,7 @@ namespace AFG
                 us = ch->getUser(*uit);
                 if (!us) // When user not in channel
                 {
-                    cKICK_reponseUserNotPresent(caller, *cit, *uit);
+                    cKICK_reponseUserNotPresent(caller, *uit);
                     continue;
                 }
                 cKICK_reponseNotifyChannelOfRemoval(*us, caller, *ch, comment); // Notify caller of the removal of the user from the channel

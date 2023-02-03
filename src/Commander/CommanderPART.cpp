@@ -14,7 +14,7 @@ namespace AFG
             caller.respond(":AFGchat 461 NOTICE Auth :PART :Not enough parameters\n");
             return ;
         }
-        for (int i = 0; i < channel_names.size(); i++)
+        for (size_t i = 0; i < channel_names.size(); i++)
         {
             if(!this->channelExists(channel_names[i]))
                 caller.respond(":AFGchat 461 NOTICE Auth : " + channel_names[i] + " :No such channel\n");

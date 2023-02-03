@@ -47,7 +47,7 @@ namespace AFG
             std::string pass;
             std::list<Channel> channels;
 
-            void commandChannelMessage(std::list<Client> &clients, Client &caller, std::string channel, std::string msg);
+            void commandChannelMessage(Client &caller, std::string channel, std::string msg);
             void commandPRIVMSG(std::list<Client> &clients, Client &caller, std::string othername, std::string msg, std::string command);
             void commandUSER(std::list<Client> &clients, Client &caller, std::string username, std::string hostname, std::string servername, std::string realname);
             void commandNICK(std::list<Client> &clients, Client &caller, std::string nick);
