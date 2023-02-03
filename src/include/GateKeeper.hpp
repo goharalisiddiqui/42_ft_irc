@@ -8,6 +8,9 @@
 #include "ServerSocket.hpp"
 #include "Commander.hpp"
 
+#define MAX_CLIENTS 10
+
+
 namespace AFG
 {
     class GateKeeper

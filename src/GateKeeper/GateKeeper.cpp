@@ -4,7 +4,7 @@
 
 namespace AFG
 {
-    GateKeeper::GateKeeper() : sock(), conmax(10), fredi("")
+    GateKeeper::GateKeeper() : sock(), conmax(MAX_CLIENTS), fredi("")
     {
         this->sock.socklisten();
         this->fdmax = this->sock.get_socket();
@@ -19,7 +19,7 @@ namespace AFG
         setnonblock(this->sock.get_socket());
     }
 
-    GateKeeper::GateKeeper(in_port_t port, std::string pass) : sock(), conmax(10), fredi(pass)
+    GateKeeper::GateKeeper(in_port_t port, std::string pass) : sock(), conmax(MAX_CLIENTS), fredi(pass)
     {
         this->sock.socklisten((struct in_addr){(in_addr_t)INADDR_ANY}, port, 10);
         this->fdmax = sock.get_socket();
@@ -145,7 +145,7 @@ namespace AFG
 
     void GateKeeper::refuse_client(int fd)
     {
-        std::string refuse_msg("Server is busy\n");
+        std::string refuse_msg(":" SERVER_NAME " " ERR_NOSUCHCHANNEL " "  SERVER_NAME  " :Server is busy." MSG_END_SEQ);
         write(fd, refuse_msg.c_str(), refuse_msg.size());
         close(fd);
     }
