@@ -18,7 +18,6 @@ namespace AFG
         public:
             GateKeeper();
             ~GateKeeper();
-            // GateKeeper(const GateKeeper &src);
 
             GateKeeper &operator=(const GateKeeper &src);
 
@@ -30,11 +29,7 @@ namespace AFG
             ServerSocket &get_sock(void);
 
             void watchover();
-
             void serve(void);
-
-            //temp
-            void printClients(void);
 
         private:
             int fdmax;

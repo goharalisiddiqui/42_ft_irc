@@ -63,16 +63,11 @@ namespace AFG
 
         FD_ZERO(&res);
 
-        // printf("Clients size=%lu\n", this->Clients.size());
-        // printf("Adding %d to sellist.\n", this->sock.get_socket());
         FD_SET(this->sock.get_socket(), &res);
         for(std::list<Client>::iterator it=this->clients.begin(); it != this->clients.end(); ++it)
         {
             if (!it->ismessagecomplete())
-            {
-                // printf("Adding %d to sellist.\n", it->get_fd());
                 FD_SET(it->get_fd(), &res);
-            }
         }
         return res;
     }
@@ -87,10 +82,6 @@ namespace AFG
 
         fd_set selist;
 
-        // printf("Server Socket status=%d\n", this->sock.get_status());
-        // printf("Max file descriptor=%d\n", this->fdmax);
-        // printf("Is Server Socket in the watch list=%d\n", FD_ISSET(this->sock.get_socket(), &selist));
-        // printf("Server Socket params:\nDomain=%d, type=%d, protocol=%d, ip=%d, port=%d\n", this->sock.get_params().domain, this->sock.get_params().type, this->sock.get_params().protocol, (int)this->sock.getaddr().sin_addr.s_addr, ntohs(this->sock.getaddr().sin_port));            
         while (return_val == 0)
         {
             selist = build_selist();
@@ -98,20 +89,10 @@ namespace AFG
             timeout.tv_usec = 10;
 		    return_val = select(this->fdmax + 1, &selist, (fd_set *) 0, (fd_set *) 0, &timeout);
 		    if (return_val < 0)
-            {
-                perror("select:");
                 throw GateKeeper::CannotSelect();
-
-            }
-		    // if (return_val == 0) {
-			//     printf(".");
-			//     fflush(stdout);
-		    // }
         }
-        // printf("HERE1\n");
         if (FD_ISSET(this->sock.get_socket(),&selist))
         {
-            // printf("HERE2\n");
 		    add_client();
             return_val--;
         }
@@ -164,7 +145,6 @@ namespace AFG
 
     }
 
-
     void GateKeeper::setnonblock(int fd)
     {
         fcntl(fd, F_SETFL, O_NONBLOCK);
@@ -172,14 +152,12 @@ namespace AFG
 
     void GateKeeper::garbage_collector(void)
     {
-        // printf("Garbage collector started.\n");
         this->fdmax = this->sock.get_socket();
         for(std::list<Client>::iterator it=this->clients.begin(); it != this->clients.end(); ++it)
         {
             if (it->isgarbage())
 			{
                 fredi.cQUIT_purgeClient(*it);
-                // printf("Removed client with nick %s\n", it->get_nick().c_str());
                 it = this->clients.erase(it);
 			}
             if (it->get_fd() > this->fdmax)
@@ -187,7 +165,6 @@ namespace AFG
                 this->fdmax = it->get_fd();
             }
         }
-        // printf("Garbage collector ended.\n");
     }
 
 
@@ -198,7 +175,6 @@ namespace AFG
             if (it->isactive())
             {
                 it->hear();
-                // printf("Printing message of length %ld\n", it->get_message().size());
             }
             if (it->ismessagecomplete())
             {
@@ -209,18 +185,4 @@ namespace AFG
             }
         }   
     }
-
-    // for debugging
-    void GateKeeper::printClients(void)
-    {
-        printf("*** START: LIST OF CLIENTS IN GATEKEEPER ***\n");
-        for(std::list<Client>::iterator it = this->clients.begin(); it != this->clients.end(); ++it)
-        {
-            printf("Client with fd: %d\n",it->get_fd());
-        }   
-        printf("*** END: LIST OF CLIENTS IN GATEKEEPER ***\n");
-    }
-
-
-
 }

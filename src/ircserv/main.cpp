@@ -31,7 +31,6 @@ int main(int argc, char **argv)
         try
         {
             heimdal->watchover();
-            // heimdal->printClients();
             heimdal->serve();
         }
         catch(const std::exception& e)

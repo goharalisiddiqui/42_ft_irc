@@ -70,7 +70,6 @@ namespace AFG
       users.insert(&user);
       invited_users.erase(&user);
     }
-    // Add other checks or error handling here as needed
   }
 
   void Channel::removeUser(Client& user)

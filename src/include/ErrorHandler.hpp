@@ -15,9 +15,6 @@ namespace AFG
     public:
         ErrorHandler();
         ~ErrorHandler();
-        // ErrorHandler(const ErrorHandler &src);
-
-        // ErrorHandler &operator=(const ErrorHandler &src);
 
         void handle(const std::exception &e);
 

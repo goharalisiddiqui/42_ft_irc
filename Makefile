@@ -11,7 +11,6 @@ SRCS		= main.cpp \
 				SimpleSocket.cpp \
 				ServerSocket.cpp \
 				GateKeeper.cpp \
-				Responder.cpp \
 				RequestParser.cpp \
 				Input.cpp \
 				ErrorHandler.cpp \

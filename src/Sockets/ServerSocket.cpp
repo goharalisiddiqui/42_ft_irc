@@ -3,9 +3,6 @@
 
 namespace AFG
 {
-
-    // const struct sockaddr_in ServerSocket::default_binding = {(__uint8_t)0, AF_INET, htons(80), INADDR_ANY};
-
     ServerSocket::ServerSocket() : SimpleSocket::SimpleSocket()
     {
 
@@ -69,11 +66,9 @@ namespace AFG
 
             memset((char *)&(this->addr), 0, sizeof(this->addr));
             this->addr.sin_addr = ip;
-            //TODO maybe have to use htonl on ip also
             this->addr.sin_family = get_params().domain;
             this->addr.sin_port = htons(port);
 
-            // printf("Binding now\n");
             return_val = bind(this->get_socket(), (const sockaddr *)&(this->addr), sizeof(this->addr));
 
             if (return_val == 0)
@@ -81,7 +76,6 @@ namespace AFG
             else
                 throw ServerSocket::CannotBindSocket();
 
-            // printf("Starting listen now\n");
             return_val = listen(get_socket(), queue_len);
 
             if (return_val == 0)
@@ -127,4 +121,4 @@ namespace AFG
     }
 
 
-} // namespace AFG
+} 

@@ -65,7 +65,6 @@ namespace AFG
             bool usernameTaken(std::string username, std::list<Client> &clients) const;
             bool nickTaken(std::string nick, std::list<Client> &clients) const;
             bool channelExists(std::string channelName) const;
-            void printChannels(); // only for Debugging
         public:
 
 

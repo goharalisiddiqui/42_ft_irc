@@ -16,17 +16,6 @@ namespace AFG
 
     }
 
-    // ErrorHandler::ErrorHandler(const ErrorHandler &src)
-    // {
-
-    // }
-
-
-    // ErrorHandler &ErrorHandler::operator=(const ErrorHandler &src)
-    // {
-
-    // }
-
 
     void ErrorHandler::waiter(int wait)
     {

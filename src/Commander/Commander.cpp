@@ -66,8 +66,6 @@ namespace AFG
                 return ;
             }
             std::string user_pass = parser.parseToken(" ", 1);
-            // printf("Input=%s\n", input.c_str());
-            // printf("ENTERED pass=%s\n", user_pass.c_str());
 
             this->commandPASS(caller, user_pass);
         }
@@ -86,7 +84,6 @@ namespace AFG
         }
         else if (command == "PRIVMSG" || command == "NOTICE")
         {
-            //if(*(parser.parseToken(" ", 1).begin()) == '#')
             std::vector<std::string> targets;
             targets = parser.getInput().getTargets();
             if (targets.size() == 0)
@@ -197,21 +194,4 @@ namespace AFG
         return false;
     }
 
-    // only for Debugging
-    void Commander::printChannels()
-    {
-        std::set<Client*> chan_users;
-        std::cout << "START printing channels" << std::endl;
-        for(std::list<Channel>::iterator it = this->channels.begin(); it != this->channels.end(); ++it)
-        {
-            std::cout << "Channel = " << it->getName() << " of size = " << it->getUsers().size() << " :" << std::endl;
-            chan_users = it->getUsers();
-            for(std::set<Client *>::const_iterator it2 = chan_users.begin(); it2 != chan_users.end(); ++it2)
-            {
-                std::cout << (*it2)->get_nick() << std::endl;
-            }
-            std::cout << std::endl;
-        }
-        std::cout << "END printing channels" << std::endl;
-    }
 }

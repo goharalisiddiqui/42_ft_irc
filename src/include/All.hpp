@@ -8,7 +8,6 @@
 #include "ServerSocket.hpp"
 #include "Client.hpp"
 #include "GateKeeper.hpp"
-#include "Responder.hpp"
 #include "Commander.hpp"
 #include "RequestParser.hpp"
 #include "ErrorHandler.hpp"

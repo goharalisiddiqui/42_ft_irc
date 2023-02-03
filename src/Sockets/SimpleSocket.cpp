@@ -34,8 +34,6 @@ namespace AFG
 
     SimpleSocket::SimpleSocket(const SimpleSocket &src)
     {
-        //NOTE: Only copies the scoket settings
-
         this->params = src.get_params();
     }
     

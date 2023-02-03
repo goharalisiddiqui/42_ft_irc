@@ -9,7 +9,6 @@ namespace AFG
 
     Client::~Client()
     {
-        // close(fd);
     }
 
     Client::Client(int fid, in_addr ip)
@@ -215,26 +214,12 @@ namespace AFG
 
         while(flag > 0 && !this->ismessagecomplete())
         {
-            // usleep(1000);
             flag = read(this->fd, &readchar, 1);
-            // if (flag < 0)
-            // {
-            //     // if (errno == EWOULDBLOCK)
-            //     //     printf("read() would block\n");
-            //     // perror("Reading:");
-            //     // printf("current received message: %s\n", this->message.c_str());
-            //     throw Client::CannotReadfromSocket();
-            // }
             if (flag == 0)
-            {
                 this->set_garbage();
-                // throw Client::CannotReadfromClosedSocket();
-            }
             if (flag > 0)
                 this->message += readchar;
-            // this->done_read = ismessagecomplete();
         }
-        // printf("current received message: %s\n", this->message.c_str());
     }
 
     void Client::respond(std::string response) const
@@ -245,7 +230,6 @@ namespace AFG
     void Client::clearmessage()
     {
         this->message.clear();
-        // std::cout << "msg cleared" << std::endl;
     }
 
     bool Client::ismessagecomplete(void)
@@ -261,9 +245,7 @@ namespace AFG
     {
         if (this->ismessagecomplete())
         {
-            // printf("Trimming this msg: %s\n", this->message.c_str());
             this->message = this->message.substr(0, this->message.length() - sizeof(MSG_END_SEQ) + 1);
-            // printf("Trimmmed msg: %s\n", this->message.c_str());
         }
     }
 }

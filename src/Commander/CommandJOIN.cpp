@@ -109,7 +109,6 @@ namespace AFG
         cJOIN_reponseNotifyChannelOfJoin(caller, *ch);
         cJOIN_reponseSendNewcomerTopic(caller, *ch);
         cJOIN_reponseSendNewcomerNamelist(caller, *ch);
-        // printChannels();
     }
 
 
