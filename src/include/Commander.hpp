@@ -9,6 +9,7 @@
 #include "Channel.hpp"
 
 #define MAX_MSG_LENGTH 512
+#define MAX_CHANNELS 10
 
 #define ERR_NOSUCHNICK "401"
 #define ERR_NOSUCHCHANNEL "403"

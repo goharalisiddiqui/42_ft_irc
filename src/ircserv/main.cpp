@@ -6,7 +6,6 @@ in_port_t readport(std::string const &portstr)
     in_port_t port;
 
     std::istringstream(portstr) >> port;
-
     return port;
 }
 

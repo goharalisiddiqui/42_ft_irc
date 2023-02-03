@@ -9,6 +9,11 @@ namespace AFG
         caller.respond(":" SERVER_NAME " " ERR_NOSUCHCHANNEL " " + caller.get_nick() + " " +  channelname + " :Invalid channel!" MSG_END_SEQ);
     }
 
+    void cJOIN_reponseChannelsFull(Client &caller, std::string &channelname)  // When channels list is full
+    {
+        caller.respond(":" SERVER_NAME " " ERR_NOSUCHCHANNEL " " + caller.get_nick() + " " +  channelname + " :Channel list is full!" MSG_END_SEQ);
+    }
+
     void cJOIN_reponseNotInvited(Client &caller, Channel &channel) // When user not invited to a invite-only channel
     {
         caller.respond(":" SERVER_NAME " " ERR_INVITEONLYCHAN " " + caller.get_nick() + " " + channel.getName() + " :Cannot join channel (+i)" + MSG_END_SEQ);
@@ -80,9 +85,17 @@ namespace AFG
         ch = cJOIN_getChannel(this->channels, channelName);
         if (!ch)
         {
-            channels.push_back(Channel(channelName));
-            ch = &(channels.back());
-            ch->addOperator(caller);
+            if (this->channels.size() == MAX_CHANNELS)
+            {
+                cJOIN_reponseChannelsFull(caller, channelName);
+                return;
+            }
+            else
+            {
+                channels.push_back(Channel(channelName));
+                ch = &(channels.back());
+                ch->addOperator(caller);
+            }
         }
         if (ch->hasUser(caller)) // When caller is already in the channel
             return;
