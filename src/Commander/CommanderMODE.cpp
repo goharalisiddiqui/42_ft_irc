@@ -8,7 +8,7 @@ namespace AFG
     {
         if (this->channelExists(channel_name) == false)
         {
-            caller.respond(":AFGchat 403 NOTICE " + channel_name + " :" + "No such channel\n"); // correct format for weechat?
+            caller.respond(":AFGchat 403 NOTICE " + channel_name + " :" + "No such channel\n");  
             return ;
         }
         std::list<Channel>::iterator it_channel;
@@ -24,26 +24,26 @@ namespace AFG
         }
         if (it_channel->isOperator(caller) == false)
         {
-            caller.respond(":AFGchat 482 " + channel_name + " :You're not channel operator\n"); // correct format for weechat?
+            caller.respond(":AFGchat 482 " + channel_name + " :You're not channel operator\n");  
             return ;
         }
         if ((modes.at(0) != '-' && modes.at(0) != '+') \
             || modes.find_first_not_of("iot", 1) != modes.npos
             || modes.find_first_of("iot", 1) == modes.npos)
         {
-            caller.respond(":AFGchat 472 NOTICE " + modes + " :is unknown mode char to me\n"); // correct format for weechat?
+            caller.respond(":AFGchat 472 NOTICE " + modes + " :is unknown mode char to me\n");  
             return ;
         }
         if (modes.find_first_of("i") != modes.npos)
         {
             if (modes.at(0) == '+')
 			{
-                caller.respond(":AFGchat 324 NOTICE " + channel_name + " :invite-only ON\n"); // correct format for weechat?
+                caller.respond(":AFGchat 324 NOTICE " + channel_name + " :invite-only ON\n");  
                 it_channel->makeInviteOnly();
 			}
             else
 			{
-                caller.respond(":AFGchat 324 NOTICE " + channel_name + " :invite-only OFF\n"); // correct format for weechat?
+                caller.respond(":AFGchat 324 NOTICE " + channel_name + " :invite-only OFF\n");  
                 it_channel->removeInviteOnly();
 			}
         }
@@ -51,12 +51,12 @@ namespace AFG
         {
             if (modes.at(0) == '+')
 			{
-                caller.respond(":AFGchat 324 NOTICE " + channel_name + " :topic operater only ON\n"); // correct format for weechat?
+                caller.respond(":AFGchat 324 NOTICE " + channel_name + " :topic operater only ON\n");  
                 it_channel->makeTopicOpOnly();
 			}
             else
 			{
-                caller.respond(":AFGchat 324 NOTICE " + channel_name + " :topic operater only OFF\n"); // correct format for weechat?
+                caller.respond(":AFGchat 324 NOTICE " + channel_name + " :topic operater only OFF\n");  
                 it_channel->removeTopicOpOnly();
 			}
         }
@@ -64,7 +64,7 @@ namespace AFG
         {
             if (user == "")
             {
-                caller.respond(":AFGchat 431 NOTICE " + user + " :No nickname given\n"); // correct format for weechat?
+                caller.respond(":AFGchat 431 NOTICE " + user + " :No nickname given\n");  
                 return ;
             }
             else
@@ -80,7 +80,7 @@ namespace AFG
                 	    std::cout << (*it_client)->get_nick() << std::endl;
                 	    if (modes.at(0) == '+')
 				        {
-	                        caller.respond(":AFGchat 324 NOTICE " + channel_name + " :" + (*it_client)->get_nick() + " operator privileges ON\n"); // correct format for weechat?
+	                        caller.respond(":AFGchat 324 NOTICE " + channel_name + " :" + (*it_client)->get_nick() + " operator privileges ON\n");  
                             it_channel->addOperator(*(*it_client));
 				        }
                 	    else
@@ -88,15 +88,15 @@ namespace AFG
                             if (it_channel->getOperators().size() > 1)
                             {
                                 it_channel->removeOperator(*(*it_client));
-	                            caller.respond(":AFGchat 324 NOTICE " + channel_name + " :" + (*it_client)->get_nick() + " operator privileges OFF\n"); // correct format for weechat?
+	                            caller.respond(":AFGchat 324 NOTICE " + channel_name + " :" + (*it_client)->get_nick() + " operator privileges OFF\n");  
                             }
                             else
-	                            caller.respond(":AFGchat 324 NOTICE " + channel_name + " :" + " only one operator on channel. " + (*it_client)->get_nick() + " operator privileges UNCHANGED.\n"); // correct format for weechat?
+	                            caller.respond(":AFGchat 324 NOTICE " + channel_name + " :" + " only one operator on channel. " + (*it_client)->get_nick() + " operator privileges UNCHANGED.\n");  
 				        }
                         return ;
 					}
                 }
-                caller.respond(":AFGchat 401 NOTICE " + user + " :No such nick\n"); // correct format for weechat?
+                caller.respond(":AFGchat 401 NOTICE " + user + " :No such nick\n");  
             }
         }
     }

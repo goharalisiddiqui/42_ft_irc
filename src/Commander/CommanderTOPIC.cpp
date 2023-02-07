@@ -13,7 +13,7 @@ namespace AFG
     {
         if (channel_name.size() != 1)
         {
-            caller.respond(":AFGchat 461 NOTICE TOPIC :Not enough parameters\n"); // correct format for weechat?
+            caller.respond(":AFGchat 461 NOTICE TOPIC :Not enough parameters\n");  
             return ;
         }
         std::list<Channel>::iterator it;
@@ -28,12 +28,12 @@ namespace AFG
             {
                 if (it->isTopicOpOnly() == true && it->isOperator(caller) == false)
                 {
-                    caller.respond(":AFGchat 482 NOTICE " + channel_name.at(0) + " :You're not channel operator\n"); // correct format for weechat?
+                    caller.respond(":AFGchat 482 NOTICE " + channel_name.at(0) + " :You're not channel operator\n");  
                     return ;
                 }
                 else if (!it->hasUser(caller))
                 {
-                    caller.respond(":AFGchat 442 NOTICE " + channel_name.at(0) + " :You're not on that channel\n"); // correct format for weechat?
+                    caller.respond(":AFGchat 442 NOTICE " + channel_name.at(0) + " :You're not on that channel\n");  
                     return ;
                 }
                 else
@@ -45,12 +45,12 @@ namespace AFG
             else
             {
                 if (it->getTopic() != "")
-                    caller.respond(":AFGchat 332 NOTICE " + channel_name.at(0) + " :" + it->getTopic() + "\n"); // correct format for weechat?
+                    caller.respond(":AFGchat 332 NOTICE " + channel_name.at(0) + " :" + it->getTopic() + "\n");  
                 else
-                    caller.respond(":AFGchat 331 NOTICE " + channel_name.at(0) + " :No topic is set\n"); // correct format for weechat?
+                    caller.respond(":AFGchat 331 NOTICE " + channel_name.at(0) + " :No topic is set\n");  
             }
         }
         else
-            caller.respond(":AFGchat 442 NOTICE " + channel_name.at(0) + " :You're not on that channel\n"); // correct format for weechat?
+            caller.respond(":AFGchat 442 NOTICE " + channel_name.at(0) + " :You're not on that channel\n");  
     }
 }

@@ -6,17 +6,17 @@ namespace AFG
     {
         if (nickTaken(nick, clients) == false)
         {
-            caller.respond(":AFGchat 401 NOTICE " + nick + " :No such nick\n"); // correct format for weechat?
+            caller.respond(":AFGchat 401 NOTICE " + nick + " :No such nick\n");  
             return ;
         }
         if (channel_name == "")
         {
-            caller.respond(":AFGchat 461 NOTICE INVITE :Not enough parameters\n"); // correct format for weechat?
+            caller.respond(":AFGchat 461 NOTICE INVITE :Not enough parameters\n");  
             return ;
         }
         if (channelExists(channel_name) == false)
         {
-            caller.respond(":AFGchat 341 NOTICE " + channel_name + " " + nick + " :got invited\n"); // correct format for weechat?
+            caller.respond(":AFGchat 341 NOTICE " + channel_name + " " + nick + " :got invited\n");  
             return ;
         }
         std::list<Channel>::iterator it;
@@ -29,7 +29,7 @@ namespace AFG
         {
             if (it->isOperator(caller) == false)
             {
-                caller.respond(":AFGchat 482 NOTICE " + channel_name + " :You're not channel operator\n"); // correct format for weechat?
+                caller.respond(":AFGchat 482 NOTICE " + channel_name + " :You're not channel operator\n");  
                 return ;
             }
         }
